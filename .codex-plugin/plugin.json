@@ -33,6 +33,8 @@
     "brandColor": "#1F6FEB",
     "defaultPrompt": [
       "Initialize docflow in this repo",
+      "Inspect this repo with docflow doctor",
+      "Adopt existing docs into docflow",
       "Route this question to the right project doc",
       "Add this shipped work to the monthly changelog"
     ]

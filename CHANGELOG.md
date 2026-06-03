@@ -9,6 +9,7 @@ All notable changes to docflow are tracked here. Project changelog files generat
 - Skip template changelog files in the SessionStart context hook.
 - Add link checking, scaffold smoke tests, and GitHub Actions CI.
 - Add security, contribution, and example repository documentation.
+- Add doctor/adopt/repair workflow for safe setup in repos with existing docs.
 
 ## 0.1.0 - 2026-06-03
 

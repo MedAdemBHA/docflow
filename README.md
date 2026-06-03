@@ -10,6 +10,7 @@ DocFlow is a lightweight documentation-memory system for AI coding agents. It sc
 ## What It Does
 
 - Creates a 7-folder documentation taxonomy for product behavior, implementation, decisions, references, plans, reviews, and changelog history.
+- Audits existing repos before setup, then recommends init, adopt, or repair.
 - Adds a monthly append-only changelog so agents and humans can see what shipped recently.
 - Provides Claude Code skills plus a read-only `SessionStart` hook that prints the docs map and newest real changelog entry.
 - Provides a Codex plugin manifest and an `AGENTS.md` template for repo-aware agent guidance.
@@ -49,11 +50,22 @@ Expected result:
 
 Full naming rules ship in [templates/NAMING.md](templates/NAMING.md).
 
-## Install
+## Agent Setup
+
+Use this section to install docflow for each agent. Replace `/path/to/docflow` with your local clone path, for example `/Users/Adem/Desktop/migration/docflow`.
+
+Recommended setup flow in any repo:
+
+1. Run doctor first.
+2. If the repo has no docs, run init.
+3. If the repo already has docs, run adopt.
+4. If docflow already exists, run repair.
 
 ### Claude Code
 
-Install from a local checkout:
+Claude Code has native plugin support.
+
+Install from a local checkout inside Claude Code:
 
 ```bash
 /plugin marketplace add /path/to/docflow
@@ -67,27 +79,132 @@ Or from GitHub:
 /plugin install docflow
 ```
 
-Then initialize a repository:
+Verify:
 
 ```bash
+/plugin list
+/plugin details docflow@docflow
+```
+
+Use in a target repo:
+
+```bash
+/docflow-doctor
 /docflow-init
 ```
+
+If doctor finds existing docs, use:
+
+```bash
+/docflow-adopt
+```
+
+For maintenance after adding or renaming docs:
+
+```bash
+/docflow-repair
+```
+
+The Claude plugin also installs a read-only `SessionStart` hook. On new sessions it prints the docs map and newest valid changelog month when the repo has `docflow.json`.
 
 ### Codex
 
 This repository includes a Codex plugin manifest at [.codex-plugin/plugin.json](.codex-plugin/plugin.json), but there is no public Codex marketplace entry yet.
 
-Use it today as a local/native plugin source:
+Use it today as a local/native marketplace source:
 
-1. Clone this repository.
-2. Point your local Codex plugin source / marketplace flow at the repository root.
-3. Codex reads [.codex-plugin/plugin.json](.codex-plugin/plugin.json) and the `skills/` directory from that local source.
-4. In the target repository, run the `docs-init` skill or use the scaffold script directly.
+```bash
+codex plugin marketplace add /path/to/docflow
+```
+
+Enable the plugin in `~/.codex/config.toml` if your Codex build does not add an enabled plugin entry automatically:
+
+```toml
+[plugins."docflow@docflow"]
+enabled = true
+```
+
+If your Codex CLI rejects `service_tier = "default"`, start Codex with:
+
+```bash
+codex -c 'service_tier="fast"'
+```
+
+Use in a target repo:
+
+```text
+Use docs-doctor to inspect this repo.
+Use docs-init to initialize docflow in this repo.
+```
+
+If docs already exist:
+
+```text
+Use docs-adopt to adopt this repo into docflow.
+```
+
+For maintenance:
+
+```text
+Use docs-repair to regenerate the docs map and check links.
+```
 
 Only after `docflow` is published to a Codex marketplace does this command become a ready-to-run install step:
 
 ```bash
 codex plugin add docflow@<marketplace-name>
+```
+
+### Gemini
+
+Gemini does not use the Claude/Codex plugin manifests in this repository. Use docflow by scaffolding repo-level guidance files:
+
+```bash
+bash /path/to/docflow/scripts/scaffold.sh --target /path/to/repo --docs-root docs --project "Project Name"
+```
+
+Then open the target repo in Gemini and tell it to read:
+
+```text
+Read GEMINI.md, then follow AGENTS.md before making changes.
+```
+
+The scaffolded `GEMINI.md` points back to `AGENTS.md`, which routes Gemini to `docs/README.md`, `docs/INDEX.md`, and the changelog.
+
+### Cursor
+
+Cursor does not use the Claude/Codex plugin manifests in this repository. Use the scaffolded `.cursorrules` and `AGENTS.md`:
+
+```bash
+bash /path/to/docflow/scripts/scaffold.sh --target /path/to/repo --docs-root docs --project "Project Name"
+```
+
+Then open the target repo in Cursor. `.cursorrules` points Cursor to `AGENTS.md`, and `AGENTS.md` tells it how to route questions through the docs tree.
+
+### Direct Script Fallback
+
+For any agent or editor, the reliable setup path is the scaffold script:
+
+```bash
+bash /path/to/docflow/scripts/docflow-doctor.sh --target /path/to/repo
+bash /path/to/docflow/scripts/scaffold.sh --target /path/to/repo --docs-root docs --project "Project Name"
+cd /path/to/repo
+bash scripts/check-links.sh docs
+CLAUDE_PROJECT_DIR="$PWD" bash /path/to/docflow/hooks/docflow-context.sh
+```
+
+Expected output:
+
+- `docs/` contains the 7-category doc tree.
+- `docflow.json` points agents to the docs root and changelog.
+- `AGENTS.md`, `GEMINI.md`, and `.cursorrules` exist at repo root.
+- The context hook prints the docs map and skips placeholder changelog files.
+
+Use these script commands for existing repos:
+
+```bash
+bash /path/to/docflow/scripts/docflow-adopt.sh --target /path/to/repo --docs-root docs --project "Project Name"
+bash /path/to/docflow/scripts/docflow-repair.sh --target /path/to/repo
 ```
 
 ## Trust And Safety
@@ -117,7 +234,7 @@ docflow/
 ├── examples/basic-repo/     # Filled example output
 ├── hooks/                   # SessionStart context hook
 ├── repo-templates/          # AGENTS.md, GEMINI.md, .cursorrules
-├── scripts/                 # scaffold, map, link check, smoke tests
+├── scripts/                 # doctor, adopt, repair, scaffold, map, link check, tests
 ├── skills/                  # docs-init/router/author/changelog
 └── templates/               # generic docs skeletons
 ```
@@ -126,7 +243,7 @@ docflow/
 
 | Agent | Support level | How it works |
 |-------|---------------|--------------|
-| Claude Code | Primary | Plugin skills plus read-only `SessionStart` context hook |
+| Claude Code | Primary | Slash commands, skills, and read-only `SessionStart` context hook |
 | Codex | Manifest + repo guidance | Codex plugin manifest, skills, and scaffolded `AGENTS.md` |
 | Gemini / Cursor | Repo guidance | Scaffolded `GEMINI.md` and `.cursorrules` point back to `AGENTS.md` |
 
@@ -134,12 +251,12 @@ The portable product is the docs tree and workflow. The plugin runtime is agent-
 
 ## Typical Workflow
 
-1. Scaffold docflow into a repo.
-2. Fill `docs/README.md` and `product-spec/00-overview.md`.
-3. Write ADRs, specs, plans, and reviews using the category templates.
-4. Append shipped work to the current monthly changelog.
-5. Regenerate `docs/INDEX.md` with `bash scripts/docflow-map.sh docs`.
-6. Run `bash scripts/check-links.sh docs`.
+1. Run doctor to inspect the repo.
+2. Run init for empty docs, adopt for existing docs, or repair for existing docflow.
+3. Fill `docs/README.md` and `product-spec/00-overview.md`.
+4. Write ADRs, specs, plans, and reviews using the category templates.
+5. Append shipped work to the current monthly changelog.
+6. Run repair after adding or renaming docs.
 
 ## GitHub Packaging Checklist
 
@@ -154,6 +271,10 @@ Before presenting this as a polished public tool:
 ## Contributing
 
 See [CONTRIBUTING.md](CONTRIBUTING.md).
+
+## Documentation
+
+This repo dogfoods its own docs system. Browse the knowledge base at [docs/README.md](docs/README.md) — start with [docs/INDEX.md](docs/INDEX.md) for the full `path → purpose` map.
 
 ## Changelog
 

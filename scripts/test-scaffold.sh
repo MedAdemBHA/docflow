@@ -60,6 +60,8 @@ bash "$ROOT/scripts/check-links.sh" "$target/docs" \
 # helper scripts the docs reference must be installed in the target repo
 [ -x "$target/scripts/check-links.sh" ] || fail "check-links.sh was not scaffolded"
 [ -x "$target/scripts/docflow-map.sh" ] || fail "docflow-map.sh was not scaffolded"
+[ -x "$target/scripts/docflow-doctor.sh" ] || fail "docflow-doctor.sh was not scaffolded"
+[ -x "$target/scripts/docflow-repair.sh" ] || fail "docflow-repair.sh was not scaffolded"
 ( cd "$target" && bash scripts/check-links.sh docs ) \
   || fail "scaffolded check-links.sh did not run from target repo root"
 
@@ -78,5 +80,9 @@ printf '%s\n' "$context" | grep -F 'docs map' >/dev/null \
 if printf '%s\n' "$context" | grep -F -- '--- newest changelog' >/dev/null; then
   fail "context hook printed template changelog as recent history"
 fi
+
+doctor="$(bash "$ROOT/scripts/docflow-doctor.sh" --target "$target")"
+printf '%s\n' "$doctor" | grep -F 'recommendation: docflow-repair' >/dev/null \
+  || fail "doctor did not recognize scaffolded repo"
 
 echo "PASS: scaffold smoke tests"

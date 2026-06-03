@@ -5,29 +5,39 @@ description: Initialize docflow in the current repository. Scaffold the 7-catego
 
 # docs-init
 
-Goal: scaffold docflow in repo. Keep existing files. Do not clobber.
+Goal: initialize docflow only when doctor says this repo has no meaningful docs yet. Keep existing files. Do not clobber.
 
 ## Steps
 
-1. Pick docs root.
-   - Reuse existing `docs/`, `documentation/`, or `.docs/` if present.
-   - Else use `docs/`.
+1. Run doctor first.
 
-2. Pick project name.
+```bash
+bash scripts/docflow-doctor.sh --target <REPO ROOT>
+```
+
+2. Route by recommendation.
+   - `docflow-init`: continue.
+   - `docflow-adopt`: stop and use `docs-adopt` instead.
+   - `docflow-repair`: stop and use `docs-repair` instead.
+
+3. Pick docs root.
+   - Use `docs/` unless the user explicitly chooses another root.
+
+4. Pick project name.
    - Prefer repo folder name.
    - If root `README.md` has clear project title, use that.
 
-3. Run scaffold from plugin root:
+5. Run scaffold from plugin root:
 
 ```bash
 bash scripts/scaffold.sh --docs-root <DOCS_ROOT> --project "<PROJECT NAME>" --target "<REPO ROOT>"
 ```
 
-4. Add root README link if missing:
+6. Add root README link if missing:
    - `## Documentation`
    - link to `<DOCS_ROOT>/README.md`
 
-5. Report what was created:
+7. Report what was created:
    - docs root
    - `docflow.json`
    - `AGENTS.md`
@@ -37,5 +47,6 @@ bash scripts/scaffold.sh --docs-root <DOCS_ROOT> --project "<PROJECT NAME>" --ta
 ## Rules
 
 - Never overwrite existing docs files.
+- If docs already exist, prefer `docs-adopt` over `docs-init`.
 - Keep `AGENTS.md` and `docflow.json` aligned on docs root.
-- After scaffold, use `docs-author` for new docs and `docs-changelog` for shipped work.
+- After scaffold, use `docs-author` for new docs, `docs-changelog` for shipped work, and `docs-repair` after renames.

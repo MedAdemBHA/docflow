@@ -26,3 +26,10 @@ jobs:
 
       - name: Changelog ordering test
         run: bash tests/changelog-ordering.sh
+
+      - name: Doctor and adopt tests
+        run: |
+          bash tests/doctor-empty-repo.sh
+          bash tests/doctor-existing-docs.sh
+          bash tests/adopt-existing-docs.sh
+          bash tests/repair-generated-map.sh
