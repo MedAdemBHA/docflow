@@ -2,29 +2,22 @@
 # <Feature> — Technical Specification
 
 **Module:** `<code path>`
-**Route / Entry:** `<route or entrypoint>`
-**Branch:** `<branch if relevant>`
+**Entry:** `<route or entrypoint>`
 
-Covers: architecture, data model, API surface, state, edge cases.
+## Architecture
+<components / services / ownership>
 
----
-
-## 1. Architecture overview
-<diagram or prose — component/provider hierarchy, who owns what>
-
-## 2. Data model
+## Data
 <types / schemas / tables>
 
-## 3. API surface
-<endpoints / functions + contracts>
+## API
+<endpoints / functions / contracts>
 
-## 4. State & data flow
-<how data moves; cache keys; events>
+## Flow
+<state / events / cache / async flow>
 
-## 5. Edge cases & gotchas
-<race conditions, failure modes, known sharp edges>
-
----
+## Risks
+<edge cases / failure modes / sharp edges>
 
 Related:
 - Product spec: [`product-spec/NN-<topic>.md`](../product-spec/NN-<topic>.md)

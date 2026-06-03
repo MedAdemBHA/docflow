@@ -1,19 +1,14 @@
 <!-- docflow: monthly changelog. Copy to (mmm-yy).md. Append-only history. Outcome-first. -->
 # <Month YEAR> — <release / period title>
 
-> Comparison window: `<base ref>` (`<hash>`, <date>) → `<head ref>` (`<hash>`, <date>).
-> Scope: `<N>` commits ahead. Purpose: <one line>.
-
----
+> Window: `<base ref>` (`<hash>`) → `<head ref>` (`<hash>`). Scope: `<N>` commits.
 
 ## Summary
 
 - **Release type:** patch | feature | architectural
-- **Biggest business change:** <one line>
-- **Biggest technical change:** <one line>
-- **Risk / action for prod:** <one line>
-
----
+- **User impact:** <one line>
+- **Tech impact:** <one line>
+- **Risk / follow-up:** <one line>
 
 ## What Changed
 
@@ -21,8 +16,11 @@
 | | |
 |---|---|
 | **Outcome** | <one line> |
-| **Delivered** | <bullet; bullet> |
-| **Business impact** | <one line> |
-| **Commits** | `<hash>` <desc>; `<hash>` <desc> |
+| **Delivered** | <item; item> |
+| **Refs** | `<hash>` <desc>; `<hash>` <desc> |
 
 ### 2. <next theme>
+
+## Feature refs
+
+- [`plans/features/(mmm-yy)-<feature>.md`](<../plans/features/(mmm-yy)-<feature>.md>)

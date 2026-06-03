@@ -1,8 +1,8 @@
 # docflow
 
-**A practical docs system for any repo: structured markdown docs, monthly changelog memory, Claude plugin support, and Codex-friendly `AGENTS.md` guidance.**
+**A practical docs system for any repo: structured markdown docs, monthly changelog memory, Claude plugin support, and native Codex plugin support.**
 
-docflow gives any project a consistent documentation *system* and makes your AI agent **start each session with recent project context**. It ships a 7-folder docs taxonomy, naming rules, ADR/spec/plan/changelog templates, Claude skills + auto-context hook, and root-level guidance files for Codex/Gemini/Cursor.
+docflow gives any project a consistent documentation *system* and makes your AI agent **start each session with recent project context**. It ships a 7-folder docs taxonomy, naming rules, ADR/spec/plan/changelog templates, Claude skills + auto-context hook, a native Codex plugin manifest, and root-level guidance files for Codex/Gemini/Cursor.
 
 > The "way of documenting" is generic — extracted from a real production knowledge base and stripped of project specifics. Drop it into any repo.
 
@@ -11,19 +11,25 @@ docflow gives any project a consistent documentation *system* and makes your AI 
 - A consistent docs tree for specs, ADRs, plans, reviews, references, and changelog history.
 - A monthly append-only changelog so agents and humans can see what changed recently.
 - Claude support via plugin skills and a `SessionStart` hook.
-- Codex support via a scaffolded `AGENTS.md` that points the agent to the docs index and newest changelog month.
+- Codex support via a native plugin manifest plus a scaffolded `AGENTS.md` that points the agent to the docs index and newest changelog month.
 
 ## Quick Start
 
-1. Install the Claude plugin if you want the Claude hook/skills:
-   ```bash
-   /plugin marketplace add https://github.com/your-handle/docflow
-   /plugin install docflow
-   ```
-2. Run:
-   ```
-   /docflow-init
-   ```
+1. Install `docflow` in your agent:
+   - Claude:
+     ```bash
+     /plugin marketplace add https://github.com/MedAdemBHA/docflow
+     /plugin install docflow
+     ```
+   - Codex:
+     - use this repo as a native plugin source via [`.codex-plugin/plugin.json`](.codex-plugin/plugin.json)
+     - after it is available in a Codex marketplace, install with:
+       ```bash
+       codex plugin add docflow@<marketplace-name>
+       ```
+2. Run the init flow:
+   - Claude: `/docflow-init`
+   - Codex: use the `docs-init` skill
 3. Commit the generated docs tree and root guidance files.
 4. Tell your agent to follow the repo docs. In Codex, `AGENTS.md` covers this automatically.
 
@@ -39,7 +45,7 @@ After scaffold, your repo gets:
 | Agent | What docflow uses | Behavior |
 |-------|-------------------|----------|
 | Claude Code | `.claude-plugin`, skills, `SessionStart` hook | Auto-loads docs index + newest changelog into context |
-| Codex | `AGENTS.md` | Reads repo guidance, then follows the docs index + newest changelog workflow |
+| Codex | `.codex-plugin`, skills, `AGENTS.md` | Can install as a native Codex plugin, then follows the docs index + newest changelog workflow |
 | Gemini / Cursor | `GEMINI.md`, `.cursorrules`, `AGENTS.md` | Reuses the same repo guidance path |
 
 The docs system itself is plain markdown plus bash, so the structure is cross-agent even though the context-loading mechanism differs.
@@ -72,9 +78,11 @@ Full naming rules ship in `templates/NAMING.md`.
 
 ```
 docflow/
-├── .claude-plugin/        # plugin.json (+ SessionStart hook) + marketplace.json
+├── .claude-plugin/        # Claude plugin manifest + SessionStart hook
+├── .codex-plugin/         # Codex plugin manifest
 ├── repo-templates/        # AGENTS.md + GEMINI.md + .cursorrules scaffolds
 ├── skills/
+│   ├── docs-init/         # INIT  — scaffold docflow into a repo
 │   ├── docs-router/       # READ  — route a question to the right doc
 │   ├── docs-author/       # WRITE — pick category, apply naming, fill template, cross-link
 │   └── docs-changelog/    # HISTORY — capture shipped work, month by month
@@ -86,19 +94,58 @@ docflow/
 
 ## Install
 
-For local development:
+### Claude
 
 ```bash
 /plugin marketplace add /path/to/docflow
 /plugin install docflow
 ```
 
-For a published marketplace repo:
+Or:
 
 ```bash
-/plugin marketplace add https://github.com/your-handle/docflow
+/plugin marketplace add https://github.com/MedAdemBHA/docflow
 /plugin install docflow
 ```
+
+### Codex
+
+This repo ships a native Codex plugin manifest at [`.codex-plugin/plugin.json`](.codex-plugin/plugin.json).
+
+Use it in one of these ways:
+
+- add the repo to your local Codex plugin directory / marketplace flow
+- publish it through a Codex marketplace
+
+Then install:
+
+```bash
+codex plugin add docflow@<marketplace-name>
+```
+
+## Agent Setup
+
+Use this split:
+
+| Agent | Native plugin? | Native skills? | Repo file to read | What to set up |
+|-------|----------------|----------------|-------------------|----------------|
+| Claude Code | Yes | Yes | `docs/README.md` after scaffold | Install plugin from this repo, then use `/docflow-init` |
+| Codex | Yes | Yes | `AGENTS.md` | Install native Codex plugin, then use `docs-init` |
+| Gemini | No repo-native docflow plugin here | No docflow skill package here | `GEMINI.md` → `AGENTS.md` | Scaffold repo, keep `GEMINI.md` stub committed |
+| Cursor | No repo-native docflow plugin here | No docflow skill package here | `.cursorrules` → `AGENTS.md` | Scaffold repo, keep `.cursorrules` stub committed |
+
+Meaning:
+
+- `Claude` and `Codex` get actual plugin/skill support from this repo.
+- `Gemini` and `Cursor` do not use the same plugin format here. They follow repo guidance through markdown files.
+- The portable part is the docs tree plus `AGENTS.md` routing, not one universal plugin manifest.
+
+Files used by each agent:
+
+- `Claude`: `.claude-plugin/plugin.json`, `skills/`, `commands/docflow-init.md`, `hooks/docflow-context.sh`
+- `Codex`: `.codex-plugin/plugin.json`, `skills/`, `repo-templates/AGENTS.md`
+- `Gemini`: `repo-templates/GEMINI.md`
+- `Cursor`: `repo-templates/.cursorrules`
 
 ## Typical Workflow
 
@@ -106,7 +153,7 @@ For a published marketplace repo:
    ```
    /docflow-init
    ```
-   Creates the 7-category tree under `docs/` (or your chosen root), drops the templates, writes `docflow.json`, and adds `AGENTS.md` plus optional `GEMINI.md` / `.cursorrules` stubs at the repo root.
+   In Claude, use `/docflow-init`. In Codex, use the `docs-init` skill. Both create the 7-category tree under `docs/` (or your chosen root), drop the templates, write `docflow.json`, and add `AGENTS.md` plus optional `GEMINI.md` / `.cursorrules` stubs at the repo root.
 
 2. **Write** docs the docflow way:
    - Use `docs-author` in Claude, or
@@ -180,7 +227,7 @@ At your repo root:
 docflow is not one universal plugin runtime.
 
 - Claude uses plugin hooks and skills.
-- Codex uses repo guidance via `AGENTS.md`.
+- Codex uses a native plugin manifest, plugin skills, and repo guidance via `AGENTS.md`.
 - Other agents may read `GEMINI.md` or `.cursorrules`, but they still rely on repo-level instructions.
 
 So the portable part is the docs system and workflow, not a single shared plugin API.

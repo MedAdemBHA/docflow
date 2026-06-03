@@ -1,0 +1,40 @@
+{
+  "name": "docflow",
+  "version": "0.2.0",
+  "description": "Living-docs knowledge base + changelog memory for any repo.",
+  "author": {
+    "name": "Mohamed Adem Bel Hadj Amor",
+    "url": "https://github.com/MedAdemBHA"
+  },
+  "homepage": "https://github.com/MedAdemBHA/docflow",
+  "repository": "https://github.com/MedAdemBHA/docflow",
+  "license": "MIT",
+  "keywords": [
+    "documentation",
+    "changelog",
+    "adr",
+    "knowledge-base",
+    "codex",
+    "onboarding"
+  ],
+  "skills": "./skills",
+  "interface": {
+    "displayName": "Docflow",
+    "shortDescription": "Scaffold lean living docs for any repo",
+    "longDescription": "Create a low-token docs system with product specs, technical specs, decisions, plans, reviews, and monthly changelog memory for Codex and Claude workflows.",
+    "developerName": "Mohamed Adem Bel Hadj Amor",
+    "category": "Productivity",
+    "capabilities": [
+      "Read",
+      "Write",
+      "Workflow"
+    ],
+    "websiteURL": "https://github.com/MedAdemBHA/docflow",
+    "brandColor": "#1F6FEB",
+    "defaultPrompt": [
+      "Initialize docflow in this repo",
+      "Route this question to the right project doc",
+      "Add this shipped work to the monthly changelog"
+    ]
+  }
+}

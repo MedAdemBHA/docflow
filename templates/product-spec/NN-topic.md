@@ -6,12 +6,13 @@
 ## Purpose
 <one line — what users get from this module>
 
-## Capabilities
+## Key actions
 | Capability | User can | Business value |
 |------------|----------|----------------|
 | <name> | <action> | <why it matters> |
 
-## How it fits
+## Links
 - Implemented in: <code path>
 - HOW: [`specs/(mmm-yy)-<topic>.md`](<../specs/(mmm-yy)-<topic>.md>)
 - WHY: [ADR NNNN](../decisions/NNNN-<title>.md)
+- Status / log: [`plans/features/(mmm-yy)-<feature>.md`](<../plans/features/(mmm-yy)-<feature>.md>)

@@ -1,27 +1,18 @@
-<!-- docflow: feature plan. Copy to (mmm-yy)-<feature-name>.md. Tracks past + in-flight + queued work. -->
+<!-- docflow: feature doc. Copy to (mmm-yy)-<feature-name>.md. Use as status + mini changelog. -->
 # Feature — <Name>
 
 > **Status (<YYYY-MM-DD>):** <e.g. ~50% / shipped + evolving>
 > **Owner:** <name / TBD>
 > **Surface:** `<code path>`
 
-<One-paragraph description of the feature and its scope.>
-
----
-
-## What shipped
-
-| Phase | When | What | Commit / Ref |
-|-------|------|------|--------------|
-| 1 | <date> | <what> | `<hash>` |
+<2-3 lines: scope, users, current goal.>
 
 Reference docs:
-- [`specs/(mmm-yy)-<topic>.md`](<../../specs/(mmm-yy)-<topic>.md>)
+- Product: [`product-spec/NN-<topic>.md`](<../../product-spec/NN-<topic>.md>)
+- Spec: [`specs/(mmm-yy)-<topic>.md`](<../../specs/(mmm-yy)-<topic>.md>)
 
 Decisions:
 - [ADR NNNN](../../decisions/NNNN-<title>.md)
-
----
 
 ## In flight
 
@@ -29,8 +20,12 @@ Decisions:
 |------|--------|
 | <item> | <status> |
 
----
+## Feature log
 
-## Queued (next 1–2 sprints)
+| Date | Change | Ref |
+|------|--------|-----|
+| <YYYY-MM-DD> | <what changed> | `<hash / PR / doc>` |
+
+## Next
 
 1. <item>

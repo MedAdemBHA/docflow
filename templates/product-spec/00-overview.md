@@ -2,16 +2,12 @@
 # <PROJECT> — Product Specification Overview
 
 > **App Name:** <name>
-> **Author:** <team / org>
-> **Version:** <x.y.z>
 > **Type:** <SPA / service / CLI / …>
 > **Stack:** <key tech>
 
----
-
 ## What is <PROJECT>?
 
-<2–3 paragraphs: what it does, who uses it, the core value.>
+<1 short paragraph: what it does, who uses it, why it exists.>
 
 ## Core modules
 
@@ -19,9 +15,9 @@
 |---|--------|--------------|
 | 1 | <module> | <one line> |
 
-## How to read these docs
+## Docs map
 
-- **product-spec/** (here) — WHAT each module does, by reading order.
-- **specs/** — HOW it's implemented.
-- **decisions/** — WHY the big choices were made.
-- **changelog/** — WHAT shipped, month by month.
+- `product-spec/` = WHAT
+- `specs/` = HOW
+- `decisions/` = WHY
+- `changelog/` = shipped

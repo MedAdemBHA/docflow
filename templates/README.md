@@ -1,36 +1,41 @@
-<!-- docflow: docs-root index / portal. This is the map. Keep it current — every new doc gets a line here. -->
+<!-- docflow: docs-root map. Keep short. Every durable doc gets one line here. -->
 # <PROJECT> — Documentation
 
 > Last updated: <YYYY-MM-DD>
-> Naming rules: see [NAMING.md](NAMING.md) — `(mmm-yy)-` prefix on dated docs, stable numbering on product-spec + ADRs.
+> Rules: [NAMING.md](NAMING.md)
 
-## Layout
+## Open First
+
+- Product: [product-spec/00-overview.md](product-spec/00-overview.md)
+- Roadmap: [plans/upcoming/README.md](plans/upcoming/README.md)
+- Latest shipped: [changelog/(mmm-yy).md](<changelog/(mmm-yy).md>)
+
+## Tree
 
 ```
 docs/
-├── README.md            ← you are here (the map)
-├── NAMING.md            ← file naming rules
-├── changelog/           ← per-month shipped work (append-only history)
-├── product-spec/        ← WHAT (user-facing features, by module)
-├── specs/               ← HOW (technical implementation), grouped by feature
-├── references/          ← cheat sheets, conventions, library guides
-├── decisions/           ← ADRs — WHY we chose what we chose
+├── README.md            ← map
+├── NAMING.md            ← naming rules
+├── changelog/           ← shipped by month
+├── product-spec/        ← WHAT
+├── specs/               ← HOW
+├── references/          ← rules / guides
+├── decisions/           ← WHY
 ├── plans/
-│   ├── features/        ← in-progress feature work
-│   ├── hygiene/         ← structural cleanup
-│   └── upcoming/        ← roadmap by horizon (critical/now/next/later)
+│   ├── features/        ← feature status + feature log
+│   ├── hygiene/         ← cleanup work
+│   └── upcoming/        ← roadmap
 └── reviews/
-    ├── bugs/            ← bug catalog (open + fixed)
-    ├── active/          ← still-actionable audits
-    └── archive/         ← superseded / shipped audits
+    ├── bugs/            ← bug catalog
+    ├── active/          ← active audits
+    └── archive/         ← old audits
 ```
 
-**Recent:** <link the newest 1–2 changelog months + headline work here>
+## Recent
+
 - [`changelog/(mmm-yy).md`](<changelog/(mmm-yy).md>) — <one-line highlight>
 
----
-
-## Product Spec — start here
+## Product Spec
 | # | Document | Scope |
 |---|----------|-------|
 | 0 | [Overview](product-spec/00-overview.md) | App identity, stack, high-level architecture |
@@ -53,7 +58,7 @@ docs/
 
 ## Plans
 - [Roadmap](plans/upcoming/README.md) — [critical](plans/upcoming/critical.md) / [now](plans/upcoming/now.md) / [next](plans/upcoming/next.md) / [later](plans/upcoming/later.md)
-- Features: [<feature>](<plans/features/(mmm-yy)-<feature>.md>)
+- Features: [<feature>](<plans/features/(mmm-yy)-<feature>.md>) — status + feature log
 
 ## Reviews
 - [Bug catalog](reviews/bugs/open.md) — open · [fixed](reviews/bugs/fixed.md)

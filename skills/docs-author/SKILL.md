@@ -5,7 +5,7 @@ description: WRITE side of a docflow knowledge base — the taxonomy + naming + 
 
 # docs-author
 
-Author docs the docflow way: **choose category → apply naming → fill template → cross-link.** Companion of [`docs-router`](../docs-router/SKILL.md) (read side) and [`docs-changelog`](../docs-changelog/SKILL.md) (history). Templates live in the plugin's `templates/` dir; `/docflow-init` drops them into a repo.
+Author docs the docflow way: **choose category → apply naming → fill template → cross-link.** Companion of [`docs-router`](../docs-router/SKILL.md) (read side) and [`docs-changelog`](../docs-changelog/SKILL.md) (history). Templates live in the plugin's `templates/` dir; `docs-init` or `/docflow-init` drops them into a repo.
 
 > A doc's filename should tell a teammate **what** + **when** without opening it. If it can't, rename.
 

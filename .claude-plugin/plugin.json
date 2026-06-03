@@ -4,9 +4,9 @@
   "version": "0.1.0",
   "author": {
     "name": "Mohamed Adem Bel Hadj Amor",
-    "url": "https://github.com/your-handle"
+    "url": "https://github.com/MedAdemBHA"
   },
-  "homepage": "https://github.com/your-handle/docflow",
+  "homepage": "https://github.com/MedAdemBHA/docflow",
   "license": "MIT",
   "keywords": ["documentation", "changelog", "adr", "knowledge-base", "context", "onboarding"],
   "hooks": {

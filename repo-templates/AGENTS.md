@@ -8,6 +8,13 @@ Start here:
 2. Read newest file in [`<DOCS_ROOT>/changelog/`](<<DOCS_ROOT>/changelog/>).
 3. Then code.
 
+New feature flow:
+
+1. Add/update `product-spec/` for WHAT.
+2. Add/update `specs/` for HOW.
+3. Add/update `plans/features/` for status + feature log.
+4. Append shipped work to current `changelog/(mmm-yy).md`.
+
 Route by question:
 
 - WHAT feature do: `<DOCS_ROOT>/product-spec/`
