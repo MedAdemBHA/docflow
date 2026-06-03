@@ -1,7 +1,17 @@
+<p align="center">
+  <a href="https://github.com/MedAdemBHA/docflow">
+    <img src="assets/banner.png" alt="docflow banner" width="100%">
+  </a>
+</p>
+
 # docflow
 
 [![CI](https://github.com/MedAdemBHA/docflow/actions/workflows/ci.yml/badge.svg)](https://github.com/MedAdemBHA/docflow/actions/workflows/ci.yml)
 [![License: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
+[![GitHub stars](https://img.shields.io/github/stars/MedAdemBHA/docflow?style=flat&logo=github&label=stars)](https://github.com/MedAdemBHA/docflow/stargazers)
+[![GitHub forks](https://img.shields.io/github/forks/MedAdemBHA/docflow?style=flat&logo=github&label=forks)](https://github.com/MedAdemBHA/docflow/network/members)
+[![Last commit](https://img.shields.io/github/last-commit/MedAdemBHA/docflow?style=flat)](https://github.com/MedAdemBHA/docflow/commits/main)
+[![GitHub issues](https://img.shields.io/github/issues/MedAdemBHA/docflow?style=flat)](https://github.com/MedAdemBHA/docflow/issues)
 
 DocFlow is a lightweight documentation-memory system for AI coding agents. It scaffolds structured project docs, ADRs, plans, reviews, and monthly changelogs so Claude/Codex can start each session with the right project context.
 
