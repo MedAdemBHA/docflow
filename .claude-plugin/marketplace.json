@@ -1,0 +1,17 @@
+{
+  "$schema": "https://anthropic.com/claude-code/marketplace.schema.json",
+  "name": "docflow",
+  "description": "Living-docs knowledge base + changelog memory for any repo, as a Claude Code plugin.",
+  "owner": {
+    "name": "Mohamed Adem Bel Hadj Amor",
+    "url": "https://github.com/your-handle"
+  },
+  "plugins": [
+    {
+      "name": "docflow",
+      "description": "Scaffold a 7-category doc tree, enforce naming + cross-linking, and auto-load the newest changelog each session.",
+      "source": "./",
+      "category": "productivity"
+    }
+  ]
+}

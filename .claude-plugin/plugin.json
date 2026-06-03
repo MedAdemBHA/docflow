@@ -1,0 +1,26 @@
+{
+  "name": "docflow",
+  "description": "Living-docs knowledge base + changelog memory for any repo. Scaffolds a 7-category doc tree (product-spec / specs / decisions / references / plans / reviews / changelog), teaches the naming + cross-linking + changelog discipline via skills, and auto-loads the docs index + newest changelog on every session so the agent always knows recent history.",
+  "version": "0.1.0",
+  "author": {
+    "name": "Mohamed Adem Bel Hadj Amor",
+    "url": "https://github.com/your-handle"
+  },
+  "homepage": "https://github.com/your-handle/docflow",
+  "license": "MIT",
+  "keywords": ["documentation", "changelog", "adr", "knowledge-base", "context", "onboarding"],
+  "hooks": {
+    "SessionStart": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bash ${CLAUDE_PLUGIN_ROOT}/hooks/docflow-context.sh",
+            "timeout": 5,
+            "statusMessage": "Loading docflow context..."
+          }
+        ]
+      }
+    ]
+  }
+}
