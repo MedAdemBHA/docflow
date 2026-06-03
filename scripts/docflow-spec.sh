@@ -17,24 +17,27 @@ while [ $# -gt 0 ]; do
     *) SRC="$1"; shift ;;
   esac
 done
-[ -n "$SRC" ] && [ -d "$SRC" ] || { echo "usage: docflow-spec.sh <code-path> [--docs-root docs]" >&2; exit 1; }
+if [ -z "$SRC" ] || [ ! -d "$SRC" ]; then
+  echo "usage: docflow-spec.sh <code-path> [--docs-root docs]" >&2
+  exit 1
+fi
 
 # repo-relative module path for the doc (strip target prefix)
 REL="${SRC#"$TARGET"/}"; REL="${REL#./}"
 NAME="$(basename "$SRC" | tr '[:upper:]' '[:lower:]' | tr -c 'a-z0-9' '-' | sed 's/-\{2,\}/-/g;s/^-//;s/-$//')"
 MON="$(date +%b | tr '[:upper:]' '[:lower:]')-$(date +%y)"
-EXT='\.(ts|tsx|js|jsx|py|go|rb|java|rs|php|vue|svelte|cs|kt|swift)$'
+EXT='\.(sh|ts|tsx|js|jsx|py|go|rb|java|rs|php|vue|svelte|cs|kt|swift)$'
 
 # --- discovery helpers (top-N, unique, noise-trimmed) -------------------------
-files()    { find "$SRC" -type f 2>/dev/null | grep -E "$EXT" | sed "s#^$SRC/##" | LC_ALL=C sort; }
+files()    { find "$SRC" -type f 2>/dev/null | grep -E "$EXT" | sed "s#^$SRC/##" | LC_ALL=C sort || true; }
 exports()  { grep -rhoE 'export (default function|function|const|class|interface|type) [A-Za-z0-9_]+' "$SRC" 2>/dev/null \
-             | awk '{print $NF}' | LC_ALL=C sort -u; }
-types()    { grep -rhoE '(interface|type|enum) [A-Z][A-Za-z0-9_]+' "$SRC" 2>/dev/null | awk '{print $2}' | LC_ALL=C sort -u; }
-apis()     { grep -rhoE "['\"]/[a-zA-Z0-9/_:.-]+['\"]" "$SRC" 2>/dev/null | tr -d "'\"" | LC_ALL=C sort -u | grep -vE '^/$'; }
-hooks()    { grep -rhoE 'use[A-Z][A-Za-z0-9_]+' "$SRC" 2>/dev/null | LC_ALL=C sort -u; }
-verbs()    { grep -rhoE '\.(get|post|put|patch|delete)\(' "$SRC" 2>/dev/null | tr -d '.(' | LC_ALL=C sort | uniq -c | sort -rn; }
+             | awk '{print $NF}' | LC_ALL=C sort -u || true; }
+types()    { grep -rhoE '(interface|type|enum) [A-Z][A-Za-z0-9_]+' "$SRC" 2>/dev/null | awk '{print $2}' | LC_ALL=C sort -u || true; }
+apis()     { grep -rhoE "['\"]/[a-zA-Z0-9/_:.-]+['\"]" "$SRC" 2>/dev/null | tr -d "'\"" | LC_ALL=C sort -u | grep -vE '^/$' || true; }
+hooks()    { grep -rhoE 'use[A-Z][A-Za-z0-9_]+' "$SRC" 2>/dev/null | LC_ALL=C sort -u || true; }
+verbs()    { grep -rhoE '\.(get|post|put|patch|delete)\(' "$SRC" 2>/dev/null | tr -d '.(' | LC_ALL=C sort | uniq -c | sort -rn || true; }
 
-bullets()  { local n="$1"; local s; s="$(cat)"; [ -z "$s" ] && { echo "- _none found_"; return; }; echo "$s" | head -"$n" | sed 's/^/- `/;s/$/`/'; }
+bullets()  { local n="$1"; local s; s="$(cat)"; [ -z "$s" ] && { echo "- _none found_"; return; }; echo "$s" | head -"$n" | sed "s/^/- \`/;s/$/\`/"; }
 
 NFILE=$(files | wc -l | tr -d ' ')
 
@@ -56,7 +59,7 @@ $(types | bullets 20)
 
 ## API
 <!-- string paths + HTTP verbs found — confirm which are real endpoints -->
-$(apis | grep -E '^/' | head -15 | sed 's/^/- `/;s/$/`/' | sed 's/^- ``$//' || true)
+$(apis | grep -E '^/' | head -15 | sed "s/^/- \`/;s/$/\`/" | sed "s/^- \`\`$//" || true)
 
 HTTP verbs used:
 $(verbs | head -8 | awk '{print "- "$2" ×"$1}')
@@ -66,8 +69,8 @@ $(verbs | head -8 | awk '{print "- "$2" ×"$1}')
 $(hooks | bullets 20)
 
 ## Files
-$(files | head -40 | sed 's/^/- `/;s/$/`/')
-$( [ "$NFILE" -gt 40 ] && echo "- … +$((NFILE-40)) more" )
+$(files | head -40 | sed "s/^/- \`/;s/$/\`/")
+$(if [ "$NFILE" -gt 40 ]; then echo "- … +$((NFILE-40)) more"; fi)
 
 ## Risks
 <!-- fill: edge cases, failure modes, coupling. Auto-gen can't infer these. -->

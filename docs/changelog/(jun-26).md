@@ -46,3 +46,17 @@
 | **Outcome** | Claude users can create a feature plan from a short request instead of starting from a blank template. |
 | **Delivered** | `/docflow-feature-plan <msg>` command; product/spec/plan/reference docs updated. |
 | **Refs** | local |
+
+### 6. Message-driven product specs
+| | |
+|---|---|
+| **Outcome** | Claude users can draft product WHAT docs from a brief or code path while keeping unclear product facts explicit. |
+| **Delivered** | `/docflow-product-spec <msg or code path>` command; product/spec/plan/reference docs updated. |
+| **Refs** | local |
+
+### 7. Generator lint hardening
+| | |
+|---|---|
+| **Outcome** | CI ShellCheck no longer fails on the new scan/spec generator scripts. |
+| **Delivered** | Replaced fragile guard syntax, escaped literal Markdown backticks for ShellCheck, and made spec discovery tolerate empty matches under `pipefail`. |
+| **Refs** | local |

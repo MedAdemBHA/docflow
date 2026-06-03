@@ -9,6 +9,7 @@
 | `/docflow-adopt` | Safely add docflow around existing docs |
 | `/docflow-repair` | Regenerate map, check links, report placeholders |
 | `/docflow-feature-plan <msg>` | Create or update a feature plan from a short feature request |
+| `/docflow-product-spec <msg or code path>` | Create or update product WHAT docs from a brief or code path |
 
 ## Codex Skills
 

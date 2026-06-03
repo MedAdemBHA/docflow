@@ -14,6 +14,7 @@ DocFlow is a lightweight documentation-memory system for AI coding agents. It sc
 - Adds a monthly append-only changelog so agents and humans can see what shipped recently.
 - Provides Claude Code skills plus a read-only `SessionStart` hook that prints the docs map and newest real changelog entry.
 - Provides a Claude command for turning a short feature request into a docflow feature plan.
+- Provides a Claude command for drafting product WHAT docs from a brief or code path.
 - Provides a Codex plugin manifest and an `AGENTS.md` template for repo-aware agent guidance.
 - Keeps everything as plain Markdown plus small Bash scripts.
 
@@ -110,6 +111,13 @@ To draft a feature plan from a short request:
 
 ```bash
 /docflow-feature-plan add team comments to documents
+```
+
+To draft product behavior docs from a brief or code path:
+
+```bash
+/docflow-product-spec add team comments to documents
+/docflow-product-spec src/features/comments
 ```
 
 The Claude plugin also installs a read-only `SessionStart` hook. On new sessions it prints the docs map and newest valid changelog month when the repo has `docflow.json`.

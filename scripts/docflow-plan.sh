@@ -46,7 +46,7 @@ cat <<EOF
 
 | Marker | Location | Note |
 |--------|----------|------|
-$(markers | sed -E 's#^([^:]+):([0-9]+):[[:space:]]*(TODO|FIXME|HACK|XXX)[: ]*(.*)#| \3 | `\1:\2` | \4 |#')
+$(markers | sed -E "s#^([^:]+):([0-9]+):[[:space:]]*(TODO|FIXME|HACK|XXX)[: ]*(.*)#| \3 | \`\1:\2\` | \4 |#")
 
 ## Where work is happening (last $DAYS days)
 
