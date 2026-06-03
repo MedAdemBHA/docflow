@@ -1,9 +1,9 @@
 ---
-description: Create or update a feature plan from a short feature request
+description: Guide the agent to create or update a feature plan from a short feature request
 argument-hint: <feature request>
 ---
 
-Create a docflow feature plan from this request:
+Follow this prompt spec to create a docflow feature plan from this request:
 
 ```text
 $ARGUMENTS

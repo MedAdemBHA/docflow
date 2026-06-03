@@ -8,10 +8,20 @@
 set -euo pipefail
 
 SRC=""; DOCS_ROOT="docs"; TARGET="$PWD"; TO_STDOUT=0
+require_value() {
+  opt="$1"
+  value="${2-}"
+  case "$value" in
+    ''|--*)
+      echo "missing value for $opt" >&2
+      exit 1
+      ;;
+  esac
+}
 while [ $# -gt 0 ]; do
   case "$1" in
-    --docs-root) DOCS_ROOT="$2"; shift 2 ;;
-    --target)    TARGET="$2";    shift 2 ;;
+    --docs-root) require_value "$1" "${2-}"; DOCS_ROOT="$2"; shift 2 ;;
+    --target)    require_value "$1" "${2-}"; TARGET="$2";    shift 2 ;;
     --stdout)    TO_STDOUT=1;    shift ;;
     -h|--help)   grep '^#' "$0" | sed 's/^# \{0,1\}//'; exit 0 ;;
     *) SRC="$1"; shift ;;

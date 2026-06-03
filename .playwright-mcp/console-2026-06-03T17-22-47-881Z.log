@@ -1,4 +1,0 @@
-[ 6430263ms] [ERROR] Failed to load resource: net::ERR_CONNECTION_REFUSED @ http://127.0.0.1:8765/plans/upcoming/now.md:0
-[ 6430840ms] [ERROR] Failed to load resource: net::ERR_CONNECTION_REFUSED @ http://127.0.0.1:8765/plans/upcoming/next.md:0
-[ 6431332ms] [ERROR] Failed to load resource: net::ERR_CONNECTION_REFUSED @ http://127.0.0.1:8765/plans/upcoming/later.md:0
-[ 6431908ms] [ERROR] Failed to load resource: net::ERR_CONNECTION_REFUSED @ http://127.0.0.1:8765/plans/upcoming/critical.md:0

@@ -1,9 +1,9 @@
 ---
-description: Create or update product-spec docs from a feature brief or code path
+description: Guide the agent to create or update product-spec docs from a feature brief or code path
 argument-hint: <feature brief or code path>
 ---
 
-Create a docflow product spec from this source:
+Follow this prompt spec to create a docflow product spec from this source:
 
 ```text
 $ARGUMENTS

@@ -16,7 +16,7 @@ Scans the path → writes `<DOCS_ROOT>/specs/(mmm-yy)-<name>.md` pre-filled with
 ```bash
 bash "${CLAUDE_PLUGIN_ROOT}/scripts/docflow-plan.sh" --target "$CLAUDE_PROJECT_DIR" --docs-root <DOCS_ROOT> --days 30
 ```
-Scans `TODO/FIXME/HACK/XXX` markers + git churn (last N days) → writes `<DOCS_ROOT>/plans/upcoming/(mmm-yy)-candidates.md`. Set `SCAN_DIR=src` to limit scope.
+Scans `TODO/FIXME/HACK/XXX` markers + git churn (last N days) → writes `<DOCS_ROOT>/plans/upcoming/(mmm-yy)-candidates.md`. It will not overwrite an existing candidates file unless `--force` is passed. Set `SCAN_DIR=src` to limit scope.
 
 **After generating:** triage each candidate into `critical/now/next/later.md`, then delete the candidates file. Markers in high-churn areas → likely critical/now.
 

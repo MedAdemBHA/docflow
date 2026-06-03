@@ -94,10 +94,10 @@ Use in a target repo:
 |------|----------------|--------------|
 | Inspect docs state | `/docflow:docflow-doctor` | Read-only scan; recommends init, adopt, or repair |
 | New repo docs | `/docflow:docflow-init` | Creates the docs tree only when no meaningful docs exist |
-| Existing docs | `/docflow:docflow-adopt` | Adds docflow around current docs without overwriting them |
+| Existing docs | `/docflow:docflow-adopt` | Adds docflow around current user-authored docs without rewriting them |
 | Fix generated docs helpers | `/docflow:docflow-repair` | Regenerates `INDEX.md`, installs helpers, reports link/placeholders |
-| Plan a feature | `/docflow:docflow-feature-plan <msg>` | Creates or updates `plans/features/(mmm-yy)-<slug>.md` |
-| Describe product behavior | `/docflow:docflow-product-spec <msg or code path>` | Creates or updates `product-spec/` WHAT docs |
+| Plan a feature | `/docflow:docflow-feature-plan <msg>` | Guides the agent to create or update `plans/features/(mmm-yy)-<slug>.md` |
+| Describe product behavior | `/docflow:docflow-product-spec <msg or code path>` | Guides the agent to create or update `product-spec/` WHAT docs |
 | Draft from code signals | `/docflow:docflow-scan` | Generates spec/roadmap drafts from code, TODOs, and git churn |
 
 Some Claude installs also expose un-namespaced forms like `/docflow-doctor`. If autocomplete shows namespaced commands, use `/docflow:...`.

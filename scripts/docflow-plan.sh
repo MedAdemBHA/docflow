@@ -3,17 +3,28 @@
 # Signal: TODO/FIXME/HACK markers (backlog candidates) + recent git churn
 # (where work is happening). Output is a draft the dev sorts into horizons.
 #
-# Usage: docflow-plan.sh [--target .] [--docs-root docs] [--days 30] [--stdout]
+# Usage: docflow-plan.sh [--target .] [--docs-root docs] [--days 30] [--stdout] [--force]
 
 set -euo pipefail
 
-TARGET="$PWD"; DOCS_ROOT="docs"; DAYS=30; TO_STDOUT=0
+TARGET="$PWD"; DOCS_ROOT="docs"; DAYS=30; TO_STDOUT=0; FORCE=0
+require_value() {
+  opt="$1"
+  value="${2-}"
+  case "$value" in
+    ''|--*)
+      echo "missing value for $opt" >&2
+      exit 1
+      ;;
+  esac
+}
 while [ $# -gt 0 ]; do
   case "$1" in
-    --target)    TARGET="$2";    shift 2 ;;
-    --docs-root) DOCS_ROOT="$2"; shift 2 ;;
-    --days)      DAYS="$2";      shift 2 ;;
+    --target)    require_value "$1" "${2-}"; TARGET="$2";    shift 2 ;;
+    --docs-root) require_value "$1" "${2-}"; DOCS_ROOT="$2"; shift 2 ;;
+    --days)      require_value "$1" "${2-}"; DAYS="$2";      shift 2 ;;
     --stdout)    TO_STDOUT=1;    shift ;;
+    --force)     FORCE=1;        shift ;;
     -h|--help)   grep '^#' "$0" | sed 's/^# \{0,1\}//'; exit 0 ;;
     *) echo "unknown arg: $1" >&2; exit 1 ;;
   esac
@@ -63,5 +74,9 @@ EOF
 if [ "$TO_STDOUT" = 1 ]; then emit; exit 0; fi
 OUT="$TARGET/$DOCS_ROOT/plans/upcoming/($MON)-candidates.md"
 mkdir -p "$(dirname "$OUT")"
+if [ -e "$OUT" ] && [ "$FORCE" != 1 ]; then
+  echo "exists, not overwriting: $OUT (use --force to replace)" >&2
+  exit 0
+fi
 emit > "$OUT"
 echo "docflow: wrote $OUT  (triage into horizons, then delete)"

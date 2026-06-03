@@ -1,6 +1,6 @@
 ---
 name: docs-adopt
-description: Safely adopt an existing repository into docflow without overwriting current docs. Adds missing docflow config, folders, helper scripts, agent guidance, INDEX.md, and an adoption review. Use when docs already exist or docs-doctor recommends docflow-adopt.
+description: Safely adopt an existing repository into docflow without rewriting current user-authored docs. Adds missing docflow config, folders, helper scripts, agent guidance, INDEX.md, and an adoption review. Use when docs already exist or docs-doctor recommends docflow-adopt.
 ---
 
 # docs-adopt

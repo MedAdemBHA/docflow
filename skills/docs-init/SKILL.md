@@ -5,7 +5,7 @@ description: Initialize docflow in the current repository. Scaffold the 7-catego
 
 # docs-init
 
-Goal: initialize docflow only when doctor says this repo has no meaningful docs yet. Keep existing files. Do not clobber.
+Goal: initialize docflow only when doctor says this repo has no meaningful docs yet. Keep existing user-authored files; generated maintenance files may be refreshed.
 
 ## Steps
 
@@ -46,7 +46,7 @@ bash scripts/scaffold.sh --docs-root <DOCS_ROOT> --project "<PROJECT NAME>" --ta
 
 ## Rules
 
-- Never overwrite existing docs files.
+- Never overwrite existing user-authored docs files.
 - If docs already exist, prefer `docs-adopt` over `docs-init`.
 - Keep `AGENTS.md` and `docflow.json` aligned on docs root.
 - After scaffold, use `docs-author` for new docs, `docs-changelog` for shipped work, and `docs-repair` after renames.

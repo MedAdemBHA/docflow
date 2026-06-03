@@ -1,3 +1,4 @@
 .DS_Store
 *.bak
 node_modules/
+.playwright-mcp/

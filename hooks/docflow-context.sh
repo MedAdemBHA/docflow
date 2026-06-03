@@ -3,8 +3,8 @@
 # Injects the docs index + the newest changelog into the agent's context at
 # session start, so it always knows recent history without being asked.
 #
-# Safe by design: read-only, output truncated, silent no-op in repos that
-# don't use docflow. Never fails the session (always exits 0).
+# Safe by design: read-only, output truncated, silent no-op when no configured
+# or discoverable docs root exists. Never fails the session (always exits 0).
 
 set -u
 
@@ -29,7 +29,7 @@ fi
 
 # --- fall back to discovery if no config -------------------------------------
 if [ -z "$DOCS_ROOT" ]; then
-  for cand in docsAdem docs documentation doc .docs; do
+  for cand in docs documentation doc .docs; do
     if [ -d "$PROJECT_DIR/$cand" ] && [ -d "$PROJECT_DIR/$cand/changelog" ]; then
       DOCS_ROOT="$cand"
       break
@@ -61,8 +61,16 @@ echo
 # 1) docs index (the map)
 # token-light by default: this runs every session. Override via env if you want more.
 # Drops blank/comment lines to cut tokens further.
-IDX_LINES="${DOCFLOW_INDEX_LINES:-60}"
-LOG_LINES="${DOCFLOW_LOG_LINES:-38}"
+line_count_or_default() {
+  value="$1"
+  fallback="$2"
+  case "$value" in
+    ''|*[!0-9]*) printf '%s' "$fallback" ;;
+    *) [ "$value" -gt 0 ] && printf '%s' "$value" || printf '%s' "$fallback" ;;
+  esac
+}
+IDX_LINES="$(line_count_or_default "${DOCFLOW_INDEX_LINES:-}" 60)"
+LOG_LINES="$(line_count_or_default "${DOCFLOW_LOG_LINES:-}" 38)"
 trim() { grep -vE '^\s*(<!--|$)' "$1" | head -"$2"; }
 month_num() {
   case "$1" in
