@@ -109,6 +109,7 @@ reviews/active/(mmm-yy)-feature.md  (QUALITY)
 
 ## 5 — After writing
 
+1. **Regenerate the map**: `bash scripts/docflow-map.sh <DOCS_ROOT>` → updates `<DOCS_ROOT>/INDEX.md` (the compact `path — purpose` tree every agent reads first). New doc needs a clear H1 — that becomes its one-liner.
 1. Add the doc to the docs-root `README.md` index + the folder's own README if it has one.
 2. If a decision shipped or a plan item completed, reflect it in `changelog/` (see [`docs-changelog`](../docs-changelog/SKILL.md)).
 3. On rename: update the file, `grep -rn "old-name\.md"` every cross-link, fix README entries, re-run the link check.

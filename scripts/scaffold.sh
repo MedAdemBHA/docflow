@@ -86,6 +86,9 @@ EOF
   echo "docflow: wrote $CFG"
 fi
 
+# generate the compact map (token-light tree the agent reads first)
+bash "$SCRIPT_DIR/docflow-map.sh" "$DEST" || true
+
 echo "docflow: done — $copied file(s) created, $skipped already existed."
 echo "Next: fill $DOCS_ROOT/README.md, add a 'Documentation' link in your root README,"
 echo "confirm AGENTS.md points at the right docs root, and start the first changelog month."

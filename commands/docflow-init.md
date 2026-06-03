@@ -18,7 +18,9 @@ You are setting up a **docflow** knowledge base in this repository.
 
 4. **Seed the first changelog.** Create `<DOCS_ROOT>/changelog/(mmm-yy).md` for the current month from the template, summarizing recent git history (`git log --no-merges --pretty='%h %ad %s' --date=short -20`). Group commits into themes. Use the `docs-changelog` skill for the format.
 
-5. **Report** what was created and point the user at the `docs-author` (writing) and `docs-router` (reading) skills.
+5. **Map.** The scaffold auto-generates `<DOCS_ROOT>/INDEX.md` (compact `path — purpose` tree). Re-run `bash "${CLAUDE_PLUGIN_ROOT}/scripts/docflow-map.sh" "$CLAUDE_PROJECT_DIR/<DOCS_ROOT>"` after adding/renaming docs — this is the one file an agent reads to know the whole tree without scanning it.
+
+6. **Report** what was created and point the user at the `docs-author` (writing) and `docs-router` (reading) skills.
 
 ## Rules
 - Don't overwrite existing docs — the scaffold skips files that exist; respect that.

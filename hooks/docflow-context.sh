@@ -61,11 +61,17 @@ echo
 # 1) docs index (the map)
 # token-light by default: this runs every session. Override via env if you want more.
 # Drops blank/comment lines to cut tokens further.
-IDX_LINES="${DOCFLOW_INDEX_LINES:-22}"
+IDX_LINES="${DOCFLOW_INDEX_LINES:-60}"
 LOG_LINES="${DOCFLOW_LOG_LINES:-38}"
 trim() { grep -vE '^\s*(<!--|$)' "$1" | head -"$2"; }
 
-if [ -f "$DR/README.md" ]; then
+# prefer the compact map (path — purpose); it's the whole tree at lowest token cost
+if [ -f "$DR/INDEX.md" ]; then
+  echo "--- docs map ($DOCS_ROOT/INDEX.md) — open the exact doc you need ---"
+  trim "$DR/INDEX.md" "$IDX_LINES"
+  echo "… $DOCS_ROOT/INDEX.md"
+  echo
+elif [ -f "$DR/README.md" ]; then
   echo "--- docs index ($DOCS_ROOT/README.md, head) ---"
   trim "$DR/README.md" "$IDX_LINES"
   echo "… full map: $DOCS_ROOT/README.md"
