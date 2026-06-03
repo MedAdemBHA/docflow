@@ -4,7 +4,7 @@
 > Last updated: <YYYY-MM-DD>
 > Rules: [NAMING.md](NAMING.md)
 
-> Browse in a browser: `python3 -m http.server --directory docs` → open `index.html`.
+> Browse in a browser: `python3 -m http.server --directory docs` then open `index.html`.
 
 ## Open First
 
@@ -52,6 +52,16 @@ docs/
 | Document | Description |
 |----------|-------------|
 | [<topic>](references/<topic>.md) | <description> |
+
+## Commands
+| Need | Command |
+|------|---------|
+| Inspect repo docs | `/docflow:docflow-doctor` |
+| Initialize empty docs | `/docflow:docflow-init` |
+| Adopt existing docs | `/docflow:docflow-adopt` |
+| Repair generated map/helpers | `/docflow:docflow-repair` |
+| Create a feature plan | `/docflow:docflow-feature-plan <msg>` |
+| Draft product WHAT docs | `/docflow:docflow-product-spec <msg or code path>` |
 
 ## Decisions (ADRs)
 | # | Title | Status |

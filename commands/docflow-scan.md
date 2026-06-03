@@ -1,5 +1,5 @@
 ---
-description: Generate spec/plan DRAFTS from real code — files, exports, types, APIs, TODOs, git churn
+description: Draft a technical spec and roadmap candidates from code, TODOs, and git history
 ---
 
 Turn the actual codebase into doc drafts (not blank templates). Two generators; the draft is then verified + trimmed by you.

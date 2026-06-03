@@ -13,9 +13,9 @@ DocFlow is a lightweight documentation-memory system for AI coding agents. It sc
 - Audits existing repos before setup, then recommends init, adopt, or repair.
 - Adds a monthly append-only changelog so agents and humans can see what shipped recently.
 - Provides Claude Code skills plus a read-only `SessionStart` hook that prints the docs map and newest real changelog entry.
-- Provides a Claude command for turning a short feature request into a docflow feature plan.
-- Provides a Claude command for drafting product WHAT docs from a brief or code path.
+- Provides clear Claude commands for setup, repair, feature plans, and product WHAT docs.
 - Provides a Codex plugin manifest and an `AGENTS.md` template for repo-aware agent guidance.
+- Ships a clean browser docs portal at `docs/index.html`.
 - Keeps everything as plain Markdown plus small Bash scripts.
 
 ## Demo
@@ -90,35 +90,26 @@ Verify:
 
 Use in a target repo:
 
-```bash
-/docflow-doctor
-/docflow-init
-```
+| Need | Claude command | What it does |
+|------|----------------|--------------|
+| Inspect docs state | `/docflow:docflow-doctor` | Read-only scan; recommends init, adopt, or repair |
+| New repo docs | `/docflow:docflow-init` | Creates the docs tree only when no meaningful docs exist |
+| Existing docs | `/docflow:docflow-adopt` | Adds docflow around current docs without overwriting them |
+| Fix generated docs helpers | `/docflow:docflow-repair` | Regenerates `INDEX.md`, installs helpers, reports link/placeholders |
+| Plan a feature | `/docflow:docflow-feature-plan <msg>` | Creates or updates `plans/features/(mmm-yy)-<slug>.md` |
+| Describe product behavior | `/docflow:docflow-product-spec <msg or code path>` | Creates or updates `product-spec/` WHAT docs |
+| Draft from code signals | `/docflow:docflow-scan` | Generates spec/roadmap drafts from code, TODOs, and git churn |
 
-If doctor finds existing docs, use:
+Some Claude installs also expose un-namespaced forms like `/docflow-doctor`. If autocomplete shows namespaced commands, use `/docflow:...`.
 
-```bash
-/docflow-adopt
-```
-
-For maintenance after adding or renaming docs:
-
-```bash
-/docflow-repair
-```
-
-To draft a feature plan from a short request:
+Examples:
 
 ```bash
-/docflow-feature-plan add team comments to documents
+/docflow:docflow-feature-plan add team comments to documents
+/docflow:docflow-product-spec src/features/comments
 ```
 
-To draft product behavior docs from a brief or code path:
-
-```bash
-/docflow-product-spec add team comments to documents
-/docflow-product-spec src/features/comments
-```
+After updating a local plugin, run `/reload-plugins` in Claude Code before testing new commands.
 
 The Claude plugin also installs a read-only `SessionStart` hook. On new sessions it prints the docs map and newest valid changelog month when the repo has `docflow.json`.
 
@@ -235,7 +226,8 @@ Run checks locally:
 
 ```bash
 bash scripts/test-scaffold.sh
-shellcheck scripts/*.sh hooks/*.sh
+for t in tests/*.sh; do bash "$t"; done
+shellcheck scripts/*.sh hooks/*.sh tests/*.sh
 ```
 
 ## Repository Layout
@@ -245,11 +237,11 @@ docflow/
 ├── .claude-plugin/          # Claude plugin manifest
 ├── .codex-plugin/           # Codex plugin manifest
 ├── .github/workflows/       # CI
-├── commands/                # /docflow-init command
+├── commands/                # Claude slash commands
 ├── examples/basic-repo/     # Filled example output
 ├── hooks/                   # SessionStart context hook
 ├── repo-templates/          # AGENTS.md, GEMINI.md, .cursorrules
-├── scripts/                 # doctor, adopt, repair, scaffold, map, link check, tests
+├── scripts/                 # doctor, adopt, repair, scaffold, map, generators, tests
 ├── skills/                  # docs-init/router/author/changelog
 └── templates/               # generic docs skeletons
 ```

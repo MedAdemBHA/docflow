@@ -1,5 +1,5 @@
 ---
-description: Regenerate the docs map, reinstall helpers, and report broken links/placeholders
+description: Regenerate the docs map, reinstall helpers, and report broken links or placeholders
 ---
 
 You are repairing an existing docflow setup.

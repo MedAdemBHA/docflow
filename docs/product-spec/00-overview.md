@@ -28,6 +28,7 @@ DocFlow gives a software repository a structured, low-token documentation memory
 | 6 | Agent skills/commands | Exposes the workflow to Claude and Codex while Gemini/Cursor use repo guidance files |
 | 7 | Feature plan command | Turns a short feature request into a dated feature plan with status, log, next steps, and doc follow-ups |
 | 8 | Product spec command | Turns a feature brief or code path into product WHAT docs without guessing unclear behavior |
+| 9 | Docs portal | Provides a clean browser view over `docs/INDEX.md`, command docs, plans, and changelog files |
 
 ## Success Criteria
 

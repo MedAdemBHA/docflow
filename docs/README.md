@@ -30,6 +30,17 @@
 | [Commands](references/commands.md) | Local script, Claude command, and Codex skill command reference |
 | [Glossary](references/glossary.md) | Shared terminology for docs, scripts, and agent UX |
 
+## Commands
+
+| Need | Command |
+|------|---------|
+| Inspect repo docs | `/docflow:docflow-doctor` |
+| Initialize empty docs | `/docflow:docflow-init` |
+| Adopt existing docs | `/docflow:docflow-adopt` |
+| Repair generated map/helpers | `/docflow:docflow-repair` |
+| Create a feature plan | `/docflow:docflow-feature-plan <msg>` |
+| Draft product WHAT docs | `/docflow:docflow-product-spec <msg or code path>` |
+
 ## Decisions
 
 | # | Title | Status |
@@ -39,6 +50,7 @@
 ## Plans
 
 - [Roadmap](plans/upcoming/README.md) — [critical](plans/upcoming/critical.md) / [now](plans/upcoming/now.md) / [next](plans/upcoming/next.md) / [later](plans/upcoming/later.md)
+- Features: [Clear command docs portal](<plans/features/(jun-26)-clear-command-docs-portal.md>) — README command clarity and clean browser portal
 - Features: [Message-driven feature plan](<plans/features/(jun-26)-message-driven-feature-plan.md>) — `/docflow-feature-plan <msg>` status + feature log
 - Features: [Message-driven product spec](<plans/features/(jun-26)-message-driven-product-spec.md>) — `/docflow-product-spec <msg or code path>` status + feature log
 

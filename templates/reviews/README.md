@@ -12,7 +12,7 @@ reviews/
 └── archive/      ← superseded reviews
 ```
 
-📍 **[Bug catalog](bugs/open.md)** — every known bug. See [`bugs/fixed.md`](bugs/fixed.md) for recent fixes with commit refs.
+**[Bug catalog](bugs/open.md)** — every known bug. See [`bugs/fixed.md`](bugs/fixed.md) for recent fixes with commit refs.
 
 ## Scorecard
 

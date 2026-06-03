@@ -7,6 +7,7 @@ changelog/(jun-26).md — June 2026 — Initial release
 changelog/README.md — Changelog
 decisions/0001-plain-markdown-bash.md — 0001 — Plain Markdown and Bash as the portable core
 decisions/README.md — Architecture Decision Records
+plans/features/(jun-26)-clear-command-docs-portal.md — Feature — Clear Command Docs Portal
 plans/features/(jun-26)-message-driven-feature-plan.md — Feature — Message-Driven Feature Plan
 plans/features/(jun-26)-message-driven-product-spec.md — Feature — Message-Driven Product Spec
 plans/upcoming/README.md — Upcoming — Roadmap
