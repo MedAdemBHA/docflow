@@ -6,26 +6,25 @@
 
 ---
 
-## Executive Summary
+## Summary
 
-<2–4 paragraphs: the themes, the biggest business-facing change, the biggest
-technical change, how to treat this release (patch vs feature vs architectural).>
+- **Release type:** patch | feature | architectural
+- **Biggest business change:** <one line>
+- **Biggest technical change:** <one line>
+- **Risk / action for prod:** <one line>
 
 ---
 
 ## What Changed
 
-### 1. <Feature / theme name>
+### 1. <Feature / theme>
+| | |
+|---|---|
+| **Outcome** | <one line> |
+| **Delivered** | <bullet; bullet> |
+| **Business impact** | <one line> |
+| **Commits** | `<hash>` <desc>; `<hash>` <desc> |
 
-**Main outcome:** <one sentence>.
-
-**Delivered capabilities**
-- <what shipped>
-
-**Why it matters**
-- <business / user impact>
-
-**Primary commits**
-- `<hash>` <short description>
+### 2. <next theme>
 
 ### 2. <next theme>

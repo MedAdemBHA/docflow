@@ -9,6 +9,12 @@ The memory of the knowledge base. Every month gets one file; history is **append
 
 > Golden rule: **never delete or rewrite shipped history.** Reversals get a *new* entry, not an edit.
 
+## Writing style (enforce)
+Direct, tech + business. No filler. Outcome first.
+- Each entry = a small table (Outcome / Delivered / Business impact / Commits). No narrative paragraphs.
+- Summary = 4 bullets max: release type, biggest business change, biggest technical change, prod risk/action.
+- Concrete only: feature names, paths, hashes, numbers. Cut adjectives.
+
 ---
 
 ## 1 — One file per month
@@ -25,37 +31,28 @@ Link to a month file (parens need angle brackets): `[may-26](<(may-26).md>)`.
 ```markdown
 # Month YEAR — <release / period title>
 
-> Comparison window: `<base ref>` (`hash`, date) → `<head ref>` (`hash`, date).
-> Scope: `N` commits ahead. Purpose: one line — what this summary is for.
+> Window: `<base>` (`hash`, date) → `<head>` (`hash`, date). Scope: `N` commits.
 
----
+## Summary
+- Release type: patch | feature | architectural
+- Biggest business change: <one line>
+- Biggest technical change: <one line>
+- Risk / action for prod: <one line>
 
-## Executive Summary
-2–4 paragraphs: the themes, the biggest business-facing change, the biggest
-technical change, how to treat the release (patch vs feature vs architectural).
+## What Changed
 
----
-
-## What Changed Since <baseline>
-
-### 1. <Feature / theme name>
-
-**Main outcome:** one sentence.
-
-**Delivered capabilities**
-- bullet list of what shipped
-
-**Why it matters**
-- business / user impact
-
-**Primary commits**
-- `hash` short description
+### 1. <Feature / theme>
+| | |
+|---|---|
+| Outcome | <one line> |
+| Delivered | <bullet; bullet> |
+| Business impact | <one line> |
+| Commits | `<hash>` <desc>; `<hash>` <desc> |
 
 ### 2. <next theme>
-...
 ```
 
-Keep entries outcome-first. A reader skimming `**Main outcome:**` lines alone should understand the release.
+A reader skimming the `Outcome` rows alone should understand the release.
 
 ---
 

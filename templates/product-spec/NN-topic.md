@@ -4,10 +4,12 @@
 > Part of [product spec](00-overview.md). Module NN.
 
 ## Purpose
-<What this module is for, in user terms.>
+<one line — what users get from this module>
 
-## Key features
-- <feature> — <what the user can do>
+## Capabilities
+| Capability | User can | Business value |
+|------------|----------|----------------|
+| <name> | <action> | <why it matters> |
 
 ## How it fits
 - Implemented in: <code path>

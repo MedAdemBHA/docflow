@@ -9,6 +9,14 @@ Author docs the docflow way: **choose category → apply naming → fill templat
 
 > A doc's filename should tell a teammate **what** + **when** without opening it. If it can't, rename.
 
+## Writing style (enforce on every doc)
+Direct, tech + business. No filler.
+- Tables and bullets over paragraphs. One claim per line.
+- Lead with the outcome/decision; cut "this document describes…", "in order to", "it is important to note".
+- Concrete: names, paths, numbers, commit hashes. No adjectives that carry no info.
+- Each section earns its place — if a placeholder stays empty, delete the section.
+- Max one short intro line per doc; the structure does the rest.
+
 ---
 
 ## 1 — Pick the category (what is this doc?)
