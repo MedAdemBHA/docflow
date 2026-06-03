@@ -159,3 +159,4 @@ bash "$SCRIPT_DIR/docflow-map.sh" "$DEST" || true
 echo "docflow: done — $copied file(s) created, $skipped already existed."
 echo "Next: fill $DOCS_ROOT/README.md, add a 'Documentation' link in your root README,"
 echo "confirm AGENTS.md points at the right docs root, and start the first changelog month."
+echo "Browse portal: python3 -m http.server --directory $DOCS_ROOT  → open index.html"

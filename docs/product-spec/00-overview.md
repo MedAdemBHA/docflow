@@ -26,6 +26,7 @@ DocFlow gives a software repository a structured, low-token documentation memory
 | 4 | Repair | Regenerates `INDEX.md`, installs missing helpers, checks links, and reports placeholders |
 | 5 | Context hook | Reads `docflow.json`, prints the docs map and newest valid changelog month, exits safely |
 | 6 | Agent skills/commands | Exposes the workflow to Claude and Codex while Gemini/Cursor use repo guidance files |
+| 7 | Feature plan command | Turns a short feature request into a dated feature plan with status, log, next steps, and doc follow-ups |
 
 ## Success Criteria
 

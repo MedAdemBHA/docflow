@@ -1,0 +1,94 @@
+<!doctype html>
+<!-- docflow portal — generic, project-agnostic. Reads INDEX.md for nav, renders any
+     doc client-side. No build. Serve (fetch needs http): python3 -m http.server --directory <this dir> -->
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Docs portal</title>
+<script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+<style>
+  :root { --bg:#0d1117; --panel:#161b22; --border:#30363d; --txt:#c9d1d9; --mut:#8b949e; --acc:#58a6ff; }
+  * { box-sizing:border-box; }
+  body { margin:0; font:14px/1.6 -apple-system,Segoe UI,Roboto,sans-serif; color:var(--txt); background:var(--bg); display:flex; height:100vh; }
+  #side { width:320px; min-width:320px; border-right:1px solid var(--border); background:var(--panel); overflow:auto; padding:14px; }
+  #side h1 { font-size:15px; margin:0 0 10px; }
+  #q { width:100%; padding:6px 8px; margin-bottom:10px; background:var(--bg); border:1px solid var(--border); border-radius:6px; color:var(--txt); }
+  .grp { color:var(--mut); text-transform:uppercase; font-size:11px; letter-spacing:.05em; margin:12px 0 4px; }
+  a.doc { display:block; padding:3px 6px; border-radius:5px; color:var(--txt); text-decoration:none; cursor:pointer; }
+  a.doc:hover { background:#21262d; }
+  a.doc small { color:var(--mut); display:block; }
+  #main { flex:1; overflow:auto; padding:28px 40px; }
+  #main pre { background:var(--panel); padding:12px; border-radius:6px; overflow:auto; }
+  #main code { background:var(--panel); padding:1px 4px; border-radius:4px; }
+  #main pre code { padding:0; }
+  #main table { border-collapse:collapse; } #main th,#main td { border:1px solid var(--border); padding:5px 9px; }
+  #main a { color:var(--acc); }
+  #main h1,#main h2 { border-bottom:1px solid var(--border); padding-bottom:5px; }
+  .hint { color:var(--mut); }
+</style>
+</head>
+<body>
+<nav id="side"><h1>📚 Docs</h1><input id="q" placeholder="filter…" /><div id="nav"></div></nav>
+<main id="main"><p class="hint">Loading…</p></main>
+<script>
+const main = document.getElementById('main'), nav = document.getElementById('nav'), q = document.getElementById('q');
+let entries = [];
+
+async function fetchText(p){ const r = await fetch(p); if(!r.ok) throw new Error(r.status+' '+p); return r.text(); }
+
+function parseIndex(txt){
+  return txt.split('\n')
+    .map(l => l.trim())
+    .filter(l => l && !l.startsWith('#') && !l.startsWith('<!--'))
+    .map(l => { const i = l.indexOf(' — '); return i<0 ? null : { path:l.slice(0,i).trim(), desc:l.slice(i+3).trim() }; })
+    .filter(Boolean);
+}
+
+function group(list){
+  const g = {};
+  for (const e of list){ const k = e.path.includes('/') ? e.path.split('/')[0] : '(root)'; (g[k]=g[k]||[]).push(e); }
+  return g;
+}
+
+function renderNav(filter=''){
+  const f = filter.toLowerCase();
+  const list = entries.filter(e => (e.path+' '+e.desc).toLowerCase().includes(f));
+  const g = group(list); nav.innerHTML = '';
+  for (const k of Object.keys(g).sort()){
+    const h = document.createElement('div'); h.className='grp'; h.textContent=k; nav.appendChild(h);
+    for (const e of g[k]){
+      const a = document.createElement('a'); a.className='doc'; a.onclick=()=>load(e.path);
+      a.innerHTML = e.path.split('/').pop() + '<small>'+e.desc+'</small>'; nav.appendChild(a);
+    }
+  }
+}
+
+async function load(path){
+  try {
+    const md = await fetchText(path);
+    main.innerHTML = marked.parse(md);
+    // rewrite relative .md links to load in-portal
+    main.querySelectorAll('a[href]').forEach(a => {
+      let href = a.getAttribute('href');
+      if (/^https?:|^#|^mailto:/.test(href)) return;
+      href = decodeURI(href).replace(/^<|>$/g,'').split('#')[0];
+      if (!href.endsWith('.md')) return;
+      const base = path.includes('/') ? path.replace(/[^/]+$/,'') : '';
+      const target = new URL(base+href, location.origin+'/').pathname.replace(/^\//,'');
+      a.onclick = ev => { ev.preventDefault(); load(target); };
+    });
+    main.scrollTop = 0;
+  } catch(e){ main.innerHTML = '<p class="hint">Cannot load '+path+' — '+e.message+'<br>Serve over http: <code>python3 -m http.server --directory .</code></p>'; }
+}
+
+(async () => {
+  try { entries = parseIndex(await fetchText('INDEX.md')); }
+  catch { entries = [{path:'README.md',desc:'Docs index'}]; }
+  renderNav();
+  load(entries.find(e=>/README\.md$/.test(e.path))?.path || entries[0]?.path || 'README.md');
+})();
+q.oninput = () => renderNav(q.value);
+</script>
+</body>
+</html>

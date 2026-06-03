@@ -39,3 +39,10 @@
 | **Outcome** | Scaffold and session context made idempotent and safe to re-run. |
 | **Delivered** | Hardened scaffold script and context wiring. |
 | **Refs** | `04101c5` harden docflow scaffold and context |
+
+### 5. Message-driven feature planning
+| | |
+|---|---|
+| **Outcome** | Claude users can create a feature plan from a short request instead of starting from a blank template. |
+| **Delivered** | `/docflow-feature-plan <msg>` command; product/spec/plan/reference docs updated. |
+| **Refs** | local |

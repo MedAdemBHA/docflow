@@ -8,6 +8,7 @@
 | `/docflow-init` | Scaffold docflow when doctor finds no meaningful docs |
 | `/docflow-adopt` | Safely add docflow around existing docs |
 | `/docflow-repair` | Regenerate map, check links, report placeholders |
+| `/docflow-feature-plan <msg>` | Create or update a feature plan from a short feature request |
 
 ## Codex Skills
 

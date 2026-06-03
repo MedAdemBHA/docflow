@@ -21,6 +21,7 @@
 | init | safe create-only | Runs doctor first; scaffolds only when no meaningful docs exist |
 | adopt | safe create-only | Adds missing docflow infrastructure around existing docs; writes an adoption review |
 | repair | generated/helper only | Regenerates `INDEX.md`, installs missing helpers, reports links/placeholders |
+| feature-plan | content doc | Uses the user's message as a source brief, then creates or merges a dated `plans/features/` status doc |
 | context hook | none | Prints docs map and newest filename-sorted changelog month; exits `0` |
 
 ## Data and Config

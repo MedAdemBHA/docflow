@@ -4,6 +4,8 @@
 > Last updated: <YYYY-MM-DD>
 > Rules: [NAMING.md](NAMING.md)
 
+> Browse in a browser: `python3 -m http.server --directory docs` → open `index.html`.
+
 ## Open First
 
 - Product: [product-spec/00-overview.md](product-spec/00-overview.md)

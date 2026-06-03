@@ -58,7 +58,13 @@ Rules:
 
 ---
 
-## 3 — Fill the template
+## 3 — Fill the template (or generate a draft from code)
+
+**Don't start specs/plans from blank** — generate a draft from the real repo, then verify:
+- Spec: `bash scripts/docflow-spec.sh <code-path>` → pre-fills files, exports (Architecture), types (Data), paths+verbs (API), hooks (Flow). You group + confirm + write Risks.
+- Plan: `bash scripts/docflow-plan.sh --days 30` → backlog candidates from TODO/FIXME + git churn. You triage into horizons.
+
+Both write drafts marked `<!-- auto -->`; curate before shipping. Then fill manually where heuristics can't reach:
 
 Each category has a skeleton in the plugin's `templates/`. Key shapes:
 

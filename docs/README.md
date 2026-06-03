@@ -39,6 +39,7 @@
 ## Plans
 
 - [Roadmap](plans/upcoming/README.md) — [critical](plans/upcoming/critical.md) / [now](plans/upcoming/now.md) / [next](plans/upcoming/next.md) / [later](plans/upcoming/later.md)
+- Features: [Message-driven feature plan](<plans/features/(jun-26)-message-driven-feature-plan.md>) — `/docflow-feature-plan <msg>` status + feature log
 
 ## Reviews
 
