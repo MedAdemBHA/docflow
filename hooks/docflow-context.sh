@@ -59,10 +59,16 @@ echo "Docs root: $DOCS_ROOT/  (use the docs-router skill to navigate; docs-autho
 echo
 
 # 1) docs index (the map)
+# token-light by default: this runs every session. Override via env if you want more.
+# Drops blank/comment lines to cut tokens further.
+IDX_LINES="${DOCFLOW_INDEX_LINES:-22}"
+LOG_LINES="${DOCFLOW_LOG_LINES:-38}"
+trim() { grep -vE '^\s*(<!--|$)' "$1" | head -"$2"; }
+
 if [ -f "$DR/README.md" ]; then
-  echo "--- docs index ($DOCS_ROOT/README.md, truncated) ---"
-  head -45 "$DR/README.md"
-  echo "..."
+  echo "--- docs index ($DOCS_ROOT/README.md, head) ---"
+  trim "$DR/README.md" "$IDX_LINES"
+  echo "… full map: $DOCS_ROOT/README.md"
   echo
 fi
 
@@ -71,10 +77,9 @@ if [ -d "$CL" ]; then
   NEWEST="$(ls -t "$CL"/*.md 2>/dev/null | grep -v -i 'README' | head -1)"
   [ -z "$NEWEST" ] && NEWEST="$(ls -t "$CL"/*.md 2>/dev/null | head -1)"
   if [ -n "$NEWEST" ] && [ -f "$NEWEST" ]; then
-    echo "--- newest changelog ($(basename "$NEWEST"), truncated) ---"
-    head -60 "$NEWEST"
-    echo "..."
-    echo "(Read the full file for complete history; older months sit beside it in $CHANGELOG_DIR.)"
+    echo "--- newest changelog ($(basename "$NEWEST"), head) ---"
+    trim "$NEWEST" "$LOG_LINES"
+    echo "… full history in $CHANGELOG_DIR"
   fi
 fi
 

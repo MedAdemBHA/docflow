@@ -1,20 +1,58 @@
 # docflow
 
-**A living-docs knowledge base + changelog memory for any repo — as a Claude Code plugin.**
+**A practical docs system for any repo: structured markdown docs, monthly changelog memory, Claude plugin support, and Codex-friendly `AGENTS.md` guidance.**
 
-docflow gives any project a consistent documentation *system* and makes your AI agent **start every session knowing what recently changed**. It packages a battle-tested doc taxonomy, naming rules, ADR/spec/plan/changelog templates, three teaching skills, and a SessionStart hook that auto-loads the docs index + newest changelog into the agent's context.
+docflow gives any project a consistent documentation *system* and makes your AI agent **start each session with recent project context**. It ships a 7-folder docs taxonomy, naming rules, ADR/spec/plan/changelog templates, Claude skills + auto-context hook, and root-level guidance files for Codex/Gemini/Cursor.
 
 > The "way of documenting" is generic — extracted from a real production knowledge base and stripped of project specifics. Drop it into any repo.
 
----
+## What You Get
+
+- A consistent docs tree for specs, ADRs, plans, reviews, references, and changelog history.
+- A monthly append-only changelog so agents and humans can see what changed recently.
+- Claude support via plugin skills and a `SessionStart` hook.
+- Codex support via a scaffolded `AGENTS.md` that points the agent to the docs index and newest changelog month.
+
+## Quick Start
+
+1. Install the Claude plugin if you want the Claude hook/skills:
+   ```bash
+   /plugin marketplace add https://github.com/your-handle/docflow
+   /plugin install docflow
+   ```
+2. Run:
+   ```
+   /docflow-init
+   ```
+3. Commit the generated docs tree and root guidance files.
+4. Tell your agent to follow the repo docs. In Codex, `AGENTS.md` covers this automatically.
+
+After scaffold, your repo gets:
+
+- `<DOCS_ROOT>/` with the full 7-category docs tree and templates
+- `docflow.json` with the docs root config
+- `AGENTS.md` for Codex and other repo-aware agents
+- `GEMINI.md` and `.cursorrules` as lightweight pointers back to `AGENTS.md`
+
+## How It Works By Agent
+
+| Agent | What docflow uses | Behavior |
+|-------|-------------------|----------|
+| Claude Code | `.claude-plugin`, skills, `SessionStart` hook | Auto-loads docs index + newest changelog into context |
+| Codex | `AGENTS.md` | Reads repo guidance, then follows the docs index + newest changelog workflow |
+| Gemini / Cursor | `GEMINI.md`, `.cursorrules`, `AGENTS.md` | Reuses the same repo guidance path |
+
+The docs system itself is plain markdown plus bash, so the structure is cross-agent even though the context-loading mechanism differs.
+
+`AGENTS.md` is intentionally short and token-light. Put the routing rules there; keep the long explanation in `README.md`.
 
 ## Why
 
-Docs rot because there's no *system*: no agreed place for each kind of doc, no naming discipline, and — critically — no memory. An AI agent (or a new teammate) starts cold every time, blind to the last three months of decisions.
+Docs rot because there's no *system*: no agreed place for each kind of doc, no naming discipline, and no memory. An AI agent or new teammate starts cold every time, blind to recent decisions.
 
 docflow fixes both:
 - **Structure** — 7 categories, each answering one question (WHAT / HOW / WHY / conventions / roadmap / quality / history).
-- **Memory** — an append-only monthly changelog, auto-surfaced to the agent at session start.
+- **Memory** — an append-only monthly changelog, surfaced automatically for Claude and routed explicitly via `AGENTS.md` for other agents.
 
 ## The 7 categories
 
@@ -30,11 +68,12 @@ docflow fixes both:
 
 Full naming rules ship in `templates/NAMING.md`.
 
-## What's in the plugin
+## What's in the repo
 
 ```
 docflow/
 ├── .claude-plugin/        # plugin.json (+ SessionStart hook) + marketplace.json
+├── repo-templates/        # AGENTS.md + GEMINI.md + .cursorrules scaffolds
 ├── skills/
 │   ├── docs-router/       # READ  — route a question to the right doc
 │   ├── docs-author/       # WRITE — pick category, apply naming, fill template, cross-link
@@ -47,31 +86,74 @@ docflow/
 
 ## Install
 
-```bash
-# add this repo as a plugin marketplace, then install
-/plugin marketplace add https://github.com/your-handle/docflow
-/plugin install docflow
-```
+For local development:
 
-Or for local development, point the marketplace at the cloned folder:
 ```bash
 /plugin marketplace add /path/to/docflow
 /plugin install docflow
 ```
 
-## Use
+For a published marketplace repo:
+
+```bash
+/plugin marketplace add https://github.com/your-handle/docflow
+/plugin install docflow
+```
+
+## Typical Workflow
 
 1. **Scaffold** a docs tree in your repo:
    ```
    /docflow-init
    ```
-   Creates the 7-category tree under `docs/` (or your chosen root), drops the templates, and writes `docflow.json` so the hook knows where docs live.
+   Creates the 7-category tree under `docs/` (or your chosen root), drops the templates, writes `docflow.json`, and adds `AGENTS.md` plus optional `GEMINI.md` / `.cursorrules` stubs at the repo root.
 
-2. **Write** docs the docflow way — invoke the `docs-author` skill (or just ask "where should this doc go / write an ADR for X").
+2. **Write** docs the docflow way:
+   - Use `docs-author` in Claude, or
+   - Ask your agent to create/update the right doc under the docflow taxonomy.
 
-3. **Record** shipped work — invoke `docs-changelog` (or "add to changelog / what shipped this month").
+3. **Record** shipped work:
+   - Use `docs-changelog`, or
+   - Update the current month in `changelog/(mmm-yy).md`.
 
-4. **Read** — `docs-router` maps any question to the right doc instead of grepping the tree.
+4. **Read**:
+   - Use `docs-router`, or
+   - Start from `<DOCS_ROOT>/README.md` and follow links.
+
+## Usage Guidelines
+
+Use docflow as an operating rule, not just a folder scaffold.
+
+1. Before substantial work, read `<DOCS_ROOT>/README.md` and the newest file in `<DOCS_ROOT>/changelog/`.
+2. When documenting, choose the folder by question:
+   - `product-spec/` = what the feature does for users
+   - `specs/` = how it is implemented
+   - `decisions/` = why a technical/product decision was made
+   - `references/` = conventions, cheatsheets, stable guidance
+   - `plans/` = work that is planned or in progress
+   - `reviews/` = audits, bugs, quality findings
+   - `changelog/` = what shipped
+3. Follow `NAMING.md` exactly. The filename is part of the system.
+4. Every durable doc should be linked from `<DOCS_ROOT>/README.md`.
+5. Every shipped change should land in the current monthly changelog.
+
+Use these rules of thumb:
+
+- New feature behavior or user flow changed: update `product-spec/`.
+- Implementation details matter for future maintainers: add or update `specs/`.
+- A choice needs justification or tradeoff history: write an ADR in `decisions/`.
+- Team conventions or setup instructions keep repeating: add a `references/` doc.
+- Work is planned, staged, or being tracked over time: update `plans/`.
+- Bugs, audits, or quality findings need to stay visible: use `reviews/`.
+- Something shipped this month: append it to `changelog/(mmm-yy).md`.
+
+Avoid these common mistakes:
+
+- Don't put implementation detail in `product-spec/`.
+- Don't use the changelog as a replacement for specs or ADRs.
+- Don't create orphan docs that are not linked from the docs index.
+- Don't rewrite old changelog months except to correct factual mistakes.
+- Don't invent filenames ad hoc; use the naming patterns.
 
 ### The auto-context hook
 
@@ -92,6 +174,16 @@ At your repo root:
 }
 ```
 `changelogDir` is optional (defaults to `docsRoot/changelog`). `docsRoot` may be relative or absolute.
+
+## Important Limitation
+
+docflow is not one universal plugin runtime.
+
+- Claude uses plugin hooks and skills.
+- Codex uses repo guidance via `AGENTS.md`.
+- Other agents may read `GEMINI.md` or `.cursorrules`, but they still rely on repo-level instructions.
+
+So the portable part is the docs system and workflow, not a single shared plugin API.
 
 ## Sharing docs on GitHub (no Claude Code needed)
 

@@ -12,7 +12,7 @@ You are setting up a **docflow** knowledge base in this repository.
    ```bash
    bash "${CLAUDE_PLUGIN_ROOT}/scripts/scaffold.sh" --docs-root <DOCS_ROOT> --project "<PROJECT NAME>" --target "$CLAUDE_PROJECT_DIR"
    ```
-   This creates the category tree (`product-spec/ specs/ references/ decisions/ plans/{upcoming,features,hygiene}/ reviews/{bugs}/ changelog/`), drops the templates, and writes `docflow.json` at the repo root so the SessionStart hook knows where the docs live.
+   This creates the category tree (`product-spec/ specs/ references/ decisions/ plans/{upcoming,features,hygiene}/ reviews/{bugs}/ changelog/`), drops the templates, writes `docflow.json` at the repo root so the SessionStart hook knows where the docs live, and scaffolds `AGENTS.md` plus optional multi-agent stubs (`GEMINI.md`, `.cursorrules`) pointing at the same docs system.
 
 3. **Wire it into the repo README.** Add a `## Documentation` section to the root `README.md` linking to `<DOCS_ROOT>/README.md` (so docs are browsable on GitHub without Claude Code).
 
@@ -23,4 +23,5 @@ You are setting up a **docflow** knowledge base in this repository.
 ## Rules
 - Don't overwrite existing docs — the scaffold skips files that exist; respect that.
 - Keep the docs root config in `docflow.json` accurate; the auto-context hook depends on it.
+- Keep `AGENTS.md` aligned with `docflow.json`; Codex and other agents depend on that root guidance.
 - Follow the naming rules in `<DOCS_ROOT>/NAMING.md` for every file you create after.
