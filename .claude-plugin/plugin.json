@@ -1,7 +1,7 @@
 {
   "name": "docflow",
   "description": "Lightweight documentation memory for AI coding agents. Scaffolds a 7-category docs tree, teaches naming + cross-linking + changelog discipline via skills, and auto-loads the docs index + newest real changelog entry on session start.",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "author": {
     "name": "Mohamed Adem Bel Hadj Amor",
     "url": "https://github.com/MedAdemBHA"

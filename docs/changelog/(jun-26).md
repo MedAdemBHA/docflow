@@ -60,3 +60,10 @@
 | **Outcome** | CI ShellCheck no longer fails on the new scan/spec generator scripts. |
 | **Delivered** | Replaced fragile guard syntax, escaped literal Markdown backticks for ShellCheck, and made spec discovery tolerate empty matches under `pipefail`. |
 | **Refs** | local |
+
+### 8. Plugin version refresh
+| | |
+|---|---|
+| **Outcome** | Claude/Codex plugin installers can detect the new command set as a newer local plugin version. |
+| **Delivered** | Bumped plugin manifests from `0.2.0` to `0.2.1`. |
+| **Refs** | local |
