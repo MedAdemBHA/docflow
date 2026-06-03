@@ -26,5 +26,3 @@
 | **Commits** | `<hash>` <desc>; `<hash>` <desc> |
 
 ### 2. <next theme>
-
-### 2. <next theme>
