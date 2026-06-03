@@ -115,13 +115,6 @@ reviews/active/(mmm-yy)-feature.md  (QUALITY)
 3. On rename: update the file, `grep -rn "old-name\.md"` every cross-link, fix README entries, re-run the link check.
 
 ```bash
-# link integrity — empty output = all links resolve (swap <DOCS> for your docs root)
-while read line; do
-  f=$(echo "$line" | cut -d: -f1); d=$(dirname "$f")
-  echo "$line" | grep -oE '\]\([^)]+\)' | while read link; do
-    target=$(echo "$link" | sed 's/^](//;s/)$//;s/^<//;s/>$//' | cut -d'#' -f1)
-    [[ "$target" =~ ^https?:// || -z "$target" ]] && continue
-    [[ -f "$d/$target" ]] || echo "BROKEN: $f -> $target"
-  done
-done < <(grep -rn "\.md)" <DOCS> --include="*.md" 2>/dev/null)
+# link integrity — empty output = all local links resolve
+bash scripts/check-links.sh <DOCS_ROOT>
 ```

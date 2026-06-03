@@ -14,14 +14,67 @@ TARGET="$PWD"
 
 while [ $# -gt 0 ]; do
   case "$1" in
-    --docs-root) DOCS_ROOT="$2"; shift 2 ;;
-    --project)   PROJECT="$2";   shift 2 ;;
-    --target)    TARGET="$2";    shift 2 ;;
+    --docs-root)
+      [ $# -ge 2 ] || { echo "missing value for --docs-root" >&2; exit 1; }
+      DOCS_ROOT="$2"
+      shift 2
+      ;;
+    --project)
+      [ $# -ge 2 ] || { echo "missing value for --project" >&2; exit 1; }
+      PROJECT="$2"
+      shift 2
+      ;;
+    --target)
+      [ $# -ge 2 ] || { echo "missing value for --target" >&2; exit 1; }
+      TARGET="$2"
+      shift 2
+      ;;
     -h|--help)
       grep '^#' "$0" | sed 's/^# \{0,1\}//'; exit 0 ;;
     *) echo "unknown arg: $1" >&2; exit 1 ;;
   esac
 done
+
+reject_newline() {
+  case "$2" in
+    *$'\n'*|*$'\r'*)
+      echo "$1 cannot contain newlines" >&2
+      exit 1
+      ;;
+  esac
+}
+
+escape_sed_replacement() {
+  printf '%s' "$1" | sed -e 's/[\/&|\\]/\\&/g'
+}
+
+json_escape() {
+  local value="$1"
+  value="${value//\\/\\\\}"
+  value="${value//\"/\\\"}"
+  value="${value//$'\r'/\\r}"
+  value="${value//$'\n'/\\n}"
+  value="${value//$'\t'/\\t}"
+  printf '%s' "$value"
+}
+
+replace_placeholders() {
+  local file="$1"
+  local docs_root_repl project_repl
+  docs_root_repl="$(escape_sed_replacement "$DOCS_ROOT")"
+  project_repl="$(escape_sed_replacement "$PROJECT")"
+
+  if grep -q '<DOCS_ROOT>\|<PROJECT>' "$file" 2>/dev/null; then
+    sed -i.bak \
+      -e "s|<DOCS_ROOT>|$docs_root_repl|g" \
+      -e "s|<PROJECT>|$project_repl|g" \
+      "$file"
+    rm -f "$file.bak"
+  fi
+}
+
+reject_newline "docs root" "$DOCS_ROOT"
+reject_newline "project name" "$PROJECT"
 
 # template dirs = sibling of this script's parent
 SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
@@ -36,6 +89,7 @@ echo "docflow: scaffolding into $DEST/ (project: $PROJECT)"
 # copy the template tree, skipping any file that already exists
 mkdir -p "$DEST"
 copied=0; skipped=0
+created_files=()
 while IFS= read -r src; do
   rel="${src#"$TPL"/}"
   out="$DEST/$rel"
@@ -44,6 +98,7 @@ while IFS= read -r src; do
     skipped=$((skipped+1))
   else
     cp "$src" "$out"
+    created_files+=("$out")
     copied=$((copied+1))
   fi
 done < <(find "$TPL" -type f)
@@ -57,30 +112,42 @@ while IFS= read -r src; do
     skipped=$((skipped+1))
   else
     cp "$src" "$out"
+    created_files+=("$out")
     copied=$((copied+1))
   fi
 done < <(find "$REPO_TPL" -type f)
 
-# fill placeholders in newly scaffolded files only
-if [ -f "$DEST/README.md" ] && grep -q '<PROJECT>' "$DEST/README.md" 2>/dev/null; then
-  sed -i.bak "s/<PROJECT>/$PROJECT/g" "$DEST/README.md" && rm -f "$DEST/README.md.bak"
-fi
-for file in "$TARGET/AGENTS.md" "$TARGET/GEMINI.md" "$TARGET/.cursorrules"; do
-  if [ -f "$file" ] && grep -q '<DOCS_ROOT>\|<PROJECT>' "$file" 2>/dev/null; then
-    sed -i.bak \
-      -e "s|<DOCS_ROOT>|$DOCS_ROOT|g" \
-      -e "s|<PROJECT>|$PROJECT|g" \
-      "$file" && rm -f "$file.bak"
+# install the helper scripts the scaffolded docs reference, so commands like
+# `bash scripts/check-links.sh docs` work from the target repo root (idempotent)
+SCRIPTS_DEST="$TARGET/scripts"
+for helper in check-links.sh docflow-map.sh; do
+  src="$SCRIPT_DIR/$helper"
+  out="$SCRIPTS_DEST/$helper"
+  [ -f "$src" ] || continue
+  if [ ! -e "$out" ]; then
+    mkdir -p "$SCRIPTS_DEST"
+    cp "$src" "$out"
+    chmod +x "$out"
+    copied=$((copied+1))
   fi
 done
+
+# fill placeholders in newly scaffolded files only
+if [ "${#created_files[@]}" -gt 0 ]; then
+  for file in "${created_files[@]}"; do
+    replace_placeholders "$file"
+  done
+fi
 
 # write per-repo config at the target root if absent
 CFG="$TARGET/docflow.json"
 if [ ! -f "$CFG" ]; then
+  docs_root_json="$(json_escape "$DOCS_ROOT")"
+  changelog_dir_json="$(json_escape "$DOCS_ROOT/changelog")"
   cat > "$CFG" <<EOF
 {
-  "docsRoot": "$DOCS_ROOT",
-  "changelogDir": "$DOCS_ROOT/changelog"
+  "docsRoot": "$docs_root_json",
+  "changelogDir": "$changelog_dir_json"
 }
 EOF
   echo "docflow: wrote $CFG"

@@ -64,6 +64,23 @@ echo
 IDX_LINES="${DOCFLOW_INDEX_LINES:-60}"
 LOG_LINES="${DOCFLOW_LOG_LINES:-38}"
 trim() { grep -vE '^\s*(<!--|$)' "$1" | head -"$2"; }
+month_num() {
+  case "$1" in
+    jan) printf '01' ;;
+    feb) printf '02' ;;
+    mar) printf '03' ;;
+    apr) printf '04' ;;
+    may) printf '05' ;;
+    jun) printf '06' ;;
+    jul) printf '07' ;;
+    aug) printf '08' ;;
+    sep) printf '09' ;;
+    oct) printf '10' ;;
+    nov) printf '11' ;;
+    dec) printf '12' ;;
+    *) return 1 ;;
+  esac
+}
 
 # prefer the compact map (path — purpose); it's the whole tree at lowest token cost
 if [ -f "$DR/INDEX.md" ]; then
@@ -80,8 +97,27 @@ fi
 
 # 2) newest changelog entry (recent history)
 if [ -d "$CL" ]; then
-  NEWEST="$(ls -t "$CL"/*.md 2>/dev/null | grep -v -i 'README' | head -1)"
-  [ -z "$NEWEST" ] && NEWEST="$(ls -t "$CL"/*.md 2>/dev/null | head -1)"
+  NEWEST=""
+  NEWEST_KEY=""
+  for candidate in "$CL"/*.md; do
+    [ -f "$candidate" ] || continue
+    base="$(basename "$candidate")"
+    case "$base" in
+      \(???-[0-9][0-9]\).md) ;;
+      *) continue ;;
+    esac
+
+    month="${base:1:3}"
+    yy="${base:5:2}"
+    mm="$(month_num "$month")" || continue
+    key="$yy-$mm"
+
+    if [ -z "$NEWEST_KEY" ] || [[ "$key" > "$NEWEST_KEY" ]]; then
+      NEWEST_KEY="$key"
+      NEWEST="$candidate"
+    fi
+  done
+
   if [ -n "$NEWEST" ] && [ -f "$NEWEST" ]; then
     echo "--- newest changelog ($(basename "$NEWEST"), head) ---"
     trim "$NEWEST" "$LOG_LINES"

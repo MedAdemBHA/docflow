@@ -54,13 +54,6 @@
 ## Link integrity check
 
 ```bash
-# empty output = all links resolve (swap docs/ for your docs root)
-while read line; do
-  f=$(echo "$line" | cut -d: -f1); d=$(dirname "$f")
-  echo "$line" | grep -oE '\]\([^)]+\)' | while read link; do
-    target=$(echo "$link" | sed 's/^](//;s/)$//;s/^<//;s/>$//' | cut -d'#' -f1)
-    [[ "$target" =~ ^https?:// || -z "$target" ]] && continue
-    [[ -f "$d/$target" ]] || echo "BROKEN: $f -> $target"
-  done
-done < <(grep -rn "\.md)" docs/ --include="*.md" 2>/dev/null)
+# empty output = all local links resolve
+bash scripts/check-links.sh docs
 ```

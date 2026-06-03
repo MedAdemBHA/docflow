@@ -1,6 +1,6 @@
 {
   "name": "docflow",
-  "description": "Living-docs knowledge base + changelog memory for any repo. Scaffolds a 7-category doc tree (product-spec / specs / decisions / references / plans / reviews / changelog), teaches the naming + cross-linking + changelog discipline via skills, and auto-loads the docs index + newest changelog on every session so the agent always knows recent history.",
+  "description": "Lightweight documentation memory for AI coding agents. Scaffolds a 7-category docs tree, teaches naming + cross-linking + changelog discipline via skills, and auto-loads the docs index + newest real changelog entry on session start.",
   "version": "0.1.0",
   "author": {
     "name": "Mohamed Adem Bel Hadj Amor",

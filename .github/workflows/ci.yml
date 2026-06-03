@@ -1,0 +1,28 @@
+name: CI
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  bash:
+    name: Bash scripts
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Install ShellCheck
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y shellcheck
+
+      - name: ShellCheck
+        run: shellcheck scripts/*.sh hooks/*.sh tests/*.sh
+
+      - name: Scaffold smoke tests
+        run: bash scripts/test-scaffold.sh
+
+      - name: Changelog ordering test
+        run: bash tests/changelog-ordering.sh
