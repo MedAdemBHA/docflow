@@ -18,6 +18,7 @@
     "onboarding"
   ],
   "skills": "./skills",
+  "scripts": "./scripts",
   "interface": {
     "displayName": "Docflow",
     "shortDescription": "Check and scaffold lean living docs",

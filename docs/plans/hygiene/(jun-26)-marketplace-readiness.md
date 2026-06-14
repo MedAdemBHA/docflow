@@ -11,6 +11,7 @@ Goal: make DocFlow ready for `awesome-codex-plugins` submission requirements by 
 | 2 | Pin existing checkout action | shipped | Existing CI now uses the v4.2.2 commit SHA |
 | 3 | Extend CI test coverage | shipped | CI runs validation and readiness-check regression tests |
 | 4 | Add Codex marketplace icon | shipped | Manifest now exposes `interface.composerIcon` for curated-list validation |
+| 5 | Include helper scripts in Codex bundle | shipped | Manifest now exposes `scripts` so installed skills can call the backend |
 
 ## Update Log
 
@@ -18,3 +19,4 @@ Goal: make DocFlow ready for `awesome-codex-plugins` submission requirements by 
 |------|--------|-----|
 | 2026-06-14 | Added scanner workflow and CI hardening for marketplace readiness. | `.github/workflows/hol-plugin-scanner.yml` |
 | 2026-06-14 | Added SVG composer icon for marketplace bundle validation. | `.codex-plugin/plugin.json` |
+| 2026-06-14 | Added script bundle path for installable Codex packages. | `.codex-plugin/plugin.json` |

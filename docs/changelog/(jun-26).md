@@ -93,5 +93,5 @@
 | | |
 |---|---|
 | **Outcome** | DocFlow is prepared for `awesome-codex-plugins` scanner-gated submission requirements. |
-| **Delivered** | Added HOL Plugin Scanner workflow, pinned checkout action in CI, expanded CI to run validation/readiness tests, and added a Codex composer icon. |
+| **Delivered** | Added HOL Plugin Scanner workflow, pinned checkout action in CI, expanded CI to run validation/readiness tests, added a Codex composer icon, and exposed helper scripts in the Codex bundle. |
 | **Refs** | local |
