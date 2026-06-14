@@ -1,3 +1,4 @@
+<!-- docflow: feature doc. Message-driven feature planning command. -->
 # Feature — Message-Driven Feature Plan
 
 > **Status (2026-06-03):** shipped

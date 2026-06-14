@@ -16,9 +16,11 @@ You are repairing an existing docflow setup.
    - installed helper scripts
    - broken links, if any
    - placeholder docs, if any
+   - validation errors/warnings, if any
 
 ## Rules
 
 - Only safe mutations are allowed: regenerate `INDEX.md` and install missing helper scripts.
 - Do not rewrite content docs, README, ADRs, changelog months, or plans.
 - If broken links or placeholders are found, report them; do not fix content unless the user asks.
+- Run validation after repair. Treat validation errors as blockers and warnings as cleanup.

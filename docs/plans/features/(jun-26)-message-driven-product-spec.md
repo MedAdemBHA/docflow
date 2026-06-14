@@ -1,3 +1,4 @@
+<!-- docflow: feature doc. Message-driven product spec command. -->
 # Feature — Message-Driven Product Spec
 
 > **Status (2026-06-03):** shipped

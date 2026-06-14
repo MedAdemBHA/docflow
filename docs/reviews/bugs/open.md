@@ -1,3 +1,4 @@
+<!-- docflow: bug catalog. Open issues and operational blockers. -->
 # Bugs — Open
 
 | ID | Severity | Symptom | Where | Status |

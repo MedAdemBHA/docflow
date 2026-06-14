@@ -1,3 +1,4 @@
+<!-- docflow: ADR. WHY DocFlow uses plain Markdown and Bash. -->
 # 0001 — Plain Markdown and Bash as the portable core
 
 > **Status:** Accepted
@@ -30,3 +31,9 @@ Keep DocFlow's durable state as Markdown files and `docflow.json`, with Bash/cor
 - **Node CLI** — better cross-platform packaging, but adds runtime/package-manager dependency.
 - **Python CLI** — readable and portable, but still adds a runtime expectation to every target repo.
 - **Hosted docs service** — richer UX, but changes DocFlow from repo-native memory into a SaaS.
+
+## Update Log
+
+| Date | Change | Ref |
+|------|--------|-----|
+| 2026-06-14 | Added metadata and update-log coverage for validation. | `docflow-validate` |

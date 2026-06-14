@@ -74,3 +74,10 @@
 | **Outcome** | Users can understand each command from README/reference tables, and generated docs are easier to browse visually. |
 | **Delivered** | Command docs grouped by need/output; cleaner light `index.html` portal; clearer autocomplete descriptions; plugin manifests bumped to `0.2.2`. |
 | **Refs** | local |
+
+### 10. Document validation and update logs
+| | |
+|---|---|
+| **Outcome** | Agents can block objectively broken docs before reporting documentation work complete. |
+| **Delivered** | `docflow-validate.sh`; `/docflow:docflow-validate`; `docs-validate`; doctor validation summary; helper install wiring; template update-log sections; plugin manifests bumped to `0.2.3`. |
+| **Refs** | local |

@@ -24,3 +24,4 @@ Scans `TODO/FIXME/HACK/XXX` markers + git churn (last N days) → writes `<DOCS_
 - These produce **drafts**. Never ship an unverified auto-spec — the agent/dev curates first.
 - Re-run after big code changes to refresh the discovered surface.
 - Regenerate `INDEX.md` afterward: `bash "${CLAUDE_PLUGIN_ROOT}/scripts/docflow-map.sh" "$CLAUDE_PROJECT_DIR/<DOCS_ROOT>"`.
+- Validate before reporting completion: `bash "${CLAUDE_PLUGIN_ROOT}/scripts/docflow-validate.sh" --target "$CLAUDE_PROJECT_DIR"`.

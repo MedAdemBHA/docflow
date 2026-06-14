@@ -23,3 +23,9 @@
 
 - **<Alternative A>** — <why rejected>
 - **<Alternative B>** — <why rejected>
+
+## Update Log
+
+| Date | Change | Ref |
+|------|--------|-----|
+| <YYYY-MM-DD> | Created ADR. | `<source>` |

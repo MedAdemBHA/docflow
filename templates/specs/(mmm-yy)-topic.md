@@ -24,3 +24,9 @@ Related:
 - Plan: [`plans/features/(mmm-yy)-<feature>.md`](<../plans/features/(mmm-yy)-<feature>.md>)
 - Review: [`reviews/active/(mmm-yy)-<topic>.md`](<../reviews/active/(mmm-yy)-<topic>.md>)
 - Decisions: [ADR NNNN](../decisions/NNNN-<title>.md)
+
+## Update Log
+
+| Date | Change | Ref |
+|------|--------|-----|
+| <YYYY-MM-DD> | Created technical spec. | `<source>` |

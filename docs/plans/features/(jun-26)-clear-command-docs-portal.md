@@ -1,3 +1,4 @@
+<!-- docflow: feature doc. Command reference clarity and docs portal cleanup. -->
 # Feature — Clear Command Docs Portal
 
 > **Status (2026-06-03):** shipped

@@ -23,7 +23,7 @@ DocFlow is a lightweight documentation-memory system for AI coding agents. It sc
 - Audits existing repos before setup, then recommends init, adopt, or repair.
 - Adds a monthly append-only changelog so agents and humans can see what shipped recently.
 - Provides Claude Code skills plus a read-only `SessionStart` hook that prints the docs map and newest real changelog entry.
-- Provides clear Claude commands for setup, repair, feature plans, and product WHAT docs.
+- Provides clear Claude commands for setup, repair, validation, feature plans, and product WHAT docs.
 - Provides a Codex plugin manifest and an `AGENTS.md` template for repo-aware agent guidance.
 - Ships a clean browser docs portal at `docs/index.html`.
 - Keeps everything as plain Markdown plus small Bash scripts.
@@ -106,6 +106,7 @@ Use in a target repo:
 | New repo docs | `/docflow:docflow-init` | Creates the docs tree only when no meaningful docs exist |
 | Existing docs | `/docflow:docflow-adopt` | Adds docflow around current user-authored docs without rewriting them |
 | Fix generated docs helpers | `/docflow:docflow-repair` | Regenerates `INDEX.md`, installs helpers, reports link/placeholders |
+| Validate docs before completion | `/docflow:docflow-validate` | Fails on blocking doc issues and reports metadata/update-log cleanup warnings |
 | Plan a feature | `/docflow:docflow-feature-plan <msg>` | Guides the agent to create or update `plans/features/(mmm-yy)-<slug>.md` |
 | Describe product behavior | `/docflow:docflow-product-spec <msg or code path>` | Guides the agent to create or update `product-spec/` WHAT docs |
 | Draft from code signals | `/docflow:docflow-scan` | Generates spec/roadmap drafts from code, TODOs, and git churn |
@@ -221,6 +222,7 @@ Use these script commands for existing repos:
 ```bash
 bash /path/to/docflow/scripts/docflow-adopt.sh --target /path/to/repo --docs-root docs --project "Project Name"
 bash /path/to/docflow/scripts/docflow-repair.sh --target /path/to/repo
+bash /path/to/docflow/scripts/docflow-validate.sh --target /path/to/repo
 ```
 
 ## Trust And Safety

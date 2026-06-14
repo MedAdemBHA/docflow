@@ -16,3 +16,9 @@
 - HOW: [`specs/(mmm-yy)-<topic>.md`](<../specs/(mmm-yy)-<topic>.md>)
 - WHY: [ADR NNNN](../decisions/NNNN-<title>.md)
 - Status / log: [`plans/features/(mmm-yy)-<feature>.md`](<../plans/features/(mmm-yy)-<feature>.md>)
+
+## Update Log
+
+| Date | Change | Ref |
+|------|--------|-----|
+| <YYYY-MM-DD> | Created product module spec. | `<source>` |

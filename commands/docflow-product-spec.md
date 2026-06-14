@@ -57,6 +57,10 @@ $ARGUMENTS
    ```bash
    bash "$CLAUDE_PROJECT_DIR/scripts/check-links.sh" "$CLAUDE_PROJECT_DIR/$DOCS_ROOT"
    ```
+11. Run validation if available:
+   ```bash
+   bash "$CLAUDE_PROJECT_DIR/scripts/docflow-validate.sh" --target "$CLAUDE_PROJECT_DIR"
+   ```
 
 ## Report
 

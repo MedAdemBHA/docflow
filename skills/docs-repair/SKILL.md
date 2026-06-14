@@ -1,6 +1,6 @@
 ---
 name: docs-repair
-description: Safe maintenance for an existing docflow setup. Regenerates INDEX.md, installs missing helper scripts, runs link checks, and reports placeholder docs. Use when docflow exists, after adding or renaming docs, or when docs-doctor recommends docflow-repair.
+description: Safe maintenance for an existing docflow setup. Regenerates INDEX.md, installs missing helper scripts, runs link checks, and reports placeholder/validation issues. Use when docflow exists, after adding or renaming docs, or when docs-doctor recommends docflow-repair.
 ---
 
 # docs-repair
@@ -27,4 +27,4 @@ bash scripts/docflow-repair.sh --target <REPO ROOT>
 - roadmap/plans
 - existing project docs
 
-Report broken links and placeholders instead of fixing them unless the user asks.
+Report broken links, placeholders, and validation warnings instead of fixing content unless the user asks.

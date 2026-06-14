@@ -1,3 +1,4 @@
+<!-- docflow: technical spec. Shared plugin workflow and command architecture. -->
 # Plugin Workflow — Technical Specification
 
 **Module:** `scripts/`, `commands/`, `skills/`, `hooks/`
@@ -22,6 +23,7 @@
 | init | safe create-only | Runs doctor first; scaffolds only when no meaningful docs exist |
 | adopt | safe create-only | Adds missing docflow infrastructure around existing docs; writes an adoption review |
 | repair | generated/helper only | Regenerates `INDEX.md`, installs missing helpers, reports links/placeholders |
+| validate | none | Checks docs readiness and exits non-zero when blocking errors exist |
 | feature-plan | content doc | Uses the user's message as a source brief, then creates or merges a dated `plans/features/` status doc |
 | product-spec | content doc | Uses a brief or code path as evidence, then creates or merges `product-spec/` WHAT docs with `TBD` for unclear product facts |
 | docs portal | static UI | Reads `INDEX.md`, groups docs by folder, filters entries, and renders Markdown client-side |
@@ -36,13 +38,28 @@
 | changelog month | Filename `mmm-yy.md` or `(mmm-yy).md`; hook sorts by filename date, not mtime |
 | root guidance | `AGENTS.md`, `GEMINI.md`, `.cursorrules` point agents at docs and changelog |
 
+## API
+
+| Command | Contract |
+|---------|----------|
+| `scripts/docflow-validate.sh --target <repo> [--docs-root docs]` | Prints status, errors, and warnings; exits `1` only when validation errors exist |
+| `/docflow:docflow-validate` | Claude command wrapper around the validation script |
+| `docs-validate` | Codex skill wrapper around the validation script |
+
 ## Safety Rules
 
 - Existing files are skipped, not overwritten.
 - Placeholder replacement only runs on files created during the current scaffold.
 - Doctor is read-only and exits `0` for normal repo states.
+- Validate is read-only and exits non-zero only for objective blockers.
 - Hook is read-only, token-light, and exits `0` on every path.
 - Repair only mutates generated/helper files.
+
+## Update Log
+
+| Date | Change | Ref |
+|------|--------|-----|
+| 2026-06-14 | Added validation gate command and read-only contract. | `docflow-validate` |
 
 ## Risks
 

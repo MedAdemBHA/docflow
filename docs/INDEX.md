@@ -8,6 +8,7 @@ changelog/README.md — Changelog
 decisions/0001-plain-markdown-bash.md — 0001 — Plain Markdown and Bash as the portable core
 decisions/README.md — Architecture Decision Records
 plans/features/(jun-26)-clear-command-docs-portal.md — Feature — Clear Command Docs Portal
+plans/features/(jun-26)-document-validation.md — Feature — Document Validation And Update Logs
 plans/features/(jun-26)-message-driven-feature-plan.md — Feature — Message-Driven Feature Plan
 plans/features/(jun-26)-message-driven-product-spec.md — Feature — Message-Driven Product Spec
 plans/upcoming/README.md — Upcoming — Roadmap
@@ -21,4 +22,5 @@ references/glossary.md — Glossary
 reviews/README.md — Codebase Review — Current State
 reviews/bugs/fixed.md — Bugs — Fixed
 reviews/bugs/open.md — Bugs — Open
+specs/(jun-26)-document-validation.md — Document Validation — Technical Specification
 specs/(jun-26)-plugin-workflow.md — Plugin Workflow — Technical Specification

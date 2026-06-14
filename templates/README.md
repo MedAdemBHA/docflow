@@ -60,6 +60,7 @@ docs/
 | Initialize empty docs | `/docflow:docflow-init` |
 | Adopt existing docs | `/docflow:docflow-adopt` |
 | Repair generated map/helpers | `/docflow:docflow-repair` |
+| Validate docs before completion | `/docflow:docflow-validate` |
 | Create a feature plan | `/docflow:docflow-feature-plan <msg>` |
 | Draft product WHAT docs | `/docflow:docflow-product-spec <msg or code path>` |
 

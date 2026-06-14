@@ -30,7 +30,9 @@ You are setting up a **docflow** knowledge base in this repository.
 
 7. **Map.** The scaffold auto-generates `<DOCS_ROOT>/INDEX.md` (compact `path — purpose` tree). Re-run `bash "${CLAUDE_PLUGIN_ROOT}/scripts/docflow-map.sh" "$CLAUDE_PROJECT_DIR/<DOCS_ROOT>"` after adding/renaming docs — this is the one file an agent reads to know the whole tree without scanning it.
 
-8. **Report** what was created and point the user at the `docs-author` (writing), `docs-router` (reading), and `docs-repair` (maintenance) skills.
+8. **Validate.** Run `bash "${CLAUDE_PLUGIN_ROOT}/scripts/docflow-validate.sh" --target "$CLAUDE_PROJECT_DIR"`. Fresh template placeholders are warnings; validation errors are blockers.
+
+9. **Report** what was created and point the user at the `docs-author` (writing), `docs-router` (reading), `docs-validate` (readiness), and `docs-repair` (maintenance) skills.
 
 ## Rules
 - Do not rewrite existing user-authored docs; scaffold skips existing content files, while generated files may be refreshed.

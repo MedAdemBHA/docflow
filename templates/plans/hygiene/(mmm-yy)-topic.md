@@ -8,3 +8,9 @@ Goal: <what cleanup, and why now.>
 | # | Task | Status | Notes |
 |---|------|--------|-------|
 | 1 | <task> | done / in-progress / todo | <note> |
+
+## Update Log
+
+| Date | Change | Ref |
+|------|--------|-----|
+| <YYYY-MM-DD> | Created hygiene plan. | `<source>` |

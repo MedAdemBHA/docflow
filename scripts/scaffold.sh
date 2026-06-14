@@ -121,7 +121,7 @@ done < <(find "$REPO_TPL" -type f)
 # install the helper scripts the scaffolded docs reference, so commands like
 # `bash scripts/check-links.sh docs` work from the target repo root (idempotent)
 SCRIPTS_DEST="$TARGET/scripts"
-for helper in check-links.sh docflow-doctor.sh docflow-map.sh docflow-repair.sh; do
+for helper in check-links.sh docflow-doctor.sh docflow-map.sh docflow-repair.sh docflow-validate.sh; do
   src="$SCRIPT_DIR/$helper"
   out="$SCRIPTS_DEST/$helper"
   [ -f "$src" ] || continue

@@ -1,6 +1,6 @@
 # DocFlow — Documentation
 
-> Last updated: 2026-06-03
+> Last updated: 2026-06-14
 > Rules: [NAMING.md](NAMING.md)
 
 ## Open First
@@ -22,6 +22,7 @@
 | Document | Description |
 |----------|-------------|
 | [Plugin workflow](<specs/(jun-26)-plugin-workflow.md>) | Doctor/adopt/repair/init flow, script backend, hook behavior, and agent surfaces |
+| [Document validation](<specs/(jun-26)-document-validation.md>) | Validation gate, metadata/update-log checks, blocker severity, and command wrappers |
 
 ## References
 
@@ -38,6 +39,7 @@
 | Initialize empty docs | `/docflow:docflow-init` |
 | Adopt existing docs | `/docflow:docflow-adopt` |
 | Repair generated map/helpers | `/docflow:docflow-repair` |
+| Validate docs before completion | `/docflow:docflow-validate` |
 | Create a feature plan | `/docflow:docflow-feature-plan <msg>` |
 | Draft product WHAT docs | `/docflow:docflow-product-spec <msg or code path>` |
 
@@ -51,6 +53,7 @@
 
 - [Roadmap](plans/upcoming/README.md) — [critical](plans/upcoming/critical.md) / [now](plans/upcoming/now.md) / [next](plans/upcoming/next.md) / [later](plans/upcoming/later.md)
 - Features: [Clear command docs portal](<plans/features/(jun-26)-clear-command-docs-portal.md>) — README command clarity and clean browser portal
+- Features: [Document validation and update logs](<plans/features/(jun-26)-document-validation.md>) — validation gate for metadata, update logs, links, maps, and blockers
 - Features: [Message-driven feature plan](<plans/features/(jun-26)-message-driven-feature-plan.md>) — `/docflow-feature-plan <msg>` status + feature log
 - Features: [Message-driven product spec](<plans/features/(jun-26)-message-driven-product-spec.md>) — `/docflow-product-spec <msg or code path>` status + feature log
 

@@ -21,3 +21,9 @@
 - `specs/` = HOW
 - `decisions/` = WHY
 - `changelog/` = shipped
+
+## Update Log
+
+| Date | Change | Ref |
+|------|--------|-----|
+| <YYYY-MM-DD> | Created product overview. | `docflow-init` |

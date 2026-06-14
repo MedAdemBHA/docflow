@@ -65,7 +65,7 @@ if [ ! -d "$DR" ]; then
 fi
 
 mkdir -p "$TARGET/scripts"
-for helper in check-links.sh docflow-map.sh; do
+for helper in check-links.sh docflow-map.sh docflow-validate.sh; do
   src="$SCRIPT_DIR/$helper"
   out="$TARGET/scripts/$helper"
   [ -f "$src" ] || continue
@@ -88,7 +88,7 @@ fi
 
 echo
 echo "Placeholders"
-placeholder_files="$(grep -RIlE '<(PROJECT|YYYY-MM-DD|Month YEAR|topic|item|description|title|name|scope|owner|status|hash|feature|module)>' "$DR" 2>/dev/null || true)"
+placeholder_files="$(grep -RIlE '<(PROJECT|YYYY-MM-DD|Month YEAR|topic|item|description|title|name|scope|owner|status|hash|feature|module)>' "$DR" 2>/dev/null | grep -vE '/references/|/NAMING\.md$' || true)"
 if [ -n "$placeholder_files" ]; then
   printf '%s\n' "$placeholder_files" | sed "s#^$TARGET/##" | head -40
 else

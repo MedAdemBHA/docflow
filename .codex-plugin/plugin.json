@@ -1,7 +1,7 @@
 {
   "name": "docflow",
-  "version": "0.2.2",
-  "description": "Lightweight documentation memory for AI coding agents.",
+  "version": "0.2.3",
+  "description": "Lightweight documentation memory with validation for AI coding agents.",
   "author": {
     "name": "Mohamed Adem Bel Hadj Amor",
     "url": "https://github.com/MedAdemBHA"
@@ -21,7 +21,7 @@
   "interface": {
     "displayName": "Docflow",
     "shortDescription": "Scaffold lean living docs for any repo",
-    "longDescription": "Create a low-token docs system with product specs, technical specs, decisions, plans, reviews, and monthly changelog memory for AI coding agents.",
+    "longDescription": "Create a low-token docs system with product specs, technical specs, decisions, plans, reviews, validation gates, and monthly changelog memory for AI coding agents.",
     "developerName": "Mohamed Adem Bel Hadj Amor",
     "category": "Productivity",
     "capabilities": [
@@ -34,6 +34,7 @@
     "defaultPrompt": [
       "Initialize docflow in this repo",
       "Inspect this repo with docflow doctor",
+      "Validate docflow docs before finishing",
       "Adopt existing docs into docflow",
       "Route this question to the right project doc",
       "Add this shipped work to the monthly changelog"

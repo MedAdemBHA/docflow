@@ -62,8 +62,11 @@ bash "$ROOT/scripts/check-links.sh" "$target/docs" \
 [ -x "$target/scripts/docflow-map.sh" ] || fail "docflow-map.sh was not scaffolded"
 [ -x "$target/scripts/docflow-doctor.sh" ] || fail "docflow-doctor.sh was not scaffolded"
 [ -x "$target/scripts/docflow-repair.sh" ] || fail "docflow-repair.sh was not scaffolded"
+[ -x "$target/scripts/docflow-validate.sh" ] || fail "docflow-validate.sh was not scaffolded"
 ( cd "$target" && bash scripts/check-links.sh docs ) \
   || fail "scaffolded check-links.sh did not run from target repo root"
+( cd "$target" && bash scripts/docflow-validate.sh --target . >/dev/null ) \
+  || fail "scaffolded docflow-validate.sh did not run from target repo root"
 
 before="$(checksum_tree "$target")"
 bash "$ROOT/scripts/scaffold.sh" \

@@ -57,6 +57,7 @@ placeholder_count() {
   dir="$1"
   [ -d "$dir" ] || { printf '0'; return; }
   grep -RIlE '<(PROJECT|YYYY-MM-DD|Month YEAR|topic|item|description|title|name|scope|owner|status|hash|feature|module)>' "$dir" 2>/dev/null \
+    | grep -vE '/references/|/NAMING\.md$' \
     | wc -l | tr -d ' '
 }
 
@@ -113,6 +114,7 @@ gemini="$(exists_mark "$TARGET/GEMINI.md")"
 cursor="$(exists_mark "$TARGET/.cursorrules")"
 helper_map="$(exists_mark "$TARGET/scripts/docflow-map.sh")"
 helper_links="$(exists_mark "$TARGET/scripts/check-links.sh")"
+helper_validate="$(exists_mark "$TARGET/scripts/docflow-validate.sh")"
 
 existing_docs="no"
 if [ -n "$ROOT" ] || [ -f "$TARGET/README.md" ] || [ -f "$TARGET/CHANGELOG.md" ] || [ -d "$TARGET/adr" ] || [ -d "$TARGET/docs" ] || [ -d "$TARGET/documentation" ]; then
@@ -123,6 +125,7 @@ md_count="0"
 placeholder_files="0"
 changelog_months="0"
 broken_links="not checked"
+validation_status="not checked"
 if [ "$docs_root_exists" = "yes" ]; then
   md_count="$(count_md "$DR")"
   placeholder_files="$(placeholder_count "$DR")"
@@ -135,6 +138,16 @@ if [ "$docs_root_exists" = "yes" ]; then
       broken_links="$(printf '%s\n' "$link_output" | wc -l | tr -d ' ')"
     else
       broken_links="0"
+    fi
+  fi
+  if [ -f "$SCRIPT_DIR/docflow-validate.sh" ]; then
+    validation_output="$(bash "$SCRIPT_DIR/docflow-validate.sh" --target "$TARGET" --docs-root "$ROOT" 2>/dev/null)"
+    validation_exit="$?"
+    validation_summary="$(printf '%s\n' "$validation_output" | grep -E '^- errors: |^- warnings: ' | paste -sd ' ' -)"
+    if [ "$validation_exit" = "0" ]; then
+      validation_status="pass ${validation_summary:-}"
+    else
+      validation_status="fail ${validation_summary:-}"
     fi
   fi
 fi
@@ -159,7 +172,8 @@ echo "- markdown files in docs root: $md_count"
 echo "- changelog month files: $changelog_months"
 echo "- README documentation link: $readme_docs_link"
 echo "- agent guidance: AGENTS=$agents GEMINI=$gemini Cursor=$cursor"
-echo "- helper scripts: map=$helper_map links=$helper_links"
+echo "- helper scripts: map=$helper_map links=$helper_links validate=$helper_validate"
+echo "- validation: $validation_status"
 echo
 
 echo "Missing"
@@ -171,7 +185,8 @@ echo "Missing"
 [ "$cursor" = "yes" ] || echo "- .cursorrules"
 [ "$helper_map" = "yes" ] || echo "- scripts/docflow-map.sh"
 [ "$helper_links" = "yes" ] || echo "- scripts/check-links.sh"
-if [ "$docflow_config$docs_root_exists$readme_docs_link$agents$gemini$cursor$helper_map$helper_links" = "yesyesyesyesyesyesyesyes" ]; then
+[ "$helper_validate" = "yes" ] || echo "- scripts/docflow-validate.sh"
+if [ "$docflow_config$docs_root_exists$readme_docs_link$agents$gemini$cursor$helper_map$helper_links$helper_validate" = "yesyesyesyesyesyesyesyesyes" ]; then
   echo "- none"
 fi
 echo

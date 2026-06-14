@@ -1,3 +1,4 @@
+<!-- docflow: product-spec entry point. WHAT DocFlow is and which modules it exposes. -->
 # DocFlow — Product Specification Overview
 
 > **App Name:** DocFlow
@@ -29,6 +30,7 @@ DocFlow gives a software repository a structured, low-token documentation memory
 | 7 | Feature plan command | Turns a short feature request into a dated feature plan with status, log, next steps, and doc follow-ups |
 | 8 | Product spec command | Turns a feature brief or code path into product WHAT docs without guessing unclear behavior |
 | 9 | Docs portal | Provides a clean browser view over `docs/INDEX.md`, command docs, plans, and changelog files |
+| 10 | Validation gate | Blocks objectively broken docs before an agent reports documentation work complete |
 
 ## Success Criteria
 
@@ -37,7 +39,13 @@ DocFlow gives a software repository a structured, low-token documentation memory
 | Safety | Doctor is read-only; hook never fails sessions; adopt/repair never rewrite content docs |
 | Portability | Works with Bash/coreutils and Markdown; no jq, DB, server, or SaaS dependency |
 | Discoverability | One generated `docs/INDEX.md` maps paths to purpose |
-| Maintenance | Tests cover scaffold idempotency, changelog ordering, doctor, adopt, and repair |
+| Maintenance | Tests cover scaffold idempotency, changelog ordering, doctor, adopt, repair, and validation |
+
+## Update Log
+
+| Date | Change | Ref |
+|------|--------|-----|
+| 2026-06-14 | Added validation/readiness as a core module. | `docflow-validate` |
 
 ## Non-Goals
 

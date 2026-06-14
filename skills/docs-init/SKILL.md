@@ -43,10 +43,11 @@ bash scripts/scaffold.sh --docs-root <DOCS_ROOT> --project "<PROJECT NAME>" --ta
    - `AGENTS.md`
    - `GEMINI.md`
    - `.cursorrules`
+   - validation status
 
 ## Rules
 
 - Never overwrite existing user-authored docs files.
 - If docs already exist, prefer `docs-adopt` over `docs-init`.
 - Keep `AGENTS.md` and `docflow.json` aligned on docs root.
-- After scaffold, use `docs-author` for new docs, `docs-changelog` for shipped work, and `docs-repair` after renames.
+- After scaffold, run `docs-validate`, use `docs-author` for new docs, `docs-changelog` for shipped work, and `docs-repair` after renames.
