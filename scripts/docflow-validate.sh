@@ -104,7 +104,7 @@ is_known_template_placeholder_path() {
     INDEX.md|README.md|product-spec/00-overview.md|product-spec/NN-topic.md|specs/'(mmm-yy)'-topic.md|plans/features/'(mmm-yy)'-feature-name.md|plans/hygiene/'(mmm-yy)'-topic.md|plans/upcoming/README.md|plans/upcoming/critical.md|plans/upcoming/now.md|plans/upcoming/next.md|plans/upcoming/later.md|decisions/README.md|decisions/0001-title.md|changelog/README.md|changelog/'(mmm-yy)'.md|reviews/README.md|reviews/bugs/open.md|reviews/bugs/fixed.md)
       return 0
       ;;
-    *'<PROJECT>'*|*'<topic>'*|*'<feature>'*|*'<title>'*|*'NN-'*|*'NNNN-'*|*'(mmm-yy)'*)
+    *'<PROJECT>'*|*'<topic>'*|*'<feature>'*|*'<title>'*|*'NN-'*|*'(mmm-yy)'*)
       return 0
       ;;
   esac

@@ -58,7 +58,7 @@ placeholder_count() {
   [ -d "$dir" ] || { printf '0'; return; }
   grep -RIlE '<(PROJECT|YYYY-MM-DD|Month YEAR|topic|item|description|title|name|scope|owner|status|hash|feature|module)>' "$dir" 2>/dev/null \
     | grep -vE '/references/|/NAMING\.md$' \
-    | wc -l | tr -d ' '
+    | awk 'END { print NR }'
 }
 
 detect_docs_root() {
