@@ -31,6 +31,7 @@
     ],
     "websiteURL": "https://github.com/MedAdemBHA/docflow",
     "brandColor": "#1F6FEB",
+    "composerIcon": "./assets/icon.svg",
     "defaultPrompt": [
       "Check whether DocFlow is ready in this repo",
       "Initialize docflow in this repo",
