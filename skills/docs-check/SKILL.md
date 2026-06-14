@@ -1,6 +1,6 @@
 ---
 name: docs-check
-description: Friendly DocFlow readiness check. Gives one status, one reason, and the exact next command: init, adopt, repair, validate, or ready. Use when the user asks if docflow is set up, usable, clean, ready, or what to do next.
+description: "Friendly DocFlow readiness check. Gives one status, one reason, and the exact next command: init, adopt, repair, validate, or ready. Use when the user asks if docflow is set up, usable, clean, ready, or what to do next."
 ---
 
 # docs-check
