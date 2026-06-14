@@ -7,6 +7,7 @@ Claude Code may expose commands as `/docflow:docflow-*` after plugin install. If
 
 | Need | Command | Output |
 |------|---------|--------|
+| Check readiness | `/docflow:docflow-check` | One status: ready, needs setup, needs adoption, needs repair, or blocked |
 | Inspect a repo | `/docflow:docflow-doctor` | Read-only recommendation: init, adopt, repair, or OK |
 | Start empty docs | `/docflow:docflow-init` | `docs/`, `docflow.json`, guidance files, helpers |
 | Adopt existing docs | `/docflow:docflow-adopt` | Missing docflow infrastructure; existing docs preserved |
@@ -20,6 +21,7 @@ Claude Code may expose commands as `/docflow:docflow-*` after plugin install. If
 
 | Example | Use when |
 |---------|----------|
+| `/docflow:docflow-check` | You want one answer for whether DocFlow is usable and what to do next |
 | `/docflow:docflow-doctor` | You just opened a repo and need the right setup path |
 | `/docflow:docflow-validate` | You changed docs and need to know whether anything blocks completion |
 | `/docflow:docflow-feature-plan add team comments to documents` | You know the feature idea and need a status/log doc |
@@ -30,6 +32,7 @@ Claude Code may expose commands as `/docflow:docflow-*` after plugin install. If
 
 | Skill | Use it for |
 |-------|------------|
+| `docs-check` | One-screen readiness status and next command |
 | `docs-doctor` | Same read-only diagnosis as `/docflow:docflow-doctor` |
 | `docs-init` | Initialize when doctor recommends init |
 | `docs-adopt` | Adopt existing docs without overwriting |
@@ -43,6 +46,7 @@ Claude Code may expose commands as `/docflow:docflow-*` after plugin install. If
 
 | Script | Safe to run anytime? | Purpose |
 |--------|----------------------|---------|
+| `scripts/docflow-check.sh --target <repo>` | Yes | One-screen readiness status and next command |
 | `scripts/docflow-doctor.sh --target <repo>` | Yes | Read-only repo diagnosis |
 | `scripts/scaffold.sh --target <repo> --docs-root docs --project "Name"` | New docs setup only | Create full docflow tree without overwriting files |
 | `scripts/docflow-adopt.sh --target <repo> --docs-root docs --project "Name"` | Explicit setup only | Create missing infrastructure around existing docs |

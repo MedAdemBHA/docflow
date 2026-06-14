@@ -81,3 +81,10 @@
 | **Outcome** | Agents can block objectively broken docs before reporting documentation work complete. |
 | **Delivered** | `docflow-validate.sh`; `/docflow:docflow-validate`; `docs-validate`; doctor validation summary; helper install wiring; template update-log sections; plugin manifests bumped to `0.2.3`. |
 | **Refs** | local |
+
+### 11. Friendly readiness check
+| | |
+|---|---|
+| **Outcome** | Users get one clear DocFlow status and exact next command instead of interpreting multiple diagnostics. |
+| **Delivered** | `docflow-check.sh`; `/docflow:docflow-check`; `docs-check`; scaffold/repair helper wiring; command/reference docs; plugin manifests bumped to `0.2.4`. |
+| **Refs** | local |

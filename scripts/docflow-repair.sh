@@ -65,7 +65,7 @@ if [ ! -d "$DR" ]; then
 fi
 
 mkdir -p "$TARGET/scripts"
-for helper in check-links.sh docflow-map.sh docflow-validate.sh; do
+for helper in check-links.sh docflow-check.sh docflow-map.sh docflow-validate.sh; do
   src="$SCRIPT_DIR/$helper"
   out="$TARGET/scripts/$helper"
   [ -f "$src" ] || continue

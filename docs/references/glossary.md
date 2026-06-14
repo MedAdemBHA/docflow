@@ -3,6 +3,7 @@
 
 | Term | Meaning |
 |------|---------|
+| Check | Friendly one-screen readiness result with exact next command |
 | Doctor | Read-only scan that recommends init, adopt, or repair |
 | Init | Create a fresh docflow docs tree for repos without meaningful docs |
 | Adopt | Add docflow infrastructure around existing docs without overwriting them |

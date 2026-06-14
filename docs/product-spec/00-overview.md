@@ -31,6 +31,7 @@ DocFlow gives a software repository a structured, low-token documentation memory
 | 8 | Product spec command | Turns a feature brief or code path into product WHAT docs without guessing unclear behavior |
 | 9 | Docs portal | Provides a clean browser view over `docs/INDEX.md`, command docs, plans, and changelog files |
 | 10 | Validation gate | Blocks objectively broken docs before an agent reports documentation work complete |
+| 11 | Readiness check | Gives users one status and the exact next command for setup, adoption, repair, or blockers |
 
 ## Success Criteria
 
@@ -46,6 +47,7 @@ DocFlow gives a software repository a structured, low-token documentation memory
 | Date | Change | Ref |
 |------|--------|-----|
 | 2026-06-14 | Added validation/readiness as a core module. | `docflow-validate` |
+| 2026-06-14 | Added one-screen usability check as a core module. | `docflow-check` |
 
 ## Non-Goals
 

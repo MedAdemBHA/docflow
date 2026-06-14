@@ -56,6 +56,7 @@ docs/
 ## Commands
 | Need | Command |
 |------|---------|
+| Check if DocFlow is ready | `/docflow:docflow-check` |
 | Inspect repo docs | `/docflow:docflow-doctor` |
 | Initialize empty docs | `/docflow:docflow-init` |
 | Adopt existing docs | `/docflow:docflow-adopt` |

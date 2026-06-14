@@ -23,7 +23,7 @@ DocFlow is a lightweight documentation-memory system for AI coding agents. It sc
 - Audits existing repos before setup, then recommends init, adopt, or repair.
 - Adds a monthly append-only changelog so agents and humans can see what shipped recently.
 - Provides Claude Code skills plus a read-only `SessionStart` hook that prints the docs map and newest real changelog entry.
-- Provides clear Claude commands for setup, repair, validation, feature plans, and product WHAT docs.
+- Provides clear Claude commands for readiness checks, setup, repair, validation, feature plans, and product WHAT docs.
 - Provides a Codex plugin manifest and an `AGENTS.md` template for repo-aware agent guidance.
 - Ships a clean browser docs portal at `docs/index.html`.
 - Keeps everything as plain Markdown plus small Bash scripts.
@@ -102,6 +102,7 @@ Use in a target repo:
 
 | Need | Claude command | What it does |
 |------|----------------|--------------|
+| Check readiness | `/docflow:docflow-check` | Shows one status and the exact next command |
 | Inspect docs state | `/docflow:docflow-doctor` | Read-only scan; recommends init, adopt, or repair |
 | New repo docs | `/docflow:docflow-init` | Creates the docs tree only when no meaningful docs exist |
 | Existing docs | `/docflow:docflow-adopt` | Adds docflow around current user-authored docs without rewriting them |

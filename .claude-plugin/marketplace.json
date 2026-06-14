@@ -9,7 +9,7 @@
   "plugins": [
     {
       "name": "docflow",
-      "description": "Scaffold a 7-category docs tree, validate metadata/update logs/links, enforce naming + cross-linking, and auto-load the newest real changelog entry each session.",
+      "description": "Show one readiness status, scaffold a 7-category docs tree, validate metadata/update logs/links, enforce naming + cross-linking, and auto-load the newest real changelog entry each session.",
       "source": "./",
       "category": "productivity"
     }

@@ -2,7 +2,7 @@
 # Plugin Workflow — Technical Specification
 
 **Module:** `scripts/`, `commands/`, `skills/`, `hooks/`
-**Entry:** `/docflow-doctor`, `/docflow-init`, `/docflow-adopt`, `/docflow-repair`
+**Entry:** `/docflow-check`, `/docflow-doctor`, `/docflow-init`, `/docflow-adopt`, `/docflow-repair`
 
 ## Architecture
 
@@ -19,6 +19,7 @@
 
 | Command | Mutation | Behavior |
 |---------|----------|----------|
+| check | none | Summarizes readiness as ready, needs setup, needs adoption, needs repair, or blocked |
 | doctor | none | Scans config, docs roots, guidance files, changelog months, helpers, placeholders, and links |
 | init | safe create-only | Runs doctor first; scaffolds only when no meaningful docs exist |
 | adopt | safe create-only | Adds missing docflow infrastructure around existing docs; writes an adoption review |
@@ -42,6 +43,7 @@
 
 | Command | Contract |
 |---------|----------|
+| `scripts/docflow-check.sh --target <repo> [--docs-root docs]` | Prints one readiness status and exact next command; exits `0` only when ready |
 | `scripts/docflow-validate.sh --target <repo> [--docs-root docs]` | Prints status, errors, and warnings; exits `1` only when validation errors exist |
 | `/docflow:docflow-validate` | Claude command wrapper around the validation script |
 | `docs-validate` | Codex skill wrapper around the validation script |
@@ -60,6 +62,7 @@
 | Date | Change | Ref |
 |------|--------|-----|
 | 2026-06-14 | Added validation gate command and read-only contract. | `docflow-validate` |
+| 2026-06-14 | Added one-screen readiness check for usability. | `docflow-check` |
 
 ## Risks
 

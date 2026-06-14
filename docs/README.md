@@ -35,6 +35,7 @@
 
 | Need | Command |
 |------|---------|
+| Check if DocFlow is ready | `/docflow:docflow-check` |
 | Inspect repo docs | `/docflow:docflow-doctor` |
 | Initialize empty docs | `/docflow:docflow-init` |
 | Adopt existing docs | `/docflow:docflow-adopt` |
@@ -54,6 +55,7 @@
 - [Roadmap](plans/upcoming/README.md) — [critical](plans/upcoming/critical.md) / [now](plans/upcoming/now.md) / [next](plans/upcoming/next.md) / [later](plans/upcoming/later.md)
 - Features: [Clear command docs portal](<plans/features/(jun-26)-clear-command-docs-portal.md>) — README command clarity and clean browser portal
 - Features: [Document validation and update logs](<plans/features/(jun-26)-document-validation.md>) — validation gate for metadata, update logs, links, maps, and blockers
+- Features: [Friendly readiness check](<plans/features/(jun-26)-friendly-readiness-check.md>) — one-screen status and next command for usability
 - Features: [Message-driven feature plan](<plans/features/(jun-26)-message-driven-feature-plan.md>) — `/docflow-feature-plan <msg>` status + feature log
 - Features: [Message-driven product spec](<plans/features/(jun-26)-message-driven-product-spec.md>) — `/docflow-product-spec <msg or code path>` status + feature log
 
