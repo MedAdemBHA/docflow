@@ -53,6 +53,7 @@
 ## Plans
 
 - [Roadmap](plans/upcoming/README.md) — [critical](plans/upcoming/critical.md) / [now](plans/upcoming/now.md) / [next](plans/upcoming/next.md) / [later](plans/upcoming/later.md)
+- Hygiene: [Marketplace readiness](<plans/hygiene/(jun-26)-marketplace-readiness.md>) — HOL scanner workflow and CI hardening for plugin listing
 - Features: [Clear command docs portal](<plans/features/(jun-26)-clear-command-docs-portal.md>) — README command clarity and clean browser portal
 - Features: [Document validation and update logs](<plans/features/(jun-26)-document-validation.md>) — validation gate for metadata, update logs, links, maps, and blockers
 - Features: [Friendly readiness check](<plans/features/(jun-26)-friendly-readiness-check.md>) — one-screen status and next command for usability

@@ -88,3 +88,10 @@
 | **Outcome** | Users get one clear DocFlow status and exact next command instead of interpreting multiple diagnostics. |
 | **Delivered** | `docflow-check.sh`; `/docflow:docflow-check`; `docs-check`; scaffold/repair helper wiring; command/reference docs; plugin manifests bumped to `0.2.4`. |
 | **Refs** | local |
+
+### 12. Marketplace readiness
+| | |
+|---|---|
+| **Outcome** | DocFlow is prepared for `awesome-codex-plugins` scanner-gated submission requirements. |
+| **Delivered** | Added HOL Plugin Scanner workflow, pinned checkout action in CI, and expanded CI to run validation/readiness tests. |
+| **Refs** | local |
