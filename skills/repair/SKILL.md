@@ -1,9 +1,9 @@
 ---
-name: docs-repair
-description: Safe maintenance for an existing docflow setup. Regenerates INDEX.md, installs missing helper scripts, runs link checks, and reports placeholder/validation issues. Use when docflow exists, after adding or renaming docs, or when docs-doctor recommends docflow-repair.
+name: repair
+description: 'Safe maintenance for an existing docflow setup: regenerate INDEX.md, install missing helpers, check links, report placeholders. Use after adding/renaming docs or when doctor recommends repair.'
 ---
 
-# docs-repair
+# repair
 
 Goal: safe generated-file maintenance only.
 

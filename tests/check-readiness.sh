@@ -27,7 +27,7 @@ empty_status="$?"
 set -e
 [ "$empty_status" -ne 0 ] || fail "empty repo check should not be ready"
 assert_contains "$empty_output" "- status: Needs setup"
-assert_contains "$empty_output" "- next: /docflow:docflow-init"
+assert_contains "$empty_output" "- next: /docflow:init"
 
 # Existing docs without docflow config should route to adoption.
 legacy="$TMP/legacy"
@@ -44,7 +44,7 @@ legacy_status="$?"
 set -e
 [ "$legacy_status" -ne 0 ] || fail "legacy repo check should not be ready"
 assert_contains "$legacy_output" "- status: Needs adoption"
-assert_contains "$legacy_output" "- next: /docflow:docflow-adopt"
+assert_contains "$legacy_output" "- next: /docflow:adopt"
 
 # Fresh scaffold should be ready even with template warnings.
 ready="$TMP/ready"
@@ -64,7 +64,7 @@ repair_status="$?"
 set -e
 [ "$repair_status" -ne 0 ] || fail "repair repo check should not be ready"
 assert_contains "$repair_output" "- status: Needs repair"
-assert_contains "$repair_output" "- next: /docflow:docflow-repair"
+assert_contains "$repair_output" "- next: /docflow:repair"
 
 # Validation errors should be blocked and point to validate.
 blocked="$TMP/blocked"
@@ -78,7 +78,7 @@ blocked_status="$?"
 set -e
 [ "$blocked_status" -ne 0 ] || fail "blocked repo check should not be ready"
 assert_contains "$blocked_output" "- status: Blocked"
-assert_contains "$blocked_output" "- next: /docflow:docflow-validate"
+assert_contains "$blocked_output" "- next: /docflow:validate"
 assert_contains "$blocked_output" "Top validation errors"
 
 echo "PASS: check readiness"

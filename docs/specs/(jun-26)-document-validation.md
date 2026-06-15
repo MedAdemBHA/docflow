@@ -1,8 +1,8 @@
 <!-- docflow: technical spec. HOW document validation works. -->
 # Document Validation — Technical Specification
 
-**Module:** `scripts/docflow-validate.sh`, `commands/docflow-validate.md`, `skills/docs-validate/`
-**Entry:** `/docflow:docflow-validate`, `docs-validate`
+**Module:** `scripts/docflow-validate.sh`, `skills/validate/`
+**Entry:** `/docflow:validate` (or just ask — the `validate` skill triggers)
 
 ## Architecture
 

@@ -203,15 +203,15 @@ echo
 echo "Recommended next command"
 case "$recommendation" in
   docflow-init)
-    echo "- /docflow-init"
+    echo "- /docflow:init"
     echo "- or: bash scripts/scaffold.sh --target \"$TARGET\" --docs-root docs --project \"$(basename "$TARGET")\""
     ;;
   docflow-adopt)
-    echo "- /docflow-adopt"
+    echo "- /docflow:adopt"
     echo "- or: bash scripts/docflow-adopt.sh --target \"$TARGET\" --docs-root ${ROOT:-docs} --project \"$(basename "$TARGET")\""
     ;;
   *)
-    echo "- /docflow-repair"
+    echo "- /docflow:repair"
     echo "- or: bash scripts/docflow-repair.sh --target \"$TARGET\" --docs-root ${ROOT:-docs}"
     ;;
 esac

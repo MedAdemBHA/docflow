@@ -1,9 +1,9 @@
 ---
-name: docs-router
-description: Generic, project-agnostic router for any repo's documentation. Discovers the docs tree at runtime (README, docs/, *.md, ADRs, specs, changelog), maps a question to the right doc BEFORE reading code, and provides a playbook to share docs + this skill with collaborators on GitHub. Use in ANY project when the user says "where is X documented", "is there a spec/ADR for X", "what's the roadmap", "open bugs", "read the docs about X", "share the docs", "onboard a teammate", "make docs browsable on GitHub".
+name: router
+description: 'Find the right doc before reading code. Use when asked "where is X documented", "is there a spec/ADR for X", "what''s the roadmap", "open bugs", "read the docs about X", or "share the docs".'
 ---
 
-# docs-router
+# router
 
 Project-agnostic. No hardcoded tree — **discover, then route**. Works in any repo.
 
@@ -58,9 +58,9 @@ Three layers — do whichever the user asked for.
 Project skills live at `.claude/skills/<name>/SKILL.md` and are **checked into git** — anyone who pulls + uses Claude Code gets them automatically, zero setup.
 
 ```bash
-mkdir -p .claude/skills/docs-router
-cp ~/.claude/skills/docs-router/SKILL.md .claude/skills/docs-router/SKILL.md   # or author a project-tuned copy
-git add .claude/skills/docs-router && git commit -m "docs: add docs-router skill"
+mkdir -p .claude/skills/router
+cp ~/.claude/skills/router/SKILL.md .claude/skills/router/SKILL.md   # or author a project-tuned copy
+git add .claude/skills/router && git commit -m "docs: add docs router skill"
 ```
 - **Global** copy (`~/.claude/skills/`) = only you, every project.
 - **Project** copy (`.claude/skills/` in repo) = whole team, this repo. Commit it to share.

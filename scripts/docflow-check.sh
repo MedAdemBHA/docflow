@@ -144,22 +144,22 @@ exit_code=0
 
 if [ "$docflow_config" != "yes" ] && [ "$existing_docs" != "yes" ]; then
   status="Needs setup"
-  next="/docflow:docflow-init"
+  next="/docflow:init"
   details="No meaningful docs or docflow config detected."
   exit_code=1
 elif [ "$docflow_config" != "yes" ] || [ "$docs_root_exists" != "yes" ]; then
   status="Needs adoption"
-  next="/docflow:docflow-adopt"
+  next="/docflow:adopt"
   details="Existing docs need docflow infrastructure."
   exit_code=1
 elif [ "${#missing[@]}" -gt 0 ]; then
   status="Needs repair"
-  next="/docflow:docflow-repair"
+  next="/docflow:repair"
   details="Docflow exists, but generated helpers or guidance are missing."
   exit_code=1
 elif [ "$validation_exit" != "0" ]; then
   status="Blocked"
-  next="/docflow:docflow-validate"
+  next="/docflow:validate"
   details="Validation found blocking documentation errors."
   exit_code=1
 fi

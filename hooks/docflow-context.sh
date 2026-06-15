@@ -55,7 +55,7 @@ esac
 
 # --- emit context ------------------------------------------------------------
 echo "=== docflow: project documentation context ==="
-echo "Docs root: $DOCS_ROOT/  (use the docs-router skill to navigate; docs-author/docs-changelog to write)"
+echo "Docs root: $DOCS_ROOT/  (skills: router = find a doc, author = write one, changelog = record shipped work)"
 echo
 
 # 1) docs index (the map)
@@ -69,8 +69,8 @@ line_count_or_default() {
     *) [ "$value" -gt 0 ] && printf '%s' "$value" || printf '%s' "$fallback" ;;
   esac
 }
-IDX_LINES="$(line_count_or_default "${DOCFLOW_INDEX_LINES:-}" 60)"
-LOG_LINES="$(line_count_or_default "${DOCFLOW_LOG_LINES:-}" 38)"
+IDX_LINES="$(line_count_or_default "${DOCFLOW_INDEX_LINES:-}" 30)"
+LOG_LINES="$(line_count_or_default "${DOCFLOW_LOG_LINES:-}" 20)"
 trim() { grep -vE '^\s*(<!--|$)' "$1" | head -"$2"; }
 month_num() {
   case "$1" in

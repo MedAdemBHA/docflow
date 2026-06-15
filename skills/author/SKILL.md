@@ -1,11 +1,11 @@
 ---
-name: docs-author
-description: WRITE side of a docflow knowledge base — the taxonomy + naming + cross-linking discipline for authoring docs in any repo. Pick the right category (product-spec / specs / decisions / references / plans / reviews), apply the folder's naming pattern, fill the matching template, and cross-link. Use when adding or restructuring docs, writing an ADR, a spec, a feature plan, or a review. Triggers — "write a doc for X", "where should this doc go", "add an ADR", "document this decision", "naming convention for docs", "new spec", "new feature plan", "set up docs structure".
+name: author
+description: 'Write a new doc in the right place with the right name. Use when asked to "write a doc", "where should this doc go", "add an ADR", "document this decision", "new spec", or "new feature plan".'
 ---
 
-# docs-author
+# author
 
-Author docs the docflow way: **choose category → apply naming → fill template → cross-link.** Companion of [`docs-router`](../docs-router/SKILL.md) (read side) and [`docs-changelog`](../docs-changelog/SKILL.md) (history). Templates live in the plugin's `templates/` dir; `docs-init` or `/docflow-init` drops them into a repo.
+Author docs the docflow way: **choose category → apply naming → fill template → cross-link.** Companion of [`router`](../router/SKILL.md) (read side) and [`changelog`](../changelog/SKILL.md) (history). Templates live in the plugin's `templates/` dir; `/docflow:init` drops them into a repo.
 
 > A doc's filename should tell a teammate **what** + **when** without opening it. If it can't, rename.
 
@@ -29,7 +29,7 @@ Direct, tech + business. No filler.
 | HOW to do X / a convention / cheat sheet | reference | `references/` |
 | WHAT's planned / status / roadmap | plan | `plans/` (`features/`, `hygiene/`, `upcoming/`) |
 | Current quality / known bugs / audit | review | `reviews/` (`active/`, `archive/`, `bugs/`) |
-| WHAT shipped, by month | changelog | `changelog/` — see [`docs-changelog`](../docs-changelog/SKILL.md) |
+| WHAT shipped, by month | changelog | `changelog/` — see [`changelog`](../changelog/SKILL.md) |
 
 One doc, one category. If it spans two, it's two docs that **cross-link**.
 
@@ -119,7 +119,7 @@ reviews/active/(mmm-yy)-feature.md  (QUALITY)
 2. Add the doc to the docs-root `README.md` index + the folder's own README if it has one.
 3. Record the document change in `## Update Log` or the feature/changelog table.
 4. Run `bash scripts/docflow-validate.sh --target <REPO ROOT>` and fix validation errors before reporting completion.
-5. If a decision shipped or a plan item completed, reflect it in `changelog/` (see [`docs-changelog`](../docs-changelog/SKILL.md)).
+5. If a decision shipped or a plan item completed, reflect it in `changelog/` (see [`changelog`](../changelog/SKILL.md)).
 6. On rename: update the file, `grep -rn "old-name\.md"` every cross-link, fix README entries, re-run the link check.
 
 ```bash

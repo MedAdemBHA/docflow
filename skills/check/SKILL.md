@@ -1,9 +1,9 @@
 ---
-name: docs-check
-description: "Friendly DocFlow readiness check. Gives one status, one reason, and the exact next command: init, adopt, repair, validate, or ready. Use when the user asks if docflow is set up, usable, clean, ready, or what to do next."
+name: check
+description: 'Friendly docflow readiness check: one status, one reason, and the exact next command. Use when asked if docflow is set up, ready, or "what do I do next".'
 ---
 
-# docs-check
+# check
 
 Goal: answer "is this usable and what do I do next?" in one screen.
 
@@ -20,10 +20,10 @@ If running from an installed plugin where scripts are not in the target repo, us
 | Status | Meaning | Next |
 |--------|---------|------|
 | `Ready` | DocFlow is installed and validation is clean | Start normal docs work |
-| `Needs setup` | No meaningful docs or config detected | `docs-init` |
-| `Needs adoption` | Existing docs need DocFlow infrastructure | `docs-adopt` |
-| `Needs repair` | Generated helpers/guidance are missing | `docs-repair` |
-| `Blocked` | Validation found hard errors | `docs-validate` |
+| `Needs setup` | No meaningful docs or config detected | `/docflow:init` |
+| `Needs adoption` | Existing docs need docflow infrastructure | `/docflow:adopt` |
+| `Needs repair` | Generated helpers/guidance are missing | `/docflow:repair` |
+| `Blocked` | Validation found hard errors | `/docflow:validate` |
 
 ## Rules
 

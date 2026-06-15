@@ -56,14 +56,14 @@ docs/
 ## Commands
 | Need | Command |
 |------|---------|
-| Check if DocFlow is ready | `/docflow:docflow-check` |
-| Inspect repo docs | `/docflow:docflow-doctor` |
-| Initialize empty docs | `/docflow:docflow-init` |
-| Adopt existing docs | `/docflow:docflow-adopt` |
-| Repair generated map/helpers | `/docflow:docflow-repair` |
-| Validate docs before completion | `/docflow:docflow-validate` |
-| Create a feature plan | `/docflow:docflow-feature-plan <msg>` |
-| Draft product WHAT docs | `/docflow:docflow-product-spec <msg or code path>` |
+| Check if DocFlow is ready | `/docflow:check` |
+| Inspect repo docs | `/docflow:doctor` |
+| Initialize empty docs | `/docflow:init` |
+| Adopt existing docs | `/docflow:adopt` |
+| Repair generated map/helpers | `/docflow:repair` |
+| Validate docs before completion | `/docflow:validate` |
+| Create a feature plan | `/docflow:feature-plan <msg>` |
+| Draft product WHAT docs | `/docflow:product-spec <msg or code path>` |
 
 ## Decisions (ADRs)
 | # | Title | Status |

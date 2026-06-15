@@ -1,9 +1,9 @@
 ---
-name: docs-adopt
-description: Safely adopt an existing repository into docflow without rewriting current user-authored docs. Adds missing docflow config, folders, helper scripts, agent guidance, INDEX.md, and an adoption review. Use when docs already exist or docs-doctor recommends docflow-adopt.
+name: adopt
+description: 'Add docflow to a repo that already has docs, without rewriting them. Adds missing config, folders, helpers, agent guidance, and an adoption review. Use when docs already exist or doctor recommends adopt.'
 ---
 
-# docs-adopt
+# adopt
 
 Goal: preserve existing docs, add missing docflow infrastructure.
 
@@ -33,4 +33,4 @@ Goal: preserve existing docs, add missing docflow infrastructure.
 
 - Never move/delete/rewrite existing docs.
 - Existing root guidance files are preserved.
-- Use docs-repair after manual cleanup.
+- Run `/docflow:repair` after manual cleanup.
