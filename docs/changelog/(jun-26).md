@@ -95,3 +95,10 @@
 | **Outcome** | DocFlow is prepared for `awesome-codex-plugins` scanner-gated submission requirements. |
 | **Delivered** | Added HOL Plugin Scanner workflow, pinned checkout action in CI, expanded CI to run validation/readiness tests, added a Codex composer icon, and exposed helper scripts in the Codex bundle. |
 | **Refs** | local |
+
+### 13. Usability + low-token pass
+| | |
+|---|---|
+| **Outcome** | One clean `/docflow:<verb>` vocabulary (was 18 entries across two clashing name families); lower per-session tokens; onboarding a non-developer can follow. |
+| **Delivered** | Deduped the 6 command/skill pairs into single skills and renamed to bare verbs (`/docflow:doctor`, `check`, `init`, `adopt`, `repair`, `validate`, `router`, `author`, `changelog`); kept `scan`/`feature-plan`/`product-spec` as commands; removed the `/docflow:docflow-` stutter; trimmed every skill description to a one-line trigger; cut SessionStart hook defaults (INDEX `60→30`, changelog `38→20` lines); rewrote README intro + "start here" + jargon glossary; bumped manifests to `0.3.0`. Breaking: public command/skill names changed. Script names unchanged. |
+| **Refs** | local |

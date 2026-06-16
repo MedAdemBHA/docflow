@@ -13,19 +13,50 @@
 [![Last commit](https://img.shields.io/github/last-commit/MedAdemBHA/docflow?style=flat)](https://github.com/MedAdemBHA/docflow/commits/main)
 [![GitHub issues](https://img.shields.io/github/issues/MedAdemBHA/docflow?style=flat)](https://github.com/MedAdemBHA/docflow/issues)
 
-DocFlow is a lightweight documentation-memory system for AI coding agents. It scaffolds structured project docs, ADRs, plans, reviews, and monthly changelogs so Claude/Codex can start each session with the right project context.
+**docflow gives your AI coding assistant a memory.** It creates a small set of Markdown
+files in your project — a place for *what* the product does, *how* it's built, *why*
+choices were made, and *what shipped each month*. Every time you start a session, your
+assistant reads the latest of these automatically, so it already knows the project
+instead of guessing. No database, no service to run — just text files and a few small
+Bash scripts.
 
 > Status: early MVP developer tool. This is not a document approval, e-signature, or workflow-analytics SaaS.
+
+## Words you'll see (one line each)
+
+- **ADR** — a short note recording a decision and *why* you made it.
+- **Scaffold** — create the starter folders and files for you, automatically.
+- **Spec** — a description of how something works.
+- **Changelog** — a monthly log of what shipped.
+
+Full glossary: [docs/references/glossary.md](docs/references/glossary.md).
+
+## Start here
+
+1. Install the plugin (see [Claude Code](#claude-code) below).
+2. Open your project and type **`/docflow:doctor`**. It looks at your repo and tells you
+   the one command to run next.
+3. Run that command. Done.
+
+You don't have to choose between setup paths yourself — `doctor` decides. (If you want to:
+`init` for an empty repo, `adopt` if docs already exist, `repair` to refresh an existing
+docflow setup.)
+
+## Two ways to use it
+
+Every docflow capability works **two ways** — pick whichever feels natural:
+
+- **Type a command:** `/docflow:check`, `/docflow:doctor`, `/docflow:validate`, …
+- **Just ask in plain English:** "is docflow set up here?", "where's the spec for X?",
+  "add this to the changelog" — the matching skill triggers automatically.
 
 ## What It Does
 
 - Creates a 7-folder documentation taxonomy for product behavior, implementation, decisions, references, plans, reviews, and changelog history.
 - Audits existing repos before setup, then recommends init, adopt, or repair.
 - Adds a monthly append-only changelog so agents and humans can see what shipped recently.
-- Provides Claude Code skills plus a read-only `SessionStart` hook that prints the docs map and newest real changelog entry.
-- Provides clear Claude commands for readiness checks, setup, repair, validation, feature plans, and product WHAT docs.
-- Provides a Codex plugin manifest and an `AGENTS.md` template for repo-aware agent guidance.
-- Ships a clean browser docs portal at `docs/index.html`.
+- Auto-loads the docs map and newest changelog into each session via a read-only `SessionStart` hook.
+- Works in Claude Code (commands + skills + hook), Codex (manifest + skills), and any agent via the scaffolded `AGENTS.md`.
 - Keeps everything as plain Markdown plus small Bash scripts.
 
 ## Demo
@@ -100,25 +131,28 @@ Verify:
 
 Use in a target repo:
 
-| Need | Claude command | What it does |
-|------|----------------|--------------|
-| Check readiness | `/docflow:docflow-check` | Shows one status and the exact next command |
-| Inspect docs state | `/docflow:docflow-doctor` | Read-only scan; recommends init, adopt, or repair |
-| New repo docs | `/docflow:docflow-init` | Creates the docs tree only when no meaningful docs exist |
-| Existing docs | `/docflow:docflow-adopt` | Adds docflow around current user-authored docs without rewriting them |
-| Fix generated docs helpers | `/docflow:docflow-repair` | Regenerates `INDEX.md`, installs helpers, reports link/placeholders |
-| Validate docs before completion | `/docflow:docflow-validate` | Fails on blocking doc issues and reports metadata/update-log cleanup warnings |
-| Plan a feature | `/docflow:docflow-feature-plan <msg>` | Guides the agent to create or update `plans/features/(mmm-yy)-<slug>.md` |
-| Describe product behavior | `/docflow:docflow-product-spec <msg or code path>` | Guides the agent to create or update `product-spec/` WHAT docs |
-| Draft from code signals | `/docflow:docflow-scan` | Generates spec/roadmap drafts from code, TODOs, and git churn |
+| Need | Command | What it does |
+|------|---------|--------------|
+| Check readiness | `/docflow:check` | Shows one status and the exact next command |
+| Inspect docs state | `/docflow:doctor` | Read-only scan; recommends init, adopt, or repair |
+| New repo docs | `/docflow:init` | Creates the docs tree only when no meaningful docs exist |
+| Existing docs | `/docflow:adopt` | Adds docflow around current user-authored docs without rewriting them |
+| Fix generated docs helpers | `/docflow:repair` | Regenerates `INDEX.md`, installs helpers, reports link/placeholders |
+| Validate docs before completion | `/docflow:validate` | Fails on blocking doc issues and reports metadata/update-log cleanup warnings |
+| Find the right doc | `/docflow:router` | Routes a question to one doc before reading code |
+| Write a doc | `/docflow:author` | Creates a doc in the right folder with the right name |
+| Record shipped work | `/docflow:changelog` | Adds an entry to the monthly changelog |
+| Plan a feature | `/docflow:feature-plan <msg>` | Creates or updates `plans/features/(mmm-yy)-<slug>.md` |
+| Describe product behavior | `/docflow:product-spec <msg or code path>` | Creates or updates `product-spec/` WHAT docs |
+| Draft from code signals | `/docflow:scan` | Generates spec/roadmap drafts from code, TODOs, and git churn |
 
-Some Claude installs also expose un-namespaced forms like `/docflow-doctor`. If autocomplete shows namespaced commands, use `/docflow:...`.
+All commands are namespaced as `/docflow:<name>` — type `/docflow:` to see them all.
 
 Examples:
 
 ```bash
-/docflow:docflow-feature-plan add team comments to documents
-/docflow:docflow-product-spec src/features/comments
+/docflow:feature-plan add team comments to documents
+/docflow:product-spec src/features/comments
 ```
 
 After updating a local plugin, run `/reload-plugins` in Claude Code before testing new commands.
@@ -151,20 +185,20 @@ codex -c 'service_tier="fast"'
 Use in a target repo:
 
 ```text
-Use docs-doctor to inspect this repo.
-Use docs-init to initialize docflow in this repo.
+Use the doctor skill to inspect this repo.
+Use the init skill to initialize docflow in this repo.
 ```
 
 If docs already exist:
 
 ```text
-Use docs-adopt to adopt this repo into docflow.
+Use the adopt skill to adopt this repo into docflow.
 ```
 
 For maintenance:
 
 ```text
-Use docs-repair to regenerate the docs map and check links.
+Use the repair skill to regenerate the docs map and check links.
 ```
 
 Only after `docflow` is published to a Codex marketplace does this command become a ready-to-run install step:
@@ -255,7 +289,7 @@ docflow/
 ├── hooks/                   # SessionStart context hook
 ├── repo-templates/          # AGENTS.md, GEMINI.md, .cursorrules
 ├── scripts/                 # doctor, adopt, repair, scaffold, map, generators, tests
-├── skills/                  # docs-init/router/author/changelog
+├── skills/                  # doctor/check/init/adopt/repair/validate/router/author/changelog
 └── templates/               # generic docs skeletons
 ```
 

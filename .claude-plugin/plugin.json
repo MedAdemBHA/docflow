@@ -1,7 +1,7 @@
 {
   "name": "docflow",
-  "description": "Lightweight documentation memory for AI coding agents. Gives one readiness status, scaffolds a 7-category docs tree, validates metadata/update logs/links, teaches naming + changelog discipline, and auto-loads recent context on session start.",
-  "version": "0.2.4",
+  "description": "Lightweight documentation memory for AI coding agents: scaffold a docs tree, validate it, and auto-load recent context each session.",
+  "version": "0.3.0",
   "author": {
     "name": "Mohamed Adem Bel Hadj Amor",
     "url": "https://github.com/MedAdemBHA"

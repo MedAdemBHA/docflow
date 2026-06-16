@@ -1,9 +1,9 @@
 ---
-name: docs-validate
-description: Run the docflow documentation readiness gate. Validates links, INDEX freshness, metadata comments, update logs, supported paths, placeholders, changelog names, and required sections before reporting docs complete.
+name: validate
+description: 'Run the docflow readiness gate before reporting docs complete: checks links, INDEX freshness, metadata, placeholders, and changelog names. Use after writing or editing docs.'
 ---
 
-# docs-validate
+# validate
 
 Goal: block objectively broken documentation before an agent reports work as complete.
 
@@ -23,6 +23,6 @@ If running from an installed plugin where scripts are not in the target repo, us
 
 ## Rules
 
-- Run after `docs-author`, `docs-changelog`, `docs-repair`, or any manual docs edit.
+- Run after `/docflow:author`, `/docflow:changelog`, `/docflow:repair`, or any manual docs edit.
 - Regenerate `INDEX.md` before validation when files were added, renamed, or removed.
 - Keep the output concise: status, blockers, warnings worth acting on.

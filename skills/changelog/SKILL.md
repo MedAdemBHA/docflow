@@ -1,11 +1,11 @@
 ---
-name: docs-changelog
-description: The changelog discipline of a docflow knowledge base — capture what shipped each month as an immutable record so any AI agent (and any teammate) always has context of past changes. One file per month `(mmm-yy).md`, never delete history, per-feature blocks (outcome / delivered / why it matters / commits). Use when something ships, when writing a release report, or when asked "what changed", "add to changelog", "release notes", "what shipped this month", "record this work".
+name: changelog
+description: 'Record shipped work in the monthly changelog (append-only). Use when something ships or when asked "what changed", "add to changelog", "release notes", or "what shipped this month".'
 ---
 
-# docs-changelog
+# changelog
 
-The memory of the knowledge base. Every month gets one file; history is **append-only**. This is what the SessionStart hook surfaces so the agent starts each session knowing recent work. Pairs with [`docs-author`](../docs-author/SKILL.md) and [`docs-router`](../docs-router/SKILL.md).
+The memory of the knowledge base. Every month gets one file; history is **append-only**. This is what the SessionStart hook surfaces so the agent starts each session knowing recent work. Pairs with [`author`](../author/SKILL.md) and [`router`](../router/SKILL.md).
 
 > Golden rule: **never delete or rewrite shipped history.** Reversals get a *new* entry, not an edit.
 

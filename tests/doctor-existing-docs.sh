@@ -20,7 +20,7 @@ after="$(find "$TMP" -type f | sort | xargs cksum)"
 
 printf '%s\n' "$output" | grep -F 'docs root: documentation (yes)' >/dev/null
 printf '%s\n' "$output" | grep -F 'recommendation: docflow-adopt' >/dev/null
-printf '%s\n' "$output" | grep -F -- '- /docflow-adopt' >/dev/null
+printf '%s\n' "$output" | grep -F -- '- /docflow:adopt' >/dev/null
 
 if [ "$before" != "$after" ]; then
   echo "FAIL: doctor mutated existing docs repo" >&2

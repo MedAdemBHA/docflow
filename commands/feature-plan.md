@@ -58,7 +58,7 @@ $ARGUMENTS
 
    | Date | Change | Ref |
    |------|--------|-----|
-   | <YYYY-MM-DD> | Created feature plan from request: `<short request>` | `/docflow-feature-plan` |
+   | <YYYY-MM-DD> | Created feature plan from request: `<short request>` | `/docflow:feature-plan` |
 
    ## Next
 

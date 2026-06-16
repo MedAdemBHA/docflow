@@ -1,48 +1,45 @@
 <!-- docflow: reference. Command, skill, and helper script catalog. -->
 # Commands
 
-Claude Code may expose commands as `/docflow:docflow-*` after plugin install. If un-namespaced `/docflow-*` commands appear in autocomplete, those are equivalent.
+After installing the plugin, everything lives under one namespace: `/docflow:<verb>`.
+Type `/docflow:` in Claude Code to see them all. The setup/authoring entries are
+**skills** — you can type the command *or* just ask in plain English (e.g. "is docflow
+set up here?") and the matching skill triggers automatically. The three generators take
+free-text arguments.
 
-## Claude Code
+## Commands & skills
 
-| Need | Command | Output |
-|------|---------|--------|
-| Check readiness | `/docflow:docflow-check` | One status: ready, needs setup, needs adoption, needs repair, or blocked |
-| Inspect a repo | `/docflow:docflow-doctor` | Read-only recommendation: init, adopt, repair, or OK |
-| Start empty docs | `/docflow:docflow-init` | `docs/`, `docflow.json`, guidance files, helpers |
-| Adopt existing docs | `/docflow:docflow-adopt` | Missing docflow infrastructure; existing docs preserved |
-| Repair generated files | `/docflow:docflow-repair` | Fresh `docs/INDEX.md`, helper scripts, link/placeholder report |
-| Validate docs | `/docflow:docflow-validate` | Blocking errors plus warning-only metadata/update-log cleanup |
-| Plan feature work | `/docflow:docflow-feature-plan <msg>` | `docs/plans/features/(mmm-yy)-<slug>.md` |
-| Write product behavior | `/docflow:docflow-product-spec <msg or code path>` | `docs/product-spec/00-overview.md` or `NN-<topic>.md` |
-| Draft from repo signals | `/docflow:docflow-scan` | Auto-draft spec and roadmap candidates |
+| Need | Command | Also triggers on (plain English) | Output |
+|------|---------|----------------------------------|--------|
+| Check readiness | `/docflow:check` | "is docflow set up", "what do I do next" | One status: ready / needs setup / adoption / repair / blocked |
+| Inspect a repo | `/docflow:doctor` | "check docs setup", "doctor" | Read-only recommendation: init, adopt, repair, or OK |
+| Start empty docs | `/docflow:init` | "set up docflow", "scaffold docs" | `docs/`, `docflow.json`, guidance files, helpers |
+| Adopt existing docs | `/docflow:adopt` | "adopt my docs into docflow" | Missing infrastructure added; existing docs preserved |
+| Repair generated files | `/docflow:repair` | "regenerate the docs map" | Fresh `docs/INDEX.md`, helper scripts, link/placeholder report |
+| Validate docs | `/docflow:validate` | "validate the docs" | Blocking errors + warning-only cleanup |
+| Find the right doc | `/docflow:router` | "where is X documented", "what's the roadmap" | Routes a question to one doc |
+| Write a doc | `/docflow:author` | "write a doc", "add an ADR" | New doc in the right folder with the right name |
+| Record shipped work | `/docflow:changelog` | "what changed", "add to changelog" | Entry in the monthly changelog |
+| Plan feature work | `/docflow:feature-plan <msg>` | — | `docs/plans/features/(mmm-yy)-<slug>.md` |
+| Write product behavior | `/docflow:product-spec <msg or code path>` | — | `docs/product-spec/00-overview.md` or `NN-<topic>.md` |
+| Draft from repo signals | `/docflow:scan` | — | Auto-draft spec and roadmap candidates |
 
-## Claude Examples
+After updating a local plugin, run `/reload-plugins` if new commands do not autocomplete.
+
+## Examples
 
 | Example | Use when |
 |---------|----------|
-| `/docflow:docflow-check` | You want one answer for whether DocFlow is usable and what to do next |
-| `/docflow:docflow-doctor` | You just opened a repo and need the right setup path |
-| `/docflow:docflow-validate` | You changed docs and need to know whether anything blocks completion |
-| `/docflow:docflow-feature-plan add team comments to documents` | You know the feature idea and need a status/log doc |
-| `/docflow:docflow-product-spec src/features/comments` | Code exists and product WHAT docs should be drafted from it |
-| `/reload-plugins` | You updated the local plugin but new commands do not autocomplete |
-
-## Codex Skills
-
-| Skill | Use it for |
-|-------|------------|
-| `docs-check` | One-screen readiness status and next command |
-| `docs-doctor` | Same read-only diagnosis as `/docflow:docflow-doctor` |
-| `docs-init` | Initialize when doctor recommends init |
-| `docs-adopt` | Adopt existing docs without overwriting |
-| `docs-repair` | Safe generated-file maintenance |
-| `docs-validate` | Read-only validation gate for links, map freshness, metadata, update logs, and blockers |
-| `docs-router` | Route questions to the right doc before editing |
-| `docs-author` | Author product specs, technical specs, ADRs, reviews, and plans |
-| `docs-changelog` | Add shipped work to monthly changelog |
+| `/docflow:doctor` | You just opened a repo and need the right setup path |
+| `/docflow:check` | You want one answer: is docflow usable, and what's next |
+| `/docflow:validate` | You changed docs and need to know whether anything blocks completion |
+| `/docflow:feature-plan add team comments to documents` | You know the feature idea and need a status/log doc |
+| `/docflow:product-spec src/features/comments` | Code exists and product WHAT docs should be drafted from it |
 
 ## Bash Scripts
+
+The skills and commands above call these helper scripts. You can also run them directly
+in any agent or shell. Script names are stable and unchanged.
 
 | Script | Safe to run anytime? | Purpose |
 |--------|----------------------|---------|

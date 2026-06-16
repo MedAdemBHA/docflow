@@ -2,7 +2,7 @@
 # Plugin Workflow — Technical Specification
 
 **Module:** `scripts/`, `commands/`, `skills/`, `hooks/`
-**Entry:** `/docflow-check`, `/docflow-doctor`, `/docflow-init`, `/docflow-adopt`, `/docflow-repair`
+**Entry:** `/docflow:check`, `/docflow:doctor`, `/docflow:init`, `/docflow:adopt`, `/docflow:repair`
 
 ## Architecture
 
@@ -45,8 +45,8 @@
 |---------|----------|
 | `scripts/docflow-check.sh --target <repo> [--docs-root docs]` | Prints one readiness status and exact next command; exits `0` only when ready |
 | `scripts/docflow-validate.sh --target <repo> [--docs-root docs]` | Prints status, errors, and warnings; exits `1` only when validation errors exist |
-| `/docflow:docflow-validate` | Claude command wrapper around the validation script |
-| `docs-validate` | Codex skill wrapper around the validation script |
+| `/docflow:validate` | Claude command wrapper around the validation script |
+| `validate` | Codex skill wrapper around the validation script |
 
 ## Safety Rules
 

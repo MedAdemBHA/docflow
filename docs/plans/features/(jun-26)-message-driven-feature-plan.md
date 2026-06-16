@@ -3,9 +3,9 @@
 
 > **Status (2026-06-03):** shipped
 > **Owner:** Maintainer
-> **Surface:** `commands/docflow-feature-plan.md`
+> **Surface:** `commands/feature-plan.md`
 
-Claude users can pass a short request to `/docflow-feature-plan <msg>` and get a docflow feature plan without starting from a blank file.
+Claude users can pass a short request to `/docflow:feature-plan <msg>` and get a docflow feature plan without starting from a blank file.
 The command derives the dated filename, fills status/log/next-step sections, and reports product/spec follow-ups when the request affects behavior or architecture.
 
 Reference docs:
@@ -27,7 +27,7 @@ Decisions:
 
 | Date | Change | Ref |
 |------|--------|-----|
-| 2026-06-03 | Added `/docflow-feature-plan <msg>` command and docs. | local |
+| 2026-06-03 | Added `/docflow:feature-plan <msg>` command and docs. | local |
 
 ## Next
 
