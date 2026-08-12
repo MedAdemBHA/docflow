@@ -18,6 +18,8 @@ All notable changes to docflow are tracked here. Project changelog files generat
 - Refresh recognized DocFlow-managed helpers during repair while preserving customized scripts.
 - Load only the newest changelog summary and latest entry into session context.
 - Add real-world regression coverage for numbered specs, category indexes, custom docs roots, code examples, helper upgrades, and adopted-repo link failures.
+- Document the bounded context-loading contract with reproducible two-repository measurements and explicit limitations.
+- Add a light/dark Star History graph to the project README.
 - Harden scaffold placeholder replacement so existing files are not mutated on re-run.
 - Escape project and docs-root values before writing generated files.
 - Skip template changelog files in the SessionStart context hook.

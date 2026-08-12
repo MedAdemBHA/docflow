@@ -1,7 +1,7 @@
 <!-- docflow: monthly changelog. Append-only history. Outcome-first. -->
 # August 2026 — Adoption-aware validation
 
-> Window: local working tree, 2026-08-12. Scope: real-repository compatibility and upgrade safety.
+> Window: 2026-08-12 → 2026-08-13. Scope: real-repository compatibility, upgrade safety, and measured context efficiency.
 
 ## Summary
 
@@ -21,3 +21,21 @@
 | **Verification** | DocFlow strict validation: 0 errors/0 warnings; ShellCheck clean; scaffold smoke test and all seven regression scripts pass; Codex plugin manifest and three changed skills validate. |
 | **Observed result** | `BO-`: 80 blockers → 0 blockers and 10 summarized warnings. `BO`: 210 blockers → 1 genuine broken link and 17 summarized warnings. |
 | **Refs** | [Feature plan](<../plans/features/(aug-26)-adoption-aware-validation.md>) · [technical spec](<../specs/(aug-26)-adoption-aware-validation.md>) |
+
+### 2. Measured context-efficiency documentation — 2026-08-13
+
+| | |
+|---|---|
+| **Outcome** | Users can evaluate the token-saving claim from a reproducible measurement instead of a vague percentage. |
+| **Delivered** | Added the loading contract, exact default bounds, two real-repository measurements, reproduction commands, limitations, and interpretation rules to the main README and context-efficiency reference. |
+| **Measured** | `BO-`: 127,424 documentation words → 847 automatic context words (99.34% initially avoided). `BO`: 129,865 → 810 (99.38%). |
+| **Caveat** | Word count is a stable local proxy, not an exact model-token count; task-specific files still add context when opened. |
+| **Refs** | [Context efficiency](../references/context-efficiency.md) |
+
+### 3. README star-history graph — 2026-08-13
+
+| | |
+|---|---|
+| **Outcome** | Visitors can see DocFlow's GitHub star growth from the project README. |
+| **Delivered** | Added the official Star History chart with light/dark variants and a link to the interactive date view. |
+| **Compatibility** | The chart remains isolated to one README block so its URL can be replaced with Star History's sealed owner embed if GitHub restricts timeline rendering. |

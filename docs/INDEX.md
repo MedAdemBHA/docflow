@@ -22,6 +22,7 @@ plans/upcoming/next.md — Next
 plans/upcoming/now.md — Now
 product-spec/00-overview.md — DocFlow — Product Specification Overview
 references/commands.md — Commands
+references/context-efficiency.md — Context Efficiency
 references/glossary.md — Glossary
 reviews/README.md — Codebase Review — Current State
 reviews/bugs/fixed.md — Bugs — Fixed

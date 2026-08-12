@@ -62,6 +62,47 @@ Every docflow capability works **two ways** — pick whichever feels natural:
 - Ships a clean browser docs portal at `docs/index.html`.
 - Keeps everything as plain Markdown plus small Bash scripts.
 
+## Token And Context Efficiency
+
+DocFlow does not compress the content of project documentation. It reduces context use by loading a small routing layer first, then opening full documents only when the task requires them.
+
+The default Claude `SessionStart` payload contains:
+
+1. Up to 60 non-empty lines from `docs/INDEX.md` (`path → purpose`).
+2. Up to 38 non-empty lines from the newest real monthly changelog.
+3. Within that changelog budget, the document header, `Summary`, and newest detailed entry—not the full month.
+
+The agent then opens the exact product spec, technical spec, ADR, plan, review, or reference needed for the current task. `AGENTS.md` uses the same route-first workflow for Codex, Gemini, Cursor, and other repo-aware agents, although automatic `SessionStart` injection is Claude-specific.
+
+### Measured on two established repositories
+
+Measurements taken on 2026-08-13 with `wc -w`, using the default hook limits:
+
+| Repository | All Markdown under `docs/` | Automatic hook payload | Context avoided initially |
+|---|---:|---:|---:|
+| Company Hub (`BO-`) | 127,424 words | 847 words | 99.34% |
+| AutoÉcole Pro (`BO`) | 129,865 words | 810 words | 99.38% |
+
+These are word counts, not tokenizer-specific token counts. Actual tokens depend on the model tokenizer, Markdown, code, and file paths. The comparison is still useful because it measures the exact text boundary DocFlow controls: full documentation versus the bounded automatic payload.
+
+### What the saving does—and does not—mean
+
+- The hook avoids injecting the full documentation corpus at session start.
+- `docs/README.md` and task-specific documents may be read afterward, so total task context will be higher than the hook payload.
+- A broad audit can legitimately open many documents; DocFlow optimizes ordinary targeted work, not tasks that require the whole corpus.
+- Savings depend on agents following `INDEX.md` and `AGENTS.md` instead of scanning every documentation file.
+- Limits can be tuned with `DOCFLOW_INDEX_LINES` and `DOCFLOW_LOG_LINES`; smaller values save more context but expose less navigation/history.
+
+Reproduce the measurement:
+
+```bash
+repo=/path/to/repo
+find "$repo/docs" -type f -name '*.md' -print0 | xargs -0 wc -w | tail -n 1
+CLAUDE_PROJECT_DIR="$repo" bash /path/to/docflow/hooks/docflow-context.sh | wc -w
+```
+
+See [Context efficiency](docs/references/context-efficiency.md) for the measurement contract, formula, and interpretation rules.
+
 ## Demo
 
 Example scaffold output is committed under [examples/basic-repo](examples/basic-repo/).
@@ -350,6 +391,16 @@ This repo dogfoods its own docs system. Browse the knowledge base at [docs/READM
 ## Changelog
 
 See [CHANGELOG.md](CHANGELOG.md).
+
+## Star History
+
+<a href="https://www.star-history.com/#MedAdemBHA/docflow&Date">
+  <picture>
+    <source media="(prefers-color-scheme: dark)" srcset="https://api.star-history.com/svg?repos=MedAdemBHA/docflow&amp;type=Date&amp;theme=dark" />
+    <source media="(prefers-color-scheme: light)" srcset="https://api.star-history.com/svg?repos=MedAdemBHA/docflow&amp;type=Date" />
+    <img alt="DocFlow star history chart" src="https://api.star-history.com/svg?repos=MedAdemBHA/docflow&amp;type=Date" width="800" />
+  </picture>
+</a>
 
 ## License
 

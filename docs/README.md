@@ -1,6 +1,6 @@
 # DocFlow — Documentation
 
-> Last updated: 2026-08-12
+> Last updated: 2026-08-13
 > Rules: [NAMING.md](NAMING.md)
 
 ## Open First
@@ -31,6 +31,7 @@
 |----------|-------------|
 | [Commands](references/commands.md) | Local script, Claude command, and Codex skill command reference |
 | [Glossary](references/glossary.md) | Shared terminology for docs, scripts, and agent UX |
+| [Context efficiency](references/context-efficiency.md) | Loading contract, reproducible measurements, limits, and interpretation rules |
 
 ## Commands
 
