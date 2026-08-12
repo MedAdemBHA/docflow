@@ -80,8 +80,8 @@ Measurements taken on 2026-08-13 with `wc -w`, using the default hook limits:
 
 | Repository | All Markdown under `docs/` | Automatic hook payload | Context avoided initially |
 |---|---:|---:|---:|
-| Company Hub (`BO-`) | 127,424 words | 847 words | 99.34% |
-| AutoÉcole Pro (`BO`) | 129,865 words | 810 words | 99.38% |
+| Repository A | 127,424 words | 847 words | 99.34% |
+| Repository B | 129,865 words | 810 words | 99.38% |
 
 These are word counts, not tokenizer-specific token counts. Actual tokens depend on the model tokenizer, Markdown, code, and file paths. The comparison is still useful because it measures the exact text boundary DocFlow controls: full documentation versus the bounded automatic payload.
 

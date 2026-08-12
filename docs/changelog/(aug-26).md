@@ -19,7 +19,7 @@
 | **Outcome** | Native DocFlow repositories retain strong conventions while adopted repositories block objective breakage and treat structural differences as cleanup guidance. |
 | **Delivered** | Strict/adopted profiles; compatibility-safe defaults for legacy configs; code-aware placeholder and link scans; summarized adoption warnings; managed-helper upgrades; readiness detection for outdated helpers; bounded summary/latest-entry context; real-world regression fixtures. |
 | **Verification** | DocFlow strict validation: 0 errors/0 warnings; ShellCheck clean; scaffold smoke test and all seven regression scripts pass; Codex plugin manifest and three changed skills validate. |
-| **Observed result** | `BO-`: 80 blockers → 0 blockers and 10 summarized warnings. `BO`: 210 blockers → 1 genuine broken link and 17 summarized warnings. |
+| **Observed result** | Repository A: 80 blockers → 0 blockers and 10 summarized warnings. Repository B: 210 blockers → 1 genuine broken link and 17 summarized warnings. |
 | **Refs** | [Feature plan](<../plans/features/(aug-26)-adoption-aware-validation.md>) · [technical spec](<../specs/(aug-26)-adoption-aware-validation.md>) |
 
 ### 2. Measured context-efficiency documentation — 2026-08-13
@@ -28,7 +28,7 @@
 |---|---|
 | **Outcome** | Users can evaluate the token-saving claim from a reproducible measurement instead of a vague percentage. |
 | **Delivered** | Added the loading contract, exact default bounds, two real-repository measurements, reproduction commands, limitations, and interpretation rules to the main README and context-efficiency reference. |
-| **Measured** | `BO-`: 127,424 documentation words → 847 automatic context words (99.34% initially avoided). `BO`: 129,865 → 810 (99.38%). |
+| **Measured** | Repository A: 127,424 documentation words → 847 automatic context words (99.34% initially avoided). Repository B: 129,865 → 810 (99.38%). |
 | **Caveat** | Word count is a stable local proxy, not an exact model-token count; task-specific files still add context when opened. |
 | **Refs** | [Context efficiency](../references/context-efficiency.md) |
 

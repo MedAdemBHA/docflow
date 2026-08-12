@@ -45,8 +45,8 @@ Measured on 2026-08-13 using the default limits:
 
 | Repository | Docs files | Full docs words | `INDEX.md` words | Hook words | Initial context avoided |
 |---|---:|---:|---:|---:|---:|
-| Company Hub (`BO-`) | 117 | 127,424 | 738 | 847 | 99.34% |
-| AutoÉcole Pro (`BO`) | 105 | 129,865 | 727 | 810 | 99.38% |
+| Repository A | 117 | 127,424 | 738 | 847 | 99.34% |
+| Repository B | 105 | 129,865 | 727 | 810 | 99.38% |
 
 The hook output can be smaller than `INDEX.md` because only the first 60 non-empty index lines are emitted. The bounded changelog excerpt contributes the remaining recent-history context.
 
