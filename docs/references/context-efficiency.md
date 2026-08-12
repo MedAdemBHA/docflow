@@ -7,8 +7,8 @@ DocFlow reduces the documentation placed in an agent's initial context. It does 
 
 | Stage | Loaded content | Bound |
 |---|---|---:|
-| Session routing | Non-empty lines from `docs/INDEX.md` | 60 lines by default |
-| Recent history | Header, summary, and newest detailed entry from the newest valid monthly changelog | 38 lines by default |
+| Session routing | Non-empty lines from `docs/INDEX.md` | 30 lines by default |
+| Recent history | Header, summary, and newest detailed entry from the newest valid monthly changelog | 20 lines by default |
 | Task work | Exact documents selected through the index and repository guidance | Unbounded; driven by task scope |
 
 `DOCFLOW_INDEX_LINES` and `DOCFLOW_LOG_LINES` override the two automatic limits with positive integers.
@@ -45,10 +45,10 @@ Measured on 2026-08-13 using the default limits:
 
 | Repository | Docs files | Full docs words | `INDEX.md` words | Hook words | Initial context avoided |
 |---|---:|---:|---:|---:|---:|
-| Repository A | 117 | 127,424 | 738 | 847 | 99.34% |
-| Repository B | 105 | 129,865 | 727 | 810 | 99.38% |
+| Repository A | 117 | 127,424 | 738 | 605 | 99.53% |
+| Repository B | 105 | 129,865 | 727 | 481 | 99.63% |
 
-The hook output can be smaller than `INDEX.md` because only the first 60 non-empty index lines are emitted. The bounded changelog excerpt contributes the remaining recent-history context.
+The hook output can be smaller than `INDEX.md` because only the first 30 non-empty index lines are emitted. The bounded changelog excerpt contributes the remaining recent-history context.
 
 ## Interpretation
 

@@ -28,7 +28,7 @@
 |---|---|
 | **Outcome** | Users can evaluate the token-saving claim from a reproducible measurement instead of a vague percentage. |
 | **Delivered** | Added the loading contract, exact default bounds, two real-repository measurements, reproduction commands, limitations, and interpretation rules to the main README and context-efficiency reference. |
-| **Measured** | Repository A: 127,424 documentation words → 847 automatic context words (99.34% initially avoided). Repository B: 129,865 → 810 (99.38%). |
+| **Measured** | Repository A: 127,424 documentation words → 605 automatic context words (99.53% initially avoided). Repository B: 129,865 → 481 (99.63%). |
 | **Caveat** | Word count is a stable local proxy, not an exact model-token count; task-specific files still add context when opened. |
 | **Refs** | [Context efficiency](../references/context-efficiency.md) |
 
@@ -39,3 +39,21 @@
 | **Outcome** | Visitors can see DocFlow's GitHub star growth from the project README. |
 | **Delivered** | Added the official Star History chart with light/dark variants and a link to the interactive date view. |
 | **Compatibility** | The chart remains isolated to one README block so its URL can be replaced with Star History's sealed owner embed if GitHub restricts timeline rendering. |
+
+### 4. Guided public demo — 2026-08-13
+
+| | |
+|---|---|
+| **Outcome** | Repository visitors can understand DocFlow's setup decision, routing model, session payload, and documentation lifecycle without reading the implementation first. |
+| **Delivered** | Replaced the minimal demo with a four-step walkthrough, realistic terminal output, direct question-to-document links, and local commands; expanded `examples/basic-repo/` into a validated guided tour with managed helper scripts. |
+| **Accuracy** | Corrected the documented hook defaults to 30 index lines and 20 changelog lines, then refreshed both anonymous repository measurements. |
+| **Verification** | Example readiness, repository tests, link checking, ShellCheck, strict validation, and Codex plugin validation. |
+
+### 5. Clean setup and value guide — 2026-08-13
+
+| | |
+|---|---|
+| **Outcome** | New visitors can understand DocFlow's value, repository impact, and usable installation paths before reading internal details. |
+| **Delivered** | Reorganized the README into a with/without comparison, exact files added, explicit non-goals, working Claude setup, verified portable setup, honest Codex publication status, compact command reference, and runnable demo. |
+| **Removed** | Duplicate per-agent setup instructions, an unverified Codex CLI command, repeated command tables, and the internal GitHub packaging checklist. |
+| **Source** | Codex plugin availability and new-session behavior were checked against the official OpenAI plugin documentation. |

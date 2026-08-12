@@ -1,3 +1,4 @@
+<!-- docflow: bug review. Known unresolved product or delivery issues. -->
 # Bugs - Open
 
 | ID | Severity | Issue | Status |

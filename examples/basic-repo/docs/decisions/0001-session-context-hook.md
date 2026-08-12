@@ -1,3 +1,4 @@
+<!-- docflow: architecture decision record. WHY the session hook is read-only. -->
 # 0001 - Use a read-only session context hook
 
 > Status: accepted
@@ -23,3 +24,9 @@ Use a read-only session-start hook to print the docs map and newest changelog en
 ## Related
 
 - Spec: [context hook](<../specs/(jun-26)-context-hook.md>)
+
+## Update Log
+
+| Date | Change | Ref |
+|---|---|---|
+| 2026-06-03 | Accepted the read-only session context decision. | `docflow-init` |

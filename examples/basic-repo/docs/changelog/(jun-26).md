@@ -1,3 +1,4 @@
+<!-- docflow: monthly changelog. Append-only shipped-work memory. -->
 # June 2026 - Docflow Adoption
 
 > Window: `initial` (`0000000`) -> `main` (`abc1234`). Scope: 3 commits.

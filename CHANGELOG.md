@@ -10,6 +10,10 @@ All notable changes to docflow are tracked here. Project changelog files generat
 
 ## Unreleased
 
+- Expand the public demo into a validated, ready-to-run example with a guided feature trail, realistic context output, direct discovery links, and bundled repository helpers.
+- Correct context-efficiency documentation and measurements for the current 30-line index and 20-line changelog defaults.
+- Restructure the public README around a direct with/without comparison, verified setup paths, honest Codex availability, and a shorter runnable demo.
+
 ## 0.3.0 - 2026-08-12
 
 - Add strict and adopted validation profiles, defaulting legacy configs to compatibility-safe adoption behavior.
