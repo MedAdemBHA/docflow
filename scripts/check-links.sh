@@ -24,7 +24,7 @@ while IFS= read -r -d '' file; do
     target="${target%%#*}"
 
     case "$target" in
-      ''|'#'*|http://*|https://*|mailto:*|tel:*)
+      ''|'#'*|/*|http://*|https://*|mailto:*|tel:*)
         continue
         ;;
     esac
@@ -41,7 +41,17 @@ while IFS= read -r -d '' file; do
 
     printf 'BROKEN: %s -> %s\n' "$file" "$target"
     broken=1
-  done < <(grep -oE '\]\(<[^>]+>\)|\]\([^)]+\)' "$file" 2>/dev/null || true)
+  done < <(
+    awk '
+      /^[[:space:]]*(```|~~~)/ { in_fence = !in_fence; next }
+      !in_fence {
+        line = $0
+        gsub(/`[^`]*`/, "", line)
+        print line
+      }
+    ' "$file" 2>/dev/null \
+      | grep -oE '\]\(<[^>]+>\)|\]\([^)]+\)' || true
+  )
 done < <(find "$ROOT" -type f -name '*.md' -print0)
 
 exit "$broken"

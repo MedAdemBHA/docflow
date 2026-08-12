@@ -66,6 +66,18 @@ set -e
 assert_contains "$repair_output" "- status: Needs repair"
 assert_contains "$repair_output" "- next: /docflow:repair"
 
+# Existing managed helpers from an older plugin version should also route to repair.
+outdated="$TMP/outdated"
+cp -R "$ready" "$outdated"
+printf '#!/usr/bin/env bash\n# docflow validate — old managed copy\n' > "$outdated/scripts/docflow-validate.sh"
+set +e
+outdated_output="$(bash "$ROOT/scripts/docflow-check.sh" --target "$outdated")"
+outdated_status="$?"
+set -e
+[ "$outdated_status" -ne 0 ] || fail "outdated helper repo should not be ready"
+assert_contains "$outdated_output" "- status: Needs repair"
+assert_contains "$outdated_output" "Outdated managed helpers"
+
 # Validation errors should be blocked and point to validate.
 blocked="$TMP/blocked"
 cp -R "$ready" "$blocked"

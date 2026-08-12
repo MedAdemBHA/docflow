@@ -1,4 +1,5 @@
 {
   "docsRoot": "docs",
-  "changelogDir": "docs/changelog"
+  "changelogDir": "docs/changelog",
+  "validationProfile": "strict"
 }

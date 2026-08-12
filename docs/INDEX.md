@@ -3,10 +3,12 @@
 
 NAMING.md — Naming Rules
 README.md — DocFlow — Documentation
+changelog/(aug-26).md — August 2026 — Adoption-aware validation
 changelog/(jun-26).md — June 2026 — Initial release
 changelog/README.md — Changelog
 decisions/0001-plain-markdown-bash.md — 0001 — Plain Markdown and Bash as the portable core
 decisions/README.md — Architecture Decision Records
+plans/features/(aug-26)-adoption-aware-validation.md — Feature — Adoption-Aware Validation
 plans/features/(jun-26)-clear-command-docs-portal.md — Feature — Clear Command Docs Portal
 plans/features/(jun-26)-document-validation.md — Feature — Document Validation And Update Logs
 plans/features/(jun-26)-friendly-readiness-check.md — Feature — Friendly Readiness Check
@@ -24,5 +26,6 @@ references/glossary.md — Glossary
 reviews/README.md — Codebase Review — Current State
 reviews/bugs/fixed.md — Bugs — Fixed
 reviews/bugs/open.md — Bugs — Open
+specs/(aug-26)-adoption-aware-validation.md — Adoption-Aware Validation And Upgrade Safety
 specs/(jun-26)-document-validation.md — Document Validation — Technical Specification
 specs/(jun-26)-plugin-workflow.md — Plugin Workflow — Technical Specification

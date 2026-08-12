@@ -1,6 +1,6 @@
 {
   "name": "docflow",
-  "description": "Lightweight documentation memory for AI coding agents: scaffold a docs tree, validate it, and auto-load recent context each session.",
+  "description": "Adoption-aware documentation memory for AI coding agents. Scaffolds or adopts living docs, validates native and established structures with appropriate severity, upgrades managed helpers, and loads bounded recent context.",
   "version": "0.3.0",
   "author": {
     "name": "Mohamed Adem Bel Hadj Amor",

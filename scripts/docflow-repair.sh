@@ -4,7 +4,7 @@
 # Usage:
 #   scripts/docflow-repair.sh --target <repo> [--docs-root docs]
 #
-# Regenerates INDEX.md, installs missing helper scripts, and reports links/placeholders.
+# Regenerates INDEX.md, refreshes DocFlow-managed helper scripts, and reports validation issues.
 
 set -euo pipefail
 
@@ -65,7 +65,20 @@ if [ ! -d "$DR" ]; then
 fi
 
 mkdir -p "$TARGET/scripts"
-for helper in check-links.sh docflow-check.sh docflow-map.sh docflow-validate.sh; do
+is_managed_helper() {
+  helper="$1"
+  file="$2"
+  case "$helper" in
+    check-links.sh)
+      sed -n '1,5p' "$file" 2>/dev/null | grep -F 'Check relative markdown links under a docs root.' >/dev/null
+      ;;
+    *)
+      sed -n '1,5p' "$file" 2>/dev/null | grep -qi 'docflow'
+      ;;
+  esac
+}
+
+for helper in check-links.sh docflow-check.sh docflow-doctor.sh docflow-map.sh docflow-repair.sh docflow-validate.sh; do
   src="$SCRIPT_DIR/$helper"
   out="$TARGET/scripts/$helper"
   [ -f "$src" ] || continue
@@ -73,6 +86,14 @@ for helper in check-links.sh docflow-check.sh docflow-map.sh docflow-validate.sh
     cp "$src" "$out"
     chmod +x "$out"
     echo "docflow: installed $out"
+  elif [ "$src" != "$out" ] && ! cmp -s "$src" "$out"; then
+    if is_managed_helper "$helper" "$out"; then
+      cp "$src" "$out"
+      chmod +x "$out"
+      echo "docflow: updated $out"
+    else
+      echo "docflow: preserved customized helper $out"
+    fi
   fi
 done
 
@@ -88,11 +109,26 @@ fi
 
 echo
 echo "Placeholders"
-placeholder_files="$(grep -RIlE '<(PROJECT|YYYY-MM-DD|Month YEAR|topic|item|description|title|name|scope|owner|status|hash|feature|module)>' "$DR" 2>/dev/null | grep -vE '/references/|/NAMING\.md$' || true)"
+placeholder_files="$(find "$DR" -type f -name '*.md' -print0 | while IFS= read -r -d '' file; do
+  if awk '
+    /^[[:space:]]*(```|~~~)/ { in_fence = !in_fence; next }
+    !in_fence { line = $0; gsub(/`[^`]*`/, "", line); print line }
+  ' "$file" | grep -qE '<(PROJECT|YYYY-MM-DD|Month YEAR|topic|item|description|title|name|scope|owner|status|hash|feature|module)>'; then
+    printf '%s\n' "$file"
+  fi
+done | grep -vE '/references/|/NAMING\.md$' || true)"
 if [ -n "$placeholder_files" ]; then
   printf '%s\n' "$placeholder_files" | sed "s#^$TARGET/##" | head -40
 else
   echo "none"
+fi
+
+echo
+echo "Validation"
+if [ -f "$SCRIPT_DIR/docflow-validate.sh" ]; then
+  bash "$SCRIPT_DIR/docflow-validate.sh" --target "$TARGET" --docs-root "$DOCS_ROOT" || true
+else
+  echo "not available"
 fi
 
 echo "docflow: repair complete"

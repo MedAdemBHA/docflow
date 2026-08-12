@@ -9,7 +9,7 @@
   "plugins": [
     {
       "name": "docflow",
-      "description": "Scaffold a docs tree, validate it, and auto-load the newest changelog entry each session.",
+      "description": "Show one readiness status, scaffold or adopt living docs, validate native and established structures appropriately, upgrade managed helpers, and auto-load bounded recent context.",
       "source": "./",
       "category": "productivity"
     }

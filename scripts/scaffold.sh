@@ -12,6 +12,7 @@ set -euo pipefail
 DOCS_ROOT="docs"
 PROJECT="<PROJECT>"
 TARGET="$PWD"
+VALIDATION_PROFILE="strict"
 
 while [ $# -gt 0 ]; do
   case "$1" in
@@ -28,6 +29,11 @@ while [ $# -gt 0 ]; do
     --target)
       [ $# -ge 2 ] || { echo "missing value for --target" >&2; exit 1; }
       TARGET="$2"
+      shift 2
+      ;;
+    --validation-profile)
+      [ $# -ge 2 ] || { echo "missing value for --validation-profile" >&2; exit 1; }
+      VALIDATION_PROFILE="$2"
       shift 2
       ;;
     -h|--help)
@@ -76,6 +82,10 @@ replace_placeholders() {
 
 reject_newline "docs root" "$DOCS_ROOT"
 reject_newline "project name" "$PROJECT"
+case "$VALIDATION_PROFILE" in
+  strict|adopted) ;;
+  *) echo "validation profile must be strict or adopted" >&2; exit 1 ;;
+esac
 
 # template dirs = sibling of this script's parent
 SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
@@ -148,7 +158,8 @@ if [ ! -f "$CFG" ]; then
   cat > "$CFG" <<EOF
 {
   "docsRoot": "$docs_root_json",
-  "changelogDir": "$changelog_dir_json"
+  "changelogDir": "$changelog_dir_json",
+  "validationProfile": "$VALIDATION_PROFILE"
 }
 EOF
   echo "docflow: wrote $CFG"

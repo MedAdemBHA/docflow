@@ -65,3 +65,4 @@ Related:
 | Date | Change | Ref |
 |------|--------|-----|
 | 2026-06-14 | Added validation gate specification. | `docflow-validate` |
+| 2026-08-12 | Superseded exact-template enforcement for established repositories with the adopted profile defined in the adoption-aware validation spec. | `adoption-aware-validation` |

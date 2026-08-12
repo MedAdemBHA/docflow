@@ -27,4 +27,15 @@ grep -F 'product-spec/00-overview.md — Product Overview' "$TMP/docs/INDEX.md" 
 [ -x "$TMP/scripts/check-links.sh" ] || { echo "FAIL: repair did not install link helper" >&2; exit 1; }
 [ -x "$TMP/scripts/docflow-map.sh" ] || { echo "FAIL: repair did not install map helper" >&2; exit 1; }
 
+# Managed helpers are upgraded, but a customized script is preserved.
+managed="$TMP/scripts/docflow-validate.sh"
+printf '#!/usr/bin/env bash\n# docflow validate — old managed copy\n' > "$managed"
+custom="$TMP/scripts/check-links.sh"
+printf '#!/usr/bin/env bash\n# custom project checker\n' > "$custom"
+bash "$ROOT/scripts/docflow-repair.sh" --target "$TMP" >/dev/null
+cmp "$ROOT/scripts/docflow-validate.sh" "$managed" >/dev/null \
+  || { echo "FAIL: repair did not refresh managed helper" >&2; exit 1; }
+grep -F '# custom project checker' "$custom" >/dev/null \
+  || { echo "FAIL: repair overwrote customized helper" >&2; exit 1; }
+
 echo "PASS: repair generated map"

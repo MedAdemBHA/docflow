@@ -58,7 +58,7 @@ fi
 doctor_before="$(bash "$SCRIPT_DIR/docflow-doctor.sh" --target "$TARGET" --docs-root "$DOCS_ROOT" 2>/dev/null || true)"
 
 echo "docflow: adopting repo at $TARGET (docs root: $DOCS_ROOT, project: $PROJECT)"
-bash "$SCRIPT_DIR/scaffold.sh" --target "$TARGET" --docs-root "$DOCS_ROOT" --project "$PROJECT"
+bash "$SCRIPT_DIR/scaffold.sh" --target "$TARGET" --docs-root "$DOCS_ROOT" --project "$PROJECT" --validation-profile adopted
 
 review_dir="$TARGET/$DOCS_ROOT/reviews"
 mkdir -p "$review_dir"

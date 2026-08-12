@@ -53,10 +53,13 @@ Every docflow capability works **two ways** — pick whichever feels natural:
 ## What It Does
 
 - Creates a 7-folder documentation taxonomy for product behavior, implementation, decisions, references, plans, reviews, and changelog history.
-- Audits existing repos before setup, then recommends init, adopt, or repair.
+- Audits existing repos before setup, then recommends init, adopt, repair, or a validation fix.
 - Adds a monthly append-only changelog so agents and humans can see what shipped recently.
-- Auto-loads the docs map and newest changelog into each session via a read-only `SessionStart` hook.
-- Works in Claude Code (commands + skills + hook), Codex (manifest + skills), and any agent via the scaffolded `AGENTS.md`.
+- Auto-loads a bounded docs map and the newest real changelog entry through a read-only `SessionStart` hook.
+- Provides strict validation for native scaffolds and compatibility-aware validation for repositories with established docs.
+- Upgrades recognized DocFlow-managed repository helpers through the safe repair flow while preserving customized scripts.
+- Works in Claude Code (skills + hook), Codex (manifest + skills), and any agent through the scaffolded `AGENTS.md`.
+- Ships a clean browser docs portal at `docs/index.html`.
 - Keeps everything as plain Markdown plus small Bash scripts.
 
 ## Demo
@@ -137,8 +140,8 @@ Use in a target repo:
 | Inspect docs state | `/docflow:doctor` | Read-only scan; recommends init, adopt, or repair |
 | New repo docs | `/docflow:init` | Creates the docs tree only when no meaningful docs exist |
 | Existing docs | `/docflow:adopt` | Adds docflow around current user-authored docs without rewriting them |
-| Fix generated docs helpers | `/docflow:repair` | Regenerates `INDEX.md`, installs helpers, reports link/placeholders |
-| Validate docs before completion | `/docflow:validate` | Fails on blocking doc issues and reports metadata/update-log cleanup warnings |
+| Fix generated docs helpers | `/docflow:repair` | Regenerates `INDEX.md`, refreshes recognized managed helpers, and reports issues |
+| Validate docs before completion | `/docflow:validate` | Uses strict/adopted severity and fails on objective documentation breakage |
 | Find the right doc | `/docflow:router` | Routes a question to one doc before reading code |
 | Write a doc | `/docflow:author` | Creates a doc in the right folder with the right name |
 | Record shipped work | `/docflow:changelog` | Adds an entry to the monthly changelog |
@@ -158,6 +161,20 @@ Examples:
 After updating a local plugin, run `/reload-plugins` in Claude Code before testing new commands.
 
 The Claude plugin also installs a read-only `SessionStart` hook. On new sessions it prints the docs map and newest valid changelog month when the repo has `docflow.json`.
+
+### Validation profiles
+
+Fresh scaffolds write `"validationProfile": "strict"`. Repositories added with `docflow-adopt` write `"validationProfile": "adopted"`:
+
+```json
+{
+  "docsRoot": "docs",
+  "changelogDir": "docs/changelog",
+  "validationProfile": "adopted"
+}
+```
+
+Both profiles block broken local links, stale generated indexes, and Markdown files without an H1. The adopted profile preserves existing folders, numbered specs, and section vocabulary; native convention differences appear as summarized warnings. Configurations created before profiles existed default to `adopted` for compatibility.
 
 ### Codex
 
@@ -310,7 +327,7 @@ The portable product is the docs tree and workflow. The plugin runtime is agent-
 3. Fill `docs/README.md` and `product-spec/00-overview.md`.
 4. Write ADRs, specs, plans, and reviews using the category templates.
 5. Append shipped work to the current monthly changelog.
-6. Run repair after adding or renaming docs.
+6. Run repair after adding or renaming docs, or when managed helpers have an update.
 
 ## GitHub Packaging Checklist
 

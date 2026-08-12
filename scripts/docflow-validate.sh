@@ -12,6 +12,7 @@ set -u
 
 TARGET="$PWD"
 DOCS_ROOT=""
+VALIDATION_PROFILE=""
 
 while [ $# -gt 0 ]; do
   case "$1" in
@@ -23,6 +24,11 @@ while [ $# -gt 0 ]; do
     --docs-root)
       [ $# -ge 2 ] || { echo "missing value for --docs-root" >&2; exit 2; }
       DOCS_ROOT="$2"
+      shift 2
+      ;;
+    --profile)
+      [ $# -ge 2 ] || { echo "missing value for --profile" >&2; exit 2; }
+      VALIDATION_PROFILE="$2"
       shift 2
       ;;
     -h|--help)
@@ -70,6 +76,10 @@ detect_docs_root() {
 
 errors=()
 warnings=()
+warning_keys_seen="|"
+metadata_missing=0
+update_log_missing=0
+required_section_missing=0
 
 error() {
   errors+=("$1")
@@ -77,6 +87,24 @@ error() {
 
 warn() {
   warnings+=("$1")
+}
+
+warn_once() {
+  key="$1"
+  message="$2"
+  case "$warning_keys_seen" in
+    *"|$key|"*) return ;;
+  esac
+  warning_keys_seen="${warning_keys_seen}${key}|"
+  warn "$message"
+}
+
+required_issue() {
+  if [ "$VALIDATION_PROFILE" = "adopted" ]; then
+    required_section_missing=$((required_section_missing+1))
+  else
+    error "$1"
+  fi
 }
 
 has_section() {
@@ -112,7 +140,15 @@ is_known_template_placeholder_path() {
 }
 
 has_placeholder_tokens() {
-  grep -qE '<(PROJECT|YYYY-MM-DD|Month YEAR|topic|item|description|title|name|scope|owner|status|hash|feature|module|code path|route or entrypoint|SPA / service / CLI|one-line highlight|one line|what changed|why it matters|module)>' "$1" 2>/dev/null
+  awk '
+    /^[[:space:]]*(```|~~~)/ { in_fence = !in_fence; next }
+    !in_fence {
+      line = $0
+      gsub(/`[^`]*`/, "", line)
+      print line
+    }
+  ' "$1" 2>/dev/null \
+    | grep -qE '<(PROJECT|YYYY-MM-DD|Month YEAR|topic|item|description|title|name|scope|owner|status|hash|feature|module|code path|route or entrypoint|SPA / service / CLI|one-line highlight|one line|what changed|why it matters)>'
 }
 
 validate_category_path() {
@@ -122,10 +158,10 @@ validate_category_path() {
     README.md|NAMING.md|INDEX.md)
       return
       ;;
-    product-spec/00-overview.md|product-spec/[0-9][0-9]-*.md|product-spec/NN-topic.md)
+    product-spec/README.md|product-spec/00-overview.md|product-spec/[0-9][0-9]-*.md|product-spec/NN-topic.md)
       return
       ;;
-    specs/'(mmm-yy)'-topic.md|specs/'('[a-z][a-z][a-z]-[0-9][0-9]')'-*.md)
+    specs/README.md|specs/'(mmm-yy)'-topic.md|specs/'('[a-z][a-z][a-z]-[0-9][0-9]')'-*.md)
       return
       ;;
     references/*.md)
@@ -137,13 +173,13 @@ validate_category_path() {
     plans/upcoming/README.md|plans/upcoming/critical.md|plans/upcoming/now.md|plans/upcoming/next.md|plans/upcoming/later.md)
       return
       ;;
-    plans/features/'(mmm-yy)'-feature-name.md|plans/features/'('[a-z][a-z][a-z]-[0-9][0-9]')'-*.md)
+    plans/README.md|plans/features/README.md|plans/features/'(mmm-yy)'-feature-name.md|plans/features/'('[a-z][a-z][a-z]-[0-9][0-9]')'-*.md)
       return
       ;;
-    plans/hygiene/'(mmm-yy)'-topic.md|plans/hygiene/'('[a-z][a-z][a-z]-[0-9][0-9]')'-*.md)
+    plans/hygiene/README.md|plans/hygiene/'(mmm-yy)'-topic.md|plans/hygiene/'('[a-z][a-z][a-z]-[0-9][0-9]')'-*.md)
       return
       ;;
-    reviews/README.md|reviews/bugs/open.md|reviews/bugs/fixed.md|reviews/'('[a-z][a-z][a-z]-[0-9][0-9]')'-*.md|reviews/active/'('[a-z][a-z][a-z]-[0-9][0-9]')'-*.md|reviews/archive/'('[a-z][a-z][a-z]-[0-9][0-9]')'-*.md)
+    reviews/README.md|reviews/bugs/README.md|reviews/bugs/open.md|reviews/bugs/fixed.md|reviews/'('[a-z][a-z][a-z]-[0-9][0-9]')'-*.md|reviews/active/README.md|reviews/active/'('[a-z][a-z][a-z]-[0-9][0-9]')'-*.md|reviews/archive/README.md|reviews/archive/'('[a-z][a-z][a-z]-[0-9][0-9]')'-*.md)
       return
       ;;
     changelog/README.md|changelog/'(mmm-yy)'.md|changelog/'('[a-z][a-z][a-z]-[0-9][0-9]')'.md)
@@ -153,10 +189,23 @@ validate_category_path() {
 
   case "$rel" in
     product-spec/*|specs/*|decisions/*|plans/*|reviews/*|changelog/*)
-      error "$rel: unsupported docflow category path"
+      if [ "$VALIDATION_PROFILE" = "adopted" ]; then
+        category="${rel%%/*}"
+        warn_once "adopted-category:$category" "$category/: adopted paths differ from native DocFlow naming; strict section checks are skipped for those files"
+      else
+        error "$rel: unsupported docflow category path"
+      fi
+      return 1
       ;;
     *)
-      warn "$rel: outside docflow taxonomy; treated as legacy doc"
+      if [ "$VALIDATION_PROFILE" = "adopted" ]; then
+        root="${rel%%/*}"
+        [ "$root" != "$rel" ] || root="docs root"
+        warn_once "legacy-root:$root" "$root/: outside the native taxonomy; preserved as an adopted documentation root"
+      else
+        warn "$rel: outside docflow taxonomy; treated as legacy doc"
+      fi
+      return 1
       ;;
   esac
 }
@@ -166,27 +215,33 @@ validate_required_sections() {
   file="$2"
 
   case "$rel" in
+    */README.md|product-spec/NN-topic.md|specs/'(mmm-yy)'-topic.md|plans/features/'(mmm-yy)'-feature-name.md)
+      return
+      ;;
+  esac
+
+  case "$rel" in
     product-spec/00-overview.md)
-      has_section "$file" 'What' || error "$rel: missing required section ## What..."
-      has_section "$file" 'Core [Mm]odules' || error "$rel: missing required section ## Core modules"
+      has_section "$file" 'What' || required_issue "$rel: missing required section ## What..."
+      has_section "$file" 'Core [Mm]odules' || required_issue "$rel: missing required section ## Core modules"
       ;;
     product-spec/[0-9][0-9]-*.md|product-spec/NN-topic.md)
-      has_section "$file" 'Purpose' || error "$rel: missing required section ## Purpose"
-      has_section "$file" 'Key [Aa]ctions' || error "$rel: missing required section ## Key actions"
-      has_section "$file" 'Links' || error "$rel: missing required section ## Links"
+      has_section "$file" 'Purpose' || required_issue "$rel: missing required section ## Purpose"
+      has_section "$file" 'Key [Aa]ctions' || required_issue "$rel: missing required section ## Key actions"
+      has_section "$file" 'Links' || required_issue "$rel: missing required section ## Links"
       ;;
     specs/*.md)
-      has_section "$file" 'Architecture' || error "$rel: missing required section ## Architecture"
-      has_section "$file" 'Data' || error "$rel: missing required section ## Data"
-      has_section "$file" 'API' || error "$rel: missing required section ## API"
-      has_section "$file" 'Flow' || error "$rel: missing required section ## Flow"
-      has_section "$file" 'Risks' || error "$rel: missing required section ## Risks"
-      grep -qiE '^Related:' "$file" 2>/dev/null || error "$rel: missing Related block"
+      has_section "$file" 'Architecture' || required_issue "$rel: missing required section ## Architecture"
+      has_section "$file" 'Data' || required_issue "$rel: missing required section ## Data"
+      has_section "$file" 'API' || required_issue "$rel: missing required section ## API"
+      has_section "$file" 'Flow' || required_issue "$rel: missing required section ## Flow"
+      has_section "$file" 'Risks' || required_issue "$rel: missing required section ## Risks"
+      grep -qiE '^Related:' "$file" 2>/dev/null || required_issue "$rel: missing Related block"
       ;;
     plans/features/*.md)
-      has_section "$file" 'In flight' || error "$rel: missing required section ## In flight"
-      has_section "$file" 'Feature log' || error "$rel: missing required section ## Feature log"
-      has_section "$file" 'Next' || error "$rel: missing required section ## Next"
+      has_section "$file" 'In flight' || required_issue "$rel: missing required section ## In flight"
+      has_section "$file" 'Feature log' || required_issue "$rel: missing required section ## Feature log"
+      has_section "$file" 'Next' || required_issue "$rel: missing required section ## Next"
       ;;
   esac
 }
@@ -245,6 +300,20 @@ if ! cd "$TARGET" 2>/dev/null; then
 fi
 
 TARGET="$PWD"
+CFG="$TARGET/docflow.json"
+if [ -z "$VALIDATION_PROFILE" ] && [ -f "$CFG" ]; then
+  VALIDATION_PROFILE="$(json_val validationProfile "$CFG")"
+fi
+[ -n "$VALIDATION_PROFILE" ] || VALIDATION_PROFILE="adopted"
+case "$VALIDATION_PROFILE" in
+  strict|adopted) ;;
+  *)
+    echo "Status"
+    echo "- target: $TARGET"
+    echo "- error: invalid validationProfile '$VALIDATION_PROFILE' (expected strict or adopted)"
+    exit 2
+    ;;
+esac
 ROOT="$(detect_docs_root)"
 if [ -z "$ROOT" ]; then
   echo "Status"
@@ -273,7 +342,8 @@ validate_links "$DR"
 while IFS= read -r -d '' file; do
   rel="${file#"$DR"/}"
 
-  validate_category_path "$rel"
+  native_path="yes"
+  validate_category_path "$rel" || native_path="no"
 
   if ! has_h1 "$file"; then
     error "$rel: missing first-level H1"
@@ -284,7 +354,11 @@ while IFS= read -r -d '' file; do
       ;;
     *)
       if ! has_docflow_metadata "$file"; then
-        warn "$rel: missing docflow metadata comment"
+        if [ "$VALIDATION_PROFILE" = "adopted" ]; then
+          metadata_missing=$((metadata_missing+1))
+        else
+          warn "$rel: missing docflow metadata comment"
+        fi
       fi
       ;;
   esac
@@ -296,6 +370,8 @@ while IFS= read -r -d '' file; do
       if has_placeholder_tokens "$file"; then
         if is_known_template_placeholder_path "$rel"; then
           warn "$rel: unfilled template placeholders remain"
+        elif [ "$VALIDATION_PROFILE" = "adopted" ]; then
+          warn "$rel: possible placeholder tokens remain"
         else
           error "$rel: placeholder tokens remain"
         fi
@@ -303,20 +379,37 @@ while IFS= read -r -d '' file; do
       ;;
   esac
 
-  case "$rel" in
-    product-spec/*.md|specs/*.md|decisions/[0-9][0-9][0-9][0-9]-*.md|plans/features/*.md|plans/hygiene/*.md|reviews/'('[a-z][a-z][a-z]-[0-9][0-9]')'-*.md|reviews/active/*.md|reviews/archive/*.md)
-      if ! has_update_log "$file"; then
-        warn "$rel: missing document update log"
-      fi
-      ;;
-  esac
+  if [ "$VALIDATION_PROFILE" != "adopted" ] || [ "$native_path" = "yes" ]; then
+    case "$rel" in
+      product-spec/*.md|specs/*.md|decisions/[0-9][0-9][0-9][0-9]-*.md|plans/features/*.md|plans/hygiene/*.md|reviews/'('[a-z][a-z][a-z]-[0-9][0-9]')'-*.md|reviews/active/*.md|reviews/archive/*.md)
+        if ! has_update_log "$file"; then
+          if [ "$VALIDATION_PROFILE" = "adopted" ]; then
+            update_log_missing=$((update_log_missing+1))
+          else
+            warn "$rel: missing document update log"
+          fi
+        fi
+        ;;
+    esac
 
-  validate_required_sections "$rel" "$file"
+    validate_required_sections "$rel" "$file"
+  fi
 done < <(find "$DR" -type f -name '*.md' -print0)
+
+if [ "$metadata_missing" -gt 0 ]; then
+  warn "metadata: $metadata_missing adopted docs lack the optional docflow metadata comment"
+fi
+if [ "$update_log_missing" -gt 0 ]; then
+  warn "update logs: $update_log_missing adopted content docs lack an update-log section"
+fi
+if [ "$required_section_missing" -gt 0 ]; then
+  warn "template shape: $required_section_missing native sections are absent from adopted docs; content remains valid"
+fi
 
 echo "Status"
 echo "- target: $TARGET"
 echo "- docs root: $ROOT"
+echo "- validation profile: $VALIDATION_PROFILE"
 echo "- markdown files: $(find "$DR" -type f -name '*.md' | wc -l | tr -d ' ')"
 echo "- errors: ${#errors[@]}"
 echo "- warnings: ${#warnings[@]}"

@@ -32,6 +32,8 @@ DocFlow gives a software repository a structured, low-token documentation memory
 | 9 | Docs portal | Provides a clean browser view over `docs/INDEX.md`, command docs, plans, and changelog files |
 | 10 | Validation gate | Blocks objectively broken docs before an agent reports documentation work complete |
 | 11 | Readiness check | Gives users one status and the exact next command for setup, adoption, repair, or blockers |
+| 12 | Validation profiles | Keeps new scaffolds strict while adopted repositories preserve their existing naming and document shapes |
+| 13 | Upgrade-safe repair | Refreshes DocFlow-owned helper scripts without rewriting project-authored documentation |
 
 ## Success Criteria
 
@@ -41,6 +43,8 @@ DocFlow gives a software repository a structured, low-token documentation memory
 | Portability | Works with Bash/coreutils and Markdown; no jq, DB, server, or SaaS dependency |
 | Discoverability | One generated `docs/INDEX.md` maps paths to purpose |
 | Maintenance | Tests cover scaffold idempotency, changelog ordering, doctor, adopt, repair, and validation |
+| Adoption compatibility | Existing repositories block objective integrity failures while reporting taxonomy and section-shape differences as cleanup warnings |
+| Context efficiency | Session context loads a compact map and only the newest changelog summary/latest entry instead of requiring a full monthly history read |
 
 ## Update Log
 
@@ -48,6 +52,7 @@ DocFlow gives a software repository a structured, low-token documentation memory
 |------|--------|-----|
 | 2026-06-14 | Added validation/readiness as a core module. | `docflow-validate` |
 | 2026-06-14 | Added one-screen usability check as a core module. | `docflow-check` |
+| 2026-08-12 | Added strict/adopted validation profiles, upgrade-safe helper refresh, and concise changelog context. | `adoption-aware-validation` |
 
 ## Non-Goals
 

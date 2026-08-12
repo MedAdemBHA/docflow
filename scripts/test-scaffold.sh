@@ -53,6 +53,8 @@ grep -F "$project" "$target/docs/product-spec/00-overview.md" >/dev/null \
 
 python3 -m json.tool "$target/docflow.json" >/dev/null \
   || fail "docflow.json is invalid JSON"
+grep -F '"validationProfile": "strict"' "$target/docflow.json" >/dev/null \
+  || fail "fresh scaffold did not select strict validation"
 
 bash "$ROOT/scripts/check-links.sh" "$target/docs" \
   || fail "fresh scaffold has broken non-placeholder links"

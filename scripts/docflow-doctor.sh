@@ -56,9 +56,18 @@ count_md() {
 placeholder_count() {
   dir="$1"
   [ -d "$dir" ] || { printf '0'; return; }
-  grep -RIlE '<(PROJECT|YYYY-MM-DD|Month YEAR|topic|item|description|title|name|scope|owner|status|hash|feature|module)>' "$dir" 2>/dev/null \
-    | grep -vE '/references/|/NAMING\.md$' \
-    | awk 'END { print NR }'
+  find "$dir" -type f -name '*.md' -print0 | while IFS= read -r -d '' file; do
+    case "$file" in
+      */references/*|*/NAMING.md) continue ;;
+    esac
+    if awk '
+      /^[[:space:]]*(```|~~~)/ { in_fence = !in_fence; next }
+      !in_fence { line = $0; gsub(/`[^`]*`/, "", line); print line }
+    ' "$file" 2>/dev/null \
+      | grep -qE '<(PROJECT|YYYY-MM-DD|Month YEAR|topic|item|description|title|name|scope|owner|status|hash|feature|module)>'; then
+      printf '%s\n' "$file"
+    fi
+  done | awk 'END { print NR }'
 }
 
 detect_docs_root() {
@@ -115,6 +124,16 @@ cursor="$(exists_mark "$TARGET/.cursorrules")"
 helper_map="$(exists_mark "$TARGET/scripts/docflow-map.sh")"
 helper_links="$(exists_mark "$TARGET/scripts/check-links.sh")"
 helper_validate="$(exists_mark "$TARGET/scripts/docflow-validate.sh")"
+outdated_helpers="0"
+for helper in check-links.sh docflow-check.sh docflow-doctor.sh docflow-map.sh docflow-repair.sh docflow-validate.sh; do
+  source_helper="$SCRIPT_DIR/$helper"
+  target_helper="$TARGET/scripts/$helper"
+  if [ -f "$source_helper" ] && [ -f "$target_helper" ] && [ "$source_helper" != "$target_helper" ] \
+    && ! cmp -s "$source_helper" "$target_helper" \
+    && sed -n '1,5p' "$target_helper" 2>/dev/null | grep -qiE 'docflow|Check relative markdown links under a docs root'; then
+    outdated_helpers=$((outdated_helpers+1))
+  fi
+done
 
 existing_docs="no"
 if [ -n "$ROOT" ] || [ -f "$TARGET/README.md" ] || [ -f "$TARGET/CHANGELOG.md" ] || [ -d "$TARGET/adr" ] || [ -d "$TARGET/docs" ] || [ -d "$TARGET/documentation" ]; then
@@ -126,6 +145,7 @@ placeholder_files="0"
 changelog_months="0"
 broken_links="not checked"
 validation_status="not checked"
+validation_profile="not checked"
 if [ "$docs_root_exists" = "yes" ]; then
   md_count="$(count_md "$DR")"
   placeholder_files="$(placeholder_count "$DR")"
@@ -144,6 +164,7 @@ if [ "$docs_root_exists" = "yes" ]; then
     validation_output="$(bash "$SCRIPT_DIR/docflow-validate.sh" --target "$TARGET" --docs-root "$ROOT" 2>/dev/null)"
     validation_exit="$?"
     validation_summary="$(printf '%s\n' "$validation_output" | grep -E '^- errors: |^- warnings: ' | paste -sd ' ' -)"
+    validation_profile="$(printf '%s\n' "$validation_output" | sed -n 's/^- validation profile: //p' | head -1)"
     if [ "$validation_exit" = "0" ]; then
       validation_status="pass ${validation_summary:-}"
     else
@@ -173,6 +194,8 @@ echo "- changelog month files: $changelog_months"
 echo "- README documentation link: $readme_docs_link"
 echo "- agent guidance: AGENTS=$agents GEMINI=$gemini Cursor=$cursor"
 echo "- helper scripts: map=$helper_map links=$helper_links validate=$helper_validate"
+echo "- managed helper updates available: $outdated_helpers"
+echo "- validation profile: $validation_profile"
 echo "- validation: $validation_status"
 echo
 

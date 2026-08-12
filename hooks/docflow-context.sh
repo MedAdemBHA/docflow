@@ -71,7 +71,30 @@ line_count_or_default() {
 }
 IDX_LINES="$(line_count_or_default "${DOCFLOW_INDEX_LINES:-}" 30)"
 LOG_LINES="$(line_count_or_default "${DOCFLOW_LOG_LINES:-}" 20)"
-trim() { grep -vE '^\s*(<!--|$)' "$1" | head -"$2"; }
+trim() { grep -vE '^[[:space:]]*(<!--|$)' "$1" | head -"$2"; }
+changelog_excerpt() {
+  awk -v max="$2" '
+    function emit(line) {
+      if (count >= max || line ~ /^[[:space:]]*(<!--|$)/) return
+      print line
+      count++
+    }
+    /^##[[:space:]]+/ {
+      title = tolower($0)
+      keep = 0
+      if (title ~ /^##[[:space:]]+summary([[:space:]]|$)/) {
+        keep = 1
+      } else if (title !~ /^##[[:space:]]+(table of contents|what changed|update log)([[:space:]]|$)/ && !have_latest) {
+        keep = 1
+        have_latest = 1
+      }
+      if (keep) emit($0)
+      seen_section = 1
+      next
+    }
+    !seen_section || keep { emit($0) }
+  ' "$1"
+}
 month_num() {
   case "$1" in
     jan) printf '01' ;;
@@ -127,8 +150,8 @@ if [ -d "$CL" ]; then
   done
 
   if [ -n "$NEWEST" ] && [ -f "$NEWEST" ]; then
-    echo "--- newest changelog ($(basename "$NEWEST"), head) ---"
-    trim "$NEWEST" "$LOG_LINES"
+    echo "--- newest changelog ($(basename "$NEWEST"), summary + latest entry) ---"
+    changelog_excerpt "$NEWEST" "$LOG_LINES"
     echo "… full history in $CHANGELOG_DIR"
   fi
 fi

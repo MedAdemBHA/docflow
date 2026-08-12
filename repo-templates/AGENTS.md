@@ -5,7 +5,7 @@ Repo use `docflow`.
 Start here:
 
 1. Read [`<DOCS_ROOT>/README.md`](<<DOCS_ROOT>/README.md>).
-2. Read newest file in [`<DOCS_ROOT>/changelog/`](<<DOCS_ROOT>/changelog/>).
+2. Read the summary and latest entry in the newest file under [`<DOCS_ROOT>/changelog/`](<<DOCS_ROOT>/changelog/>). Open older entries only when the task needs deeper history.
 3. Then code.
 
 New feature flow:

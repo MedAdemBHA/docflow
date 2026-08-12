@@ -76,6 +76,19 @@ first_h1() {
   grep -m1 -E '^#[^#]' "$file" 2>/dev/null | sed -E 's/^#+[[:space:]]*//'
 }
 
+is_managed_helper() {
+  helper="$1"
+  file="$2"
+  case "$helper" in
+    check-links.sh)
+      sed -n '1,5p' "$file" 2>/dev/null | grep -F 'Check relative markdown links under a docs root.' >/dev/null
+      ;;
+    *)
+      sed -n '1,5p' "$file" 2>/dev/null | grep -qi 'docflow'
+      ;;
+  esac
+}
+
 if ! cd "$TARGET" 2>/dev/null; then
   echo "DocFlow Check"
   echo "- status: Blocked"
@@ -113,6 +126,7 @@ fi
 
 missing=()
 notes=()
+outdated=()
 [ "$docflow_config" = "yes" ] || missing+=("docflow.json")
 [ "$docs_root_exists" = "yes" ] || missing+=("docs root")
 [ "$readme_docs_link" = "yes" ] || notes+=("README Documentation link is optional but recommended")
@@ -124,15 +138,26 @@ notes=()
 [ -e "$TARGET/scripts/docflow-validate.sh" ] || missing+=("scripts/docflow-validate.sh")
 [ -e "$TARGET/scripts/docflow-check.sh" ] || missing+=("scripts/docflow-check.sh")
 
+for helper in check-links.sh docflow-check.sh docflow-doctor.sh docflow-map.sh docflow-repair.sh docflow-validate.sh; do
+  source_helper="$SCRIPT_DIR/$helper"
+  target_helper="$TARGET/scripts/$helper"
+  if [ -f "$source_helper" ] && [ -f "$target_helper" ] && [ "$source_helper" != "$target_helper" ] \
+    && ! cmp -s "$source_helper" "$target_helper" && is_managed_helper "$helper" "$target_helper"; then
+    outdated+=("scripts/$helper")
+  fi
+done
+
 validation_output=""
 validation_exit=1
 errors="not checked"
 warnings="not checked"
+validation_profile="not checked"
 if [ "$docs_root_exists" = "yes" ] && [ -f "$SCRIPT_DIR/docflow-validate.sh" ]; then
   validation_output="$(bash "$SCRIPT_DIR/docflow-validate.sh" --target "$TARGET" --docs-root "$ROOT" 2>/dev/null)"
   validation_exit="$?"
   errors="$(printf '%s\n' "$validation_output" | sed -n 's/^- errors: //p' | head -1)"
   warnings="$(printf '%s\n' "$validation_output" | sed -n 's/^- warnings: //p' | head -1)"
+  validation_profile="$(printf '%s\n' "$validation_output" | sed -n 's/^- validation profile: //p' | head -1)"
   [ -n "$errors" ] || errors="unknown"
   [ -n "$warnings" ] || warnings="unknown"
 fi
@@ -152,10 +177,10 @@ elif [ "$docflow_config" != "yes" ] || [ "$docs_root_exists" != "yes" ]; then
   next="/docflow:adopt"
   details="Existing docs need docflow infrastructure."
   exit_code=1
-elif [ "${#missing[@]}" -gt 0 ]; then
+elif [ "${#missing[@]}" -gt 0 ] || [ "${#outdated[@]}" -gt 0 ]; then
   status="Needs repair"
   next="/docflow:repair"
-  details="Docflow exists, but generated helpers or guidance are missing."
+  details="Docflow exists, but generated helpers or guidance are missing or outdated."
   exit_code=1
 elif [ "$validation_exit" != "0" ]; then
   status="Blocked"
@@ -168,7 +193,7 @@ echo "DocFlow Check"
 echo "- status: $status"
 echo "- target: $TARGET"
 echo "- docs root: ${ROOT:-none} ($docs_root_exists)"
-echo "- validation: errors=$errors warnings=$warnings"
+echo "- validation: profile=$validation_profile errors=$errors warnings=$warnings"
 echo "- reason: $details"
 echo "- next: $next"
 
@@ -176,6 +201,14 @@ if [ "${#missing[@]}" -gt 0 ]; then
   echo
   echo "Missing"
   for item in "${missing[@]}"; do
+    echo "- $item"
+  done
+fi
+
+if [ "${#outdated[@]}" -gt 0 ]; then
+  echo
+  echo "Outdated managed helpers"
+  for item in "${outdated[@]}"; do
     echo "- $item"
   done
 fi

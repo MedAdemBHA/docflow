@@ -63,6 +63,7 @@
 |------|--------|-----|
 | 2026-06-14 | Added validation gate command and read-only contract. | `docflow-validate` |
 | 2026-06-14 | Added one-screen readiness check for usability. | `docflow-check` |
+| 2026-08-12 | Repair now upgrades managed helpers; adoption selects compatibility-aware validation and context loads bounded changelog sections. | `adoption-aware-validation` |
 
 ## Risks
 

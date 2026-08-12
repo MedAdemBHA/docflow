@@ -10,6 +10,14 @@ All notable changes to docflow are tracked here. Project changelog files generat
 
 ## Unreleased
 
+## 0.3.0 - 2026-08-12
+
+- Add strict and adopted validation profiles, defaulting legacy configs to compatibility-safe adoption behavior.
+- Keep objective integrity failures blocking while summarizing established taxonomy and section-shape differences as warnings.
+- Ignore fenced/inline code and root-relative application URLs during placeholder and local-link checks.
+- Refresh recognized DocFlow-managed helpers during repair while preserving customized scripts.
+- Load only the newest changelog summary and latest entry into session context.
+- Add real-world regression coverage for numbered specs, category indexes, custom docs roots, code examples, helper upgrades, and adopted-repo link failures.
 - Harden scaffold placeholder replacement so existing files are not mutated on re-run.
 - Escape project and docs-root values before writing generated files.
 - Skip template changelog files in the SessionStart context hook.

@@ -1,15 +1,15 @@
 # DocFlow — Documentation
 
-> Last updated: 2026-06-14
+> Last updated: 2026-08-12
 > Rules: [NAMING.md](NAMING.md)
 
 ## Open First
 
 - Product: [product-spec/00-overview.md](product-spec/00-overview.md)
-- Architecture: [specs/(jun-26)-plugin-workflow.md](<specs/(jun-26)-plugin-workflow.md>)
+- Architecture: [specs/(aug-26)-adoption-aware-validation.md](<specs/(aug-26)-adoption-aware-validation.md>)
 - Decision: [decisions/0001-plain-markdown-bash.md](decisions/0001-plain-markdown-bash.md)
 - Roadmap: [plans/upcoming/README.md](plans/upcoming/README.md)
-- Latest shipped: [changelog/(jun-26).md](<changelog/(jun-26).md>)
+- Latest shipped: [changelog/(aug-26).md](<changelog/(aug-26).md>)
 
 ## Product Spec
 
@@ -23,6 +23,7 @@
 |----------|-------------|
 | [Plugin workflow](<specs/(jun-26)-plugin-workflow.md>) | Doctor/adopt/repair/init flow, script backend, hook behavior, and agent surfaces |
 | [Document validation](<specs/(jun-26)-document-validation.md>) | Validation gate, metadata/update-log checks, blocker severity, and command wrappers |
+| [Adoption-aware validation](<specs/(aug-26)-adoption-aware-validation.md>) | Strict/adopted profiles, code-aware placeholders, helper upgrades, and bounded context |
 
 ## References
 
@@ -59,6 +60,7 @@
 - Features: [Friendly readiness check](<plans/features/(jun-26)-friendly-readiness-check.md>) — one-screen status and next command for usability
 - Features: [Message-driven feature plan](<plans/features/(jun-26)-message-driven-feature-plan.md>) — `/docflow:feature-plan <msg>` status + feature log
 - Features: [Message-driven product spec](<plans/features/(jun-26)-message-driven-product-spec.md>) — `/docflow:product-spec <msg or code path>` status + feature log
+- Features: [Adoption-aware validation](<plans/features/(aug-26)-adoption-aware-validation.md>) — real-repository compatibility and upgrade-safe repair
 
 ## Reviews
 
@@ -68,3 +70,4 @@
 ## Changelog
 
 - [June 2026](<changelog/(jun-26).md>) — initial release plus scaffold/context hardening
+- [August 2026](<changelog/(aug-26).md>) — adoption-aware validation and upgrade safety

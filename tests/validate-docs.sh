@@ -35,7 +35,8 @@ mkdir -p "$broken/docs/product-spec" "$broken/docs/specs" "$broken/docs/changelo
 cat > "$broken/docflow.json" <<'JSON'
 {
   "docsRoot": "docs",
-  "changelogDir": "docs/changelog"
+  "changelogDir": "docs/changelog",
+  "validationProfile": "strict"
 }
 JSON
 cat > "$broken/docs/README.md" <<'EOF'
@@ -84,7 +85,58 @@ EOF
 bash "$ROOT/scripts/docflow-adopt.sh" --target "$legacy" --docs-root documentation --project "Legacy Project" >/dev/null
 legacy_output="$(bash "$ROOT/scripts/docflow-validate.sh" --target "$legacy")"
 assert_contains "$legacy_output" "- errors: 0"
-assert_contains "$legacy_output" "outside docflow taxonomy; treated as legacy doc"
+assert_contains "$legacy_output" "preserved as an adopted documentation root"
+
+# Adopted repositories may retain numbered specs, category indexes, custom
+# roots, and their own section vocabulary. Code examples that use angle-bracket
+# notation are not placeholder leakage.
+adopted="$TMP/adopted-shape"
+mkdir -p "$adopted/docs/product-spec" "$adopted/docs/specs" "$adopted/docs/devops"
+cat > "$adopted/README.md" <<'EOF'
+# Established Project
+EOF
+cat > "$adopted/docs/product-spec/README.md" <<'EOF'
+# Product index
+EOF
+cat > "$adopted/docs/product-spec/01-requirements.md" <<'EOF'
+# Requirements
+
+## Capabilities
+
+Established section vocabulary.
+EOF
+cat > "$adopted/docs/specs/00-master-plan.md" <<'EOF'
+# Master plan
+
+Use `<status>` in an inline code example.
+
+```text
+<module>
+```
+EOF
+cat > "$adopted/docs/devops/01-environments.md" <<'EOF'
+# Environments
+EOF
+bash "$ROOT/scripts/docflow-adopt.sh" --target "$adopted" --docs-root docs --project "Established Project" >/dev/null
+adopted_output="$(bash "$ROOT/scripts/docflow-validate.sh" --target "$adopted")"
+assert_contains "$adopted_output" "- validation profile: adopted"
+assert_contains "$adopted_output" "- errors: 0"
+assert_contains "$adopted_output" "specs/: adopted paths differ from native DocFlow naming"
+if printf '%s\n' "$adopted_output" | grep -F 'possible placeholder tokens remain' >/dev/null; then
+  fail "code examples were reported as placeholders"
+fi
+
+cat >> "$adopted/docs/devops/01-environments.md" <<'EOF'
+
+[Broken](missing.md)
+EOF
+bash "$ROOT/scripts/docflow-map.sh" "$adopted/docs" >/dev/null
+set +e
+adopted_broken="$(bash "$ROOT/scripts/docflow-validate.sh" --target "$adopted" 2>&1)"
+adopted_broken_status="$?"
+set -e
+[ "$adopted_broken_status" -ne 0 ] || fail "adopted profile allowed a broken link"
+assert_contains "$adopted_broken" "BROKEN:"
 
 before="$(find "$legacy" -type f | sort | xargs cksum)"
 doctor_output="$(bash "$ROOT/scripts/docflow-doctor.sh" --target "$legacy")"

@@ -23,6 +23,8 @@ after="$(cksum "$TMP/documentation/guide.md")"
 [ "$before" = "$after" ] || { echo "FAIL: adopt rewrote existing doc" >&2; exit 1; }
 
 [ -f "$TMP/docflow.json" ] || { echo "FAIL: docflow.json missing" >&2; exit 1; }
+grep -F '"validationProfile": "adopted"' "$TMP/docflow.json" >/dev/null \
+  || { echo "FAIL: adopted validation profile missing" >&2; exit 1; }
 [ -f "$TMP/AGENTS.md" ] || { echo "FAIL: AGENTS.md missing" >&2; exit 1; }
 [ -f "$TMP/documentation/INDEX.md" ] || { echo "FAIL: INDEX.md missing" >&2; exit 1; }
 [ -f "$TMP/scripts/check-links.sh" ] || { echo "FAIL: check-links helper missing" >&2; exit 1; }
