@@ -57,3 +57,11 @@
 | **Delivered** | Reorganized the README into a with/without comparison, exact files added, explicit non-goals, working Claude setup, verified portable setup, honest Codex publication status, compact command reference, and runnable demo. |
 | **Removed** | Duplicate per-agent setup instructions, an unverified Codex CLI command, repeated command tables, and the internal GitHub packaging checklist. |
 | **Source** | Codex plugin availability and new-session behavior were checked against the official OpenAI plugin documentation. |
+
+### 6. Social feature-explainer kit — 2026-08-13
+
+| | |
+|---|---|
+| **Outcome** | Maintainers have a visual that explains DocFlow's real workflow plus ready-to-paste copy for developer and professional communities. |
+| **Delivered** | Added a clean attention-first context card, a detailed context-optimization infographic, a feature overview, and distinct captions for X, LinkedIn, Reddit, and Quora. |
+| **Explained** | Doctor routing; WHAT/HOW/WHY/SHIPPED organization; index-first context loading; validation checks; generated repository outputs; measured initial documentation context reduction; and the limits of the token-saving claim. |

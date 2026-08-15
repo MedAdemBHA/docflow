@@ -70,6 +70,33 @@ placeholder_count() {
   done | awk 'END { print NR }'
 }
 
+DOCFLOW_CATEGORIES="changelog product-spec specs decisions plans reviews references"
+
+# How many docflow categories a directory holds. A docs tree is recognized by
+# its shape, so a repo whose docs live in a non-standard folder (docsAdem/,
+# knowledge/, handbook/) is still found instead of being silently skipped.
+docs_tree_score() {
+  dir="$1"
+  score=0
+  for category in $DOCFLOW_CATEGORIES; do
+    [ -d "$dir/$category" ] && score=$((score+1))
+  done
+  printf '%s' "$score"
+}
+
+# "<score> <name>" per plausible docs tree at depth 1, best first.
+discover_docs_roots() {
+  find "$TARGET" -maxdepth 1 -type d 2>/dev/null | while IFS= read -r dir; do
+    name="$(basename "$dir")"
+    case "$name" in
+      .git|node_modules|dist|build|coverage|vendor|target|.next|.venv) continue ;;
+    esac
+    [ "$dir" = "$TARGET" ] && continue
+    score="$(docs_tree_score "$dir")"
+    [ "$score" -ge 2 ] && printf '%s %s\n' "$score" "$name"
+  done | sort -rn -k1,1
+}
+
 detect_docs_root() {
   if [ -n "$DOCS_ROOT" ]; then
     printf '%s' "$DOCS_ROOT"
@@ -83,6 +110,12 @@ detect_docs_root() {
       printf '%s' "$configured"
       return
     fi
+  fi
+
+  best="$(discover_docs_roots | head -1 | cut -d' ' -f2-)"
+  if [ -n "$best" ]; then
+    printf '%s' "$best"
+    return
   fi
 
   for cand in docs documentation .docs doc; do
@@ -133,6 +166,12 @@ for helper in check-links.sh docflow-check.sh docflow-doctor.sh docflow-map.sh d
     && sed -n '1,5p' "$target_helper" 2>/dev/null | grep -qiE 'docflow|Check relative markdown links under a docs root'; then
     outdated_helpers=$((outdated_helpers+1))
   fi
+done
+
+other_roots=""
+for candidate_root in $(discover_docs_roots | cut -d' ' -f2-); do
+  [ "$candidate_root" = "$ROOT" ] && continue
+  other_roots="${other_roots:+$other_roots }$candidate_root"
 done
 
 existing_docs="no"
@@ -190,6 +229,7 @@ echo
 
 echo "Detected"
 echo "- markdown files in docs root: $md_count"
+[ -n "$other_roots" ] && echo "- other doc trees found: $other_roots"
 echo "- changelog month files: $changelog_months"
 echo "- README documentation link: $readme_docs_link"
 echo "- agent guidance: AGENTS=$agents GEMINI=$gemini Cursor=$cursor"
@@ -218,7 +258,10 @@ echo "Risks"
 [ "$placeholder_files" = "0" ] || echo "- placeholder docs: $placeholder_files file(s)"
 [ "$broken_links" = "0" ] || [ "$broken_links" = "not checked" ] || echo "- broken links: $broken_links"
 [ "$broken_links" = "not checked" ] && echo "- links not checked"
-if [ "$placeholder_files" = "0" ] && { [ "$broken_links" = "0" ] || [ "$broken_links" = "not checked" ]; }; then
+if [ -n "$other_roots" ] && [ "$docflow_config" = "no" ]; then
+  echo "- ambiguous docs root: also found $other_roots — set docsRoot in docflow.json so every command targets the same tree"
+fi
+if [ "$placeholder_files" = "0" ] && [ -z "$other_roots" ] && { [ "$broken_links" = "0" ] || [ "$broken_links" = "not checked" ]; }; then
   echo "- none detected"
 fi
 echo

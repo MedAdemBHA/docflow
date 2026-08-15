@@ -139,6 +139,8 @@ Full command and skill reference: [docs/references/commands.md](docs/references/
 
 DocFlow does not compress the content of project documentation. It reduces context use by loading a small routing layer first, then opening full documents only when the task requires them.
 
+[![DocFlow uses 99%+ less initial documentation context in a measured repository](assets/social/docflow-context-optimization-v2.png)](assets/social/docflow-context-optimization-v2.png)
+
 The default Claude `SessionStart` payload contains:
 
 1. Up to 30 non-empty lines from `docs/INDEX.md` (`path → purpose`).
@@ -283,6 +285,12 @@ The portable product is the docs tree and workflow. The plugin runtime is agent-
 4. Write ADRs, specs, plans, and reviews using the category templates.
 5. Append shipped work to the current monthly changelog.
 6. Run repair after adding or renaming docs, or when managed helpers have an update.
+
+## Share DocFlow
+
+[![How DocFlow works: diagnose, organize, load less, and validate](assets/social/docflow-feature-overview.png)](assets/social/docflow-feature-overview.png)
+
+Choose the [clean 1200×630 context card](assets/social/docflow-context-optimization-v2.png), [detailed context explainer](assets/social/docflow-context-optimization.png), or [feature overview](assets/social/docflow-feature-overview.png), then copy a tailored caption for [X, LinkedIn, Reddit, or Quora](assets/social/captions.md).
 
 ## Contributing
 

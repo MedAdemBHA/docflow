@@ -97,13 +97,44 @@ REPO_TPL="$SCRIPT_DIR/../repo-templates"
 DEST="$TARGET/$DOCS_ROOT"
 echo "docflow: scaffolding into $DEST/ (project: $PROJECT)"
 
-# copy the template tree, skipping any file that already exists
+# Blank skeletons meant to be *copied then renamed* by the author. Seeding them
+# into a category that already holds real docs adds noise, and
+# `decisions/0001-title.md` would collide with an existing ADR 0001.
+is_placeholder_template() {
+  case "$(basename "$1")" in
+    '(mmm-yy)'*|'NN-topic.md'|'0001-title.md') return 0 ;;
+    *) return 1 ;;
+  esac
+}
+
+# Snapshot which category dirs already held docs *before* any copying, so that
+# seeding one template (product-spec/00-overview.md) cannot make the same run
+# treat that category as pre-populated and skip its skeleton.
 mkdir -p "$DEST"
+prepopulated_dirs=""
+while IFS= read -r dir; do
+  prepopulated_dirs="$prepopulated_dirs:$dir:"
+done < <(
+  find "$DEST" -type f -name '*.md' -exec dirname {} \; 2>/dev/null | sort -u
+)
+
+category_has_docs() {
+  case "$prepopulated_dirs" in
+    *":$1:"*) return 0 ;;
+    *) return 1 ;;
+  esac
+}
+
+# copy the template tree, skipping any file that already exists
 copied=0; skipped=0
 created_files=()
 while IFS= read -r src; do
   rel="${src#"$TPL"/}"
   out="$DEST/$rel"
+  if is_placeholder_template "$src" && category_has_docs "$(dirname "$out")"; then
+    skipped=$((skipped+1))
+    continue
+  fi
   mkdir -p "$(dirname "$out")"
   if [ -e "$out" ]; then
     skipped=$((skipped+1))

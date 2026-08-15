@@ -10,6 +10,7 @@ All notable changes to docflow are tracked here. Project changelog files generat
 
 ## Unreleased
 
+- Add clean and detailed 1200×630 DocFlow context-optimization infographics, a feature overview, and platform-specific captions for X, LinkedIn, Reddit, and Quora.
 - Expand the public demo into a validated, ready-to-run example with a guided feature trail, realistic context output, direct discovery links, and bundled repository helpers.
 - Correct context-efficiency documentation and measurements for the current 30-line index and 20-line changelog defaults.
 - Restructure the public README around a direct with/without comparison, verified setup paths, honest Codex availability, and a shorter runnable demo.
